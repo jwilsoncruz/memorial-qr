@@ -84,7 +84,7 @@ const MEMORIALES = {
         { nombre: "Rufino",    detalle: "1961 – 2014" }
       ]
     },
-    ubicacion: ""
+    ubicacion: "Cementerio General, Trinidad, Beni, Bolivia"
   },
 
   /* ---------------- PLANTILLA VACÍA: copia desde aquí ---------------- */
