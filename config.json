@@ -1,25 +1,43 @@
 {
-  "whatsapp": "59100000000",
-  "evento": { "nombre": "2 de noviembre", "fecha": "2026-11-02" },
-  "fechaLimite": "2026-10-25",
+  "whatsapp": "59168972863",
+  "evento": {
+    "nombre": "2 de noviembre",
+    "fecha": "2026-11-28"
+  },
+  "fechaLimite": "2026-10-28",
   "planes": [
     {
       "nombre": "Recuerdo",
-      "precio": 150,
+      "precio": 250,
       "etiqueta": "",
-      "items": ["QR resistente para exterior", "Página con foto, fechas y frase", "Libro de visitas y velas", "Incluida 1 año en línea"]
+      "items": [
+        "QR resistente para exterior",
+        "Página con foto, fechas y frase",
+        "Libro de visitas y velas",
+        "Incluida 1 año en línea"
+      ]
     },
     {
       "nombre": "Memorial",
-      "precio": 280,
+      "precio": 580,
       "etiqueta": "El más pedido",
-      "items": ["Todo lo del plan Recuerdo", "Galería de hasta 12 fotos", "Biografía y árbol familiar de 3 generaciones", "Incluida 3 años en línea"]
+      "items": [
+        "Todo lo del plan Recuerdo",
+        "Galería de hasta 12 fotos",
+        "Biografía y árbol familiar de 3 generaciones",
+        "Incluida 3 años en línea"
+      ]
     },
     {
       "nombre": "Legado",
-      "precio": 450,
+      "precio": 850,
       "etiqueta": "",
-      "items": ["Todo lo del plan Memorial", "Audios y videos de la familia", "Placa de refuerzo para el QR", "Incluida 5 años en línea"]
+      "items": [
+        "Todo lo del plan Memorial",
+        "Audios y videos de la familia",
+        "Placa de refuerzo para el QR",
+        "Incluida 5 años en línea"
+      ]
     }
   ],
   "promociones": [
