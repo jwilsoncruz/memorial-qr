@@ -66,6 +66,14 @@ img.prev{max-width:110px;border-radius:10px;margin-top:6px}
     <input id="fGaleria" type="file" accept="image/*" multiple>
     <small id="cuentaGal"></small>
   </label>
+  <label>Audios (hasta 5)
+    <input id="fAudios" type="file" accept="audio/*" multiple>
+    <small>Formatos mp3, m4a, ogg o wav, de menos de 10 MB cada uno. Si es un mensaje de voz de WhatsApp, conviértelo a MP3 para que suene en todos los celulares.</small>
+  </label>
+  <label>Videos de YouTube (uno por línea)
+    <textarea id="videos" rows="3" placeholder="Saludo de cumpleaños | https://youtu.be/XXXXXXXXXXX"></textarea>
+    <small>Sube el video a YouTube como "No listado" y pega aquí el enlace. El título antes de la barra | es opcional.</small>
+  </label>
 
   <h2>3. Su familia</h2>
   <p>Hasta tres generaciones. Usa nombres cortos para que quepan: "Marcelino Chuve", no los dos apellidos. En el detalle van los años o el parentesco.</p>
@@ -227,6 +235,8 @@ $("crear").onclick = async () => {
       foto: "",
       historia: $("historia").value.split(/\n\s*\n/).map(s => s.replace(/\s*\n\s*/g, " ").trim()).filter(Boolean),
       galeria: [],
+      audios: [],
+      videos: [],
       familia: {padres: [], pareja: null, hijos: []},
       ubicacion: $("ubic").value.trim()
     };
@@ -247,6 +257,25 @@ $("crear").onclick = async () => {
       datos.galeria.push(ruta);
     }
 
+    /* Audios */
+    const auds = Array.from($("fAudios").files).slice(0, 5);
+    for(let i = 0; i < auds.length; i++){
+      const f = auds[i];
+      if(f.size > 10 * 1024 * 1024) throw new Error("El audio \"" + f.name + "\" pesa más de 10 MB. Conviértelo a MP3 más liviano.");
+      const ext = (f.name.split(".").pop() || "mp3").toLowerCase().replace(/[^a-z0-9]/g, "") || "mp3";
+      const ruta = "audios/" + id + "/" + (i + 1) + "." + ext;
+      zip.file(ruta, f); bytes += f.size;
+      datos.audios.push({titulo: f.name.replace(/\.[^.]+$/, "").replace(/[_-]+/g, " ").trim() || "Audio " + (i + 1), archivo: ruta});
+    }
+    /* Videos (enlaces) */
+    $("videos").value.split("\n").map(s => s.trim()).filter(Boolean).forEach(linea => {
+      let tit = "", url = linea;
+      const k = linea.indexOf("|");
+      if(k >= 0){ tit = linea.slice(0, k).trim(); url = linea.slice(k + 1).trim(); }
+      if(!/^https?:\/\//i.test(url)) throw new Error("Cada enlace de video debe empezar con https:// (revisa: " + linea + ")");
+      datos.videos.push({titulo: tit, url: url});
+    });
+
     const pa = document.querySelectorAll(".padre.n"), pd = document.querySelectorAll(".padre.d");
     pa.forEach((el, i) => { const p = persona(el, pd[i]); if(p) datos.familia.padres.push(p); });
     datos.familia.pareja = persona($("parN"), $("parD"));
@@ -262,7 +291,7 @@ $("crear").onclick = async () => {
 
     paquete = {zip: zipBlob, qr: qr, id: id};
     est.textContent = "";
-    $("resumen").textContent = "Memorial de " + nombre + " · código " + id + " · " + nFotos + (nFotos === 1 ? " foto" : " fotos") + " (" + Math.round(bytes / 1024) + " KB en total).";
+    $("resumen").textContent = "Memorial de " + nombre + " · código " + id + " · " + nFotos + (nFotos === 1 ? " foto" : " fotos") + " (" + Math.round(bytes / 1024) + " KB en total)" + (datos.audios.length ? " · " + datos.audios.length + (datos.audios.length === 1 ? " audio" : " audios") : "") + (datos.videos.length ? " · " + datos.videos.length + (datos.videos.length === 1 ? " video" : " videos") : "") + ".";
     $("enlace").href = url; $("enlace").textContent = url;
     $("listo").style.display = "block";
     $("listo").scrollIntoView({behavior: "smooth"});

@@ -93,6 +93,11 @@ dialog img{display:block;max-width:96vw;max-height:90vh;border-radius:10px}
 #lista li{background:var(--noche-2);padding:12px 14px;border-radius:10px;border-left:3px solid var(--vela);overflow-wrap:anywhere}
 #lista b{display:block;color:var(--vela-2);font-size:.92rem}
 
+.media-item{margin:0 0 20px}
+.media-item b{display:block;margin-bottom:8px;color:var(--piedra);font-weight:500}
+audio{width:100%;display:block}
+.video{position:relative;aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#000}
+.video iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 .pie{margin-top:56px;text-align:center;color:var(--apagado);font-size:.9rem}
 .pie a{color:var(--vela-2)}
 .nada{text-align:center;padding:80px 0}
@@ -134,6 +139,7 @@ dialog img{display:block;max-width:96vw;max-height:90vh;border-radius:10px}
   <section id="secHistoria" class="oculto"><h2>Su historia</h2><div id="historia"></div></section>
   <section id="secFamilia" class="oculto"><h2>Su familia</h2><div id="familia"></div></section>
   <section id="secGaleria" class="oculto"><h2>Galería</h2><div class="galeria" id="galeria"></div></section>
+  <section id="secMedia" class="oculto"><h2>Audios y videos</h2><div id="media"></div></section>
 
   <h2>Libro de visitas</h2>
   <div class="visita">
@@ -325,6 +331,44 @@ async function iniciar(){
       $("galeria").appendChild(b);
     });
     $("lb").addEventListener("click", () => $("lb").close());
+  }
+
+  /* Audios y videos */
+  const audios = Array.isArray(M.audios) ? M.audios : [], videos = Array.isArray(M.videos) ? M.videos : [];
+  const idYoutube = u => {
+    const m = String(u).match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?(?:.*&)?v=|shorts\/|embed\/|live\/))([A-Za-z0-9_-]{11})/);
+    return m ? m[1] : null;
+  };
+  const titulo = (txt) => { const b = document.createElement("b"); b.textContent = txt; return b; };
+  if(audios.length || videos.length){
+    $("secMedia").classList.remove("oculto");
+    audios.forEach(a => {
+      if(!a || !a.archivo) return;
+      const d = document.createElement("div"); d.className = "media-item";
+      d.appendChild(titulo(a.titulo || "Audio"));
+      const au = document.createElement("audio");
+      au.controls = true; au.preload = "none"; au.src = a.archivo;
+      d.appendChild(au); $("media").appendChild(d);
+    });
+    videos.forEach(v => {
+      if(!v || !/^https?:\/\//i.test(v.url || "")) return;
+      const d = document.createElement("div"); d.className = "media-item";
+      d.appendChild(titulo(v.titulo || "Video"));
+      const yt = idYoutube(v.url);
+      if(yt){
+        const w = document.createElement("div"); w.className = "video";
+        const f = document.createElement("iframe");
+        f.src = "https://www.youtube-nocookie.com/embed/" + yt;
+        f.title = v.titulo || "Video"; f.loading = "lazy"; f.allowFullscreen = true;
+        f.setAttribute("allow", "encrypted-media; picture-in-picture; fullscreen");
+        w.appendChild(f); d.appendChild(w);
+      } else {
+        const a = document.createElement("a");
+        a.className = "btn btn-borde"; a.href = v.url; a.target = "_blank"; a.rel = "noopener"; a.textContent = "Ver video";
+        d.appendChild(a);
+      }
+      $("media").appendChild(d);
+    });
   }
 
   /* Velas y mensajes: Firebase si está configurado, si no, solo en este celular */
