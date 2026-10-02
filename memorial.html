@@ -303,7 +303,8 @@ async function iniciar(){
   }
   /* Familia */
   if(M.familia){
-    const svg = crearArbol(M.familia, M.nombre, M.nacimiento + " – " + M.fallecimiento);
+    const anio = s => (String(s).match(/\d{4}/g) || []).pop() || s;
+    const svg = crearArbol(M.familia, M.nombre, anio(M.nacimiento) + " – " + anio(M.fallecimiento));
     if(svg){ $("secFamilia").classList.remove("oculto"); $("familia").appendChild(svg); }
   }
   /* Galería */
