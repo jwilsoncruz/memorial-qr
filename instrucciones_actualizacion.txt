@@ -1,0 +1,27 @@
+Wilson, ya quedó. Todo va en un solo ZIP: actualizacion-memorial-qr.zip.
+
+Qué cambió
+
+WhatsApp, planes, precios y promociones ya no están dentro del código. Se editan en el panel, en la pestaña nueva "Ajustes de la página de ventas" (también abre directo en admin.html#ajustes). Ahí cambias:
+Tu número de WhatsApp.
+La fecha especial (2 de noviembre) y el último día para pedidos.
+Hasta 4 planes: nombre, precio, etiqueta y qué incluye.
+Hasta 3 promociones por temporada.
+Promociones: tienen nombre, mensaje, descuento (en % o en Bs) y fecha de inicio y fin. Mientras la fecha de hoy esté dentro de ese rango, la página cambia el aviso de arriba, tacha el precio normal y muestra el precio con descuento, y el pedido por WhatsApp sale con el precio de oferta. Al terminar la fecha se apaga sola. Dejé una de Black Friday (23 al 30 de noviembre, 20%) preparada pero apagada; solo la activas.
+El memorial de ejemplo ahora es un memorial real (código ejemplo) que se abre en una ventana dentro de la página de ventas. Tiene un audio de muestra (una melodía suave que generé yo), 6 fotos de muestra, galería, árbol y velas. En ese ejemplo las velas y mensajes quedan solo en el celular de quien lo mira, y arranca con 12 velas y un mensaje de muestra, así nadie llena tu Firebase con basura.
+
+Qué subir a GitHub
+
+Extrae el ZIP y arrastra todo a tu repositorio: Add file › Upload files. Reemplaza index.html, memorial.html y admin.html. No toca tu datos.js, así que tu Firebase y Eusebia siguen igual.
+Abre admin.html#ajustes en tu sitio, pon tu WhatsApp real y tus precios, toca Crear config.json, descárgalo y súbelo a GitHub reemplazando al anterior. Mientras no lo hagas, la página usa un número de relleno, así que no promociones el enlace antes de este paso.
+Para cualquier cambio futuro (precios, una promo nueva), repites el paso 2. Se ve en 1 o 2 minutos; si no, recarga con Ctrl+F5.
+
+Lo que falta del ejemplo: el video. No puedo inventarte un enlace de YouTube que funcione. Cuando tengas uno "No listado", entra al panel, crea un memorial con el código ejemplo (puedes poner también un audio con una voz real) y sube el ZIP. Reemplazará al de muestra.
+
+Qué verifiqué y qué no: probé las páginas en un navegador simulado y salió bien: la página de ventas con y sin promoción, el memorial de ejemplo (velas, audio, fotos, árbol), el mensaje de memorial inexistente y el panel con sus validaciones. No pude probarlo en un navegador real ni en un celular, así que revisa tú que el audio se escuche, que la ventana del ejemplo se vea bien en tu celular y que la promo salga como esperas. Si algo falla, mándame una captura.
+
+Por qué hay que subir un archivo y no se cambia al instante: para que el panel modifique la página directamente, necesitaría un inicio de sesión (Firebase) para que nadie más pueda cambiar tus precios. Se puede hacer más adelante, pero ahora lo importante es vender antes del 2 de noviembre, y subir un archivo toma un minuto.
+
+El generador-qr.html ya no hace falta, porque el panel crea el QR junto con cada memorial, pero puedes dejarlo.
+
+¿Subes el paquete y me cuentas si el audio del ejemplo se escucha en tu celular?
