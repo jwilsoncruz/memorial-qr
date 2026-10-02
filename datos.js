@@ -53,6 +53,40 @@ const MEMORIALES = {
     ubicacion: "Cementerio General, Trinidad, Beni, Bolivia"   /* lo que se busca en Google Maps */
   },
 
+  "eusebia-noe": {
+    nombre: "Eusebia Noe Cubene",
+    nacimiento: "14 ago 1935",
+    fallecimiento: "8 feb 2012",
+    frase: "Que su alma allá arriba nos ayude a permanecer siempre unidos en su memoria.",
+    foto: "fotos/eusebia-perfil.jpg",
+    historia: [
+      "Eusebia Noe Cubene nació el 14 de agosto de 1935. Fue hija de Melchor Noe y Nemesia Cuvene Flores, esposa de Marcelino Chuve Surubi y madre de cinco hijos.",
+      "Falleció el 8 de febrero de 2012. Su familia la recuerda con cariño."
+    ],
+    galeria: [
+      "fotos/eusebia-1.jpg",
+      "fotos/eusebia-2.jpg",
+      "fotos/eusebia-3.jpg",
+      "fotos/eusebia-4.jpg",
+      "fotos/eusebia-5.jpg"
+    ],
+    familia: {
+      padres: [
+        { nombre: "Melchor Noe",    detalle: "1912 – 1947" },
+        { nombre: "Nemesia Cuvene", detalle: "1914 – 1998" }
+      ],
+      pareja: { nombre: "Marcelino Chuve", detalle: "1934 – 1974" },
+      hijos: [
+        { nombre: "Robertina", detalle: "1951 – 1951" },
+        { nombre: "Luis",      detalle: "1954 – 1973" },
+        { nombre: "Nemesia",   detalle: "Hija" },
+        { nombre: "Mario",     detalle: "1958 – 1959" },
+        { nombre: "Rufino",    detalle: "1961 – 2014" }
+      ]
+    },
+    ubicacion: ""
+  },
+
   /* ---------------- PLANTILLA VACÍA: copia desde aquí ---------------- */
   "plantilla-vacia": {
     nombre: "Nombre Apellido",
