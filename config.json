@@ -2,13 +2,13 @@
   "whatsapp": "59168972863",
   "evento": {
     "nombre": "2 de noviembre",
-    "fecha": "2026-11-28"
+    "fecha": "2026-11-02"
   },
-  "fechaLimite": "2026-10-28",
+  "fechaLimite": "2026-10-25",
   "planes": [
     {
       "nombre": "Recuerdo",
-      "precio": 250,
+      "precio": 150,
       "etiqueta": "",
       "items": [
         "QR resistente para exterior",
@@ -19,7 +19,7 @@
     },
     {
       "nombre": "Memorial",
-      "precio": 580,
+      "precio": 280,
       "etiqueta": "El más pedido",
       "items": [
         "Todo lo del plan Recuerdo",
@@ -30,7 +30,7 @@
     },
     {
       "nombre": "Legado",
-      "precio": 850,
+      "precio": 450,
       "etiqueta": "",
       "items": [
         "Todo lo del plan Memorial",
@@ -42,13 +42,31 @@
   ],
   "promociones": [
     {
-      "activa": false,
-      "nombre": "Black Friday",
-      "mensaje": "20% de descuento en todos los planes",
+      "activa": true,
+      "nombre": "Pre-venta",
+      "mensaje": "10% de descuento si aseguras tu cupo ahora",
       "tipo": "porcentaje",
-      "valor": 20,
-      "desde": "2026-11-23",
+      "valor": 10,
+      "desde": "2026-10-03",
+      "hasta": "2026-10-12"
+    },
+    {
+      "activa": true,
+      "nombre": "Black Friday",
+      "mensaje": "15% de descuento en todos los planes",
+      "tipo": "porcentaje",
+      "valor": 15,
+      "desde": "2026-11-03",
       "hasta": "2026-11-30"
+    },
+    {
+      "activa": true,
+      "nombre": "Navidad",
+      "mensaje": "10% de descuento para recordar juntos en familia",
+      "tipo": "porcentaje",
+      "valor": 10,
+      "desde": "2026-12-15",
+      "hasta": "2026-12-31"
     }
   ]
 }
