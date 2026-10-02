@@ -17,20 +17,42 @@
     "fotos/ejemplo/6.jpg"
   ],
   "audios": [
-    { "titulo": "Audio de ejemplo (aquí iría un saludo grabado)", "archivo": "audios/ejemplo/1.mp3" }
+    {
+      "titulo": "Audio de ejemplo (aquí iría un saludo grabado)",
+      "archivo": "audios/ejemplo/1.mp3"
+    }
   ],
   "videos": [],
   "familia": {
     "padres": [
-      { "nombre": "Pedro Pérez", "detalle": "1921 – 1990" },
-      { "nombre": "Rosa Gómez", "detalle": "1925 – 2001" }
+      {
+        "nombre": "Pedro Pérez",
+        "detalle": "1921 – 1990"
+      },
+      {
+        "nombre": "Rosa Gómez",
+        "detalle": "1925 – 2001"
+      }
     ],
-    "pareja": { "nombre": "Elena Rojas", "detalle": "Esposa" },
+    "pareja": {
+      "nombre": "Elena Rojas",
+      "detalle": "Esposa"
+    },
     "hijos": [
-      { "nombre": "Carlos", "detalle": "Hijo" },
-      { "nombre": "Ana", "detalle": "Hija" },
-      { "nombre": "Luis", "detalle": "Hijo" }
+      {
+        "nombre": "Carlos",
+        "detalle": "Hijo"
+      },
+      {
+        "nombre": "Ana",
+        "detalle": "Hija"
+      },
+      {
+        "nombre": "Luis",
+        "detalle": "Hijo"
+      }
     ]
   },
-  "ubicacion": "Cementerio General, Trinidad, Beni, Bolivia"
+  "ubicacion": "Cementerio General, Trinidad, Beni, Bolivia",
+  "referencia": "Sector San José, calle 3, nicho 45"
 }

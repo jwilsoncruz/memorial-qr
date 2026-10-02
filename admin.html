@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex">
 <title>Panel · Memorial QR</title>
+<link rel="icon" href="favicon.ico" sizes="32x32">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <style>
 *{box-sizing:border-box}
 body{margin:0;font-family:system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;background:#1e1a3c;color:#fff;line-height:1.5}
@@ -65,15 +68,26 @@ input[type=date],input[type=number]{color-scheme:dark}
   <label>Su historia
     <textarea id="historia" rows="7" placeholder="Escribe varios párrafos. Deja una línea en blanco entre uno y otro."></textarea>
   </label>
-  <label>Cementerio (para el botón "Cómo llegar")
+  <label>Nombre del cementerio
     <input id="ubic" placeholder="Cementerio General, Trinidad, Beni, Bolivia">
-    <small>Déjalo vacío si no lo sabes: el botón no se mostrará.</small>
+  </label>
+  <label>Ubicación exacta de la tumba (enlace de Google Maps o coordenadas)
+    <input id="gps" placeholder="-14.8336, -64.9042   o   https://maps.google.com/?q=-14.8336,-64.9042">
+    <small>Lo mejor es estar parado junto a la tumba: en Google Maps mantén presionado tu punto azul, copia las coordenadas y pégalas aquí. También sirve la ubicación enviada por WhatsApp. Déjalo vacío si no la tienes: el mapa llevará solo hasta el cementerio.</small>
+  </label>
+  <label>Referencia dentro del cementerio
+    <input id="ref" placeholder="Sector San José, calle 3, nicho 45">
+    <small>Sector, calle, número de nicho o una pista para encontrarla.</small>
   </label>
 
   <h2>2. Fotos</h2>
   <label>Foto de perfil (una)
     <input id="fPerfil" type="file" accept="image/*">
     <img id="prevPerfil" class="prev" alt="" hidden>
+  </label>
+  <label>Foto de la tumba o lápida (opcional)
+    <input id="fTumba" type="file" accept="image/*">
+    <small>Si la subes, las velas se encienden sobre esta foto. Si no, se dibuja una lápida con su nombre y años. Mejor una foto horizontal, de frente y con buena luz.</small>
   </label>
   <label>Galería (hasta 12 fotos)
     <input id="fGaleria" type="file" accept="image/*" multiple>
@@ -247,6 +261,27 @@ function crearQr(url, rotulo){
   });
 }
 
+function leerUbicacion(s){
+  s = s.trim();
+  if(!s) return {};
+  let lat = null, lng = null, mapa = "";
+  let m = s.match(/^\s*(-?\d{1,3}(?:\.\d+)?)\s*[,;]?\s+(-?\d{1,3}(?:\.\d+)?)\s*$/) || s.match(/^\s*(-?\d{1,3}(?:\.\d+)?)\s*,\s*(-?\d{1,3}(?:\.\d+)?)\s*$/);
+  if(m){ lat = m[1]; lng = m[2]; }
+  else if(/^https?:\/\//i.test(s)){
+    mapa = s;
+    const u = decodeURIComponent(s);
+    const m2 = u.match(/@(-?\d+\.\d+),(-?\d+\.\d+)/) || u.match(/[?&](?:q|query|ll|destination|daddr)=(-?\d+\.\d+)[,+ ](-?\d+\.\d+)/) || u.match(/!3d(-?\d+\.\d+)!4d(-?\d+\.\d+)/);
+    if(m2){ lat = m2[1]; lng = m2[2]; }
+  } else throw new Error("La ubicación exacta debe ser un enlace de Google Maps (https://…) o dos números: latitud y longitud, por ejemplo -14.8336, -64.9042.");
+  if(lat !== null){
+    const a = Number(lat), b = Number(lng);
+    if(!(a >= -90 && a <= 90 && b >= -180 && b <= 180)) throw new Error("Las coordenadas no son válidas.");
+    const enBolivia = a >= -23 && a <= -9.5 && b >= -69.7 && b <= -57.4;
+    if(!enBolivia && !confirm("Esas coordenadas no parecen estar en Bolivia (¿se invirtió el orden de latitud y longitud?). ¿Continuar de todas formas?")) throw new Error("Revisa las coordenadas y vuelve a intentar.");
+    return {coordenadas: a + "," + b, mapa: mapa};
+  }
+  return {mapa: mapa};
+}
 function persona(nEl, dEl){
   const n = nEl.value.trim(); if(!n) return null;
   return {nombre: n, detalle: dEl.value.trim()};
@@ -292,7 +327,11 @@ $("crear").onclick = async () => {
       audios: [],
       videos: [],
       familia: {padres: [], pareja: null, hijos: []},
-      ubicacion: $("ubic").value.trim()
+      ubicacion: $("ubic").value.trim(),
+      referencia: $("ref").value.trim(),
+      coordenadas: "",
+      mapa: "",
+      fotoTumba: ""
     };
     let bytes = 0, nFotos = 0;
 
@@ -310,6 +349,19 @@ $("crear").onclick = async () => {
       zip.file(ruta, b); bytes += b.size; nFotos++;
       datos.galeria.push(ruta);
     }
+
+    /* Foto de la tumba */
+    const tumba = $("fTumba").files[0];
+    if(tumba){
+      est.textContent = "Reduciendo foto de la tumba…";
+      const b = await reducir(tumba, 1600, false);
+      zip.file("fotos/" + id + "/tumba.jpg", b); bytes += b.size; nFotos++;
+      datos.fotoTumba = "fotos/" + id + "/tumba.jpg";
+    }
+    /* Ubicación exacta */
+    const ub = leerUbicacion($("gps").value);
+    if(ub.coordenadas) datos.coordenadas = ub.coordenadas;
+    if(ub.mapa) datos.mapa = ub.mapa;
 
     /* Audios */
     const auds = Array.from($("fAudios").files).slice(0, 5);
