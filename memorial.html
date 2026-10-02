@@ -150,7 +150,7 @@ audio{width:100%;display:block}
   <p class="gracias" id="avisoMsg" aria-live="polite"></p>
   <ul id="lista"></ul>
 
-  <p class="pie">Memorial creado con <a href="index.html">Memorial QR</a></p>
+  <p class="pie">Memorial creado con <a href="index.html" target="_top">Memorial QR</a></p>
 </div>
 
 </main>
@@ -160,6 +160,7 @@ audio{width:100%;display:block}
 <script src="datos.js"></script>
 <script>
 const $ = id => document.getElementById(id);
+const DEMO = new URLSearchParams(location.search).get("demo") === "1";   /* modo ejemplo: velas y mensajes solo en este celular */
 const id = (new URLSearchParams(location.search).get("id") || "").trim().toLowerCase();
 let M = (typeof MEMORIALES !== "undefined" && Object.prototype.hasOwnProperty.call(MEMORIALES, id)) ? MEMORIALES[id] : null;
 
@@ -304,7 +305,8 @@ async function iniciar(){
     $("btnMapa").classList.remove("oculto");
   }
   $("btnCompartir").onclick = () => {
-    const d = {title: "Memorial de " + M.nombre, text: "Te comparto el memorial de " + M.nombre + ".", url: location.href};
+    const u = new URL(location.href); u.searchParams.delete("demo");
+    const d = {title: "Memorial de " + M.nombre, text: "Te comparto el memorial de " + M.nombre + ".", url: u.href};
     if(navigator.share){ navigator.share(d).catch(() => {}); }
     else window.open("https://wa.me/?text=" + encodeURIComponent(d.text + " " + d.url), "_blank", "noopener");
   };
@@ -373,7 +375,7 @@ async function iniciar(){
 
   /* Velas y mensajes: Firebase si está configurado, si no, solo en este celular */
   let db = null;
-  if(typeof FIREBASE_CONFIG !== "undefined" && FIREBASE_CONFIG){
+  if(!DEMO && typeof FIREBASE_CONFIG !== "undefined" && FIREBASE_CONFIG){
     try{
       const v = "10.12.2";
       await cargaScript("https://www.gstatic.com/firebasejs/" + v + "/firebase-app-compat.js");
@@ -390,8 +392,8 @@ async function iniciar(){
     ref.collection("mensajes").orderBy("fecha", "desc").limit(30).onSnapshot(
       snap => pintaMensajes(snap.docs.map(d => d.data())), () => {});
   } else {
-    ponerVelas(leer(kV, 0));
-    pintaMensajes(leer(kM, []));
+    ponerVelas(leer(kV, DEMO ? 12 : 0));
+    pintaMensajes(leer(kM, DEMO ? [{nombre: "María", texto: "Siempre te recordaremos con cariño. Descansa en paz."}] : []));
   }
 
   $("btnVela").onclick = async () => {

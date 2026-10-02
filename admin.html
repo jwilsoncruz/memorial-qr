@@ -27,6 +27,13 @@ button.sec{background:transparent;color:#fff;border:2px solid #b9b3cf}
 .listo li{margin:6px 0}
 code{background:#1e1a3c;padding:2px 6px;border-radius:5px;color:#ffd58a}
 img.prev{max-width:110px;border-radius:10px;margin-top:6px}
+select{font:inherit;padding:12px;border-radius:10px;border:2px solid #4a4478;background:#2a2552;color:#fff;width:100%}
+input[type=checkbox]{width:auto;transform:scale(1.3)}
+input[type=date],input[type=number]{color-scheme:dark}
+.caja{border:2px solid #4a4478;border-radius:12px;padding:14px;margin:12px 0;background:#231f48}
+.tabs{display:flex;gap:8px;margin:18px 0 0;flex-wrap:wrap}
+.tabs button{margin:0}
+.tabs button.activa{background:#f4b04a;color:#2b1c05;border:0}
 </style>
 </head>
 <body>
@@ -34,6 +41,12 @@ img.prev{max-width:110px;border-radius:10px;margin-top:6px}
   <h1>Panel Memorial QR</h1>
   <p>Llena los datos de la familia. Al final se crea un paquete listo para subir a GitHub, con las fotos ya reducidas y renombradas, más el QR para imprimir.</p>
 
+  <div class="tabs">
+    <button type="button" id="tabMem">Nuevo memorial</button>
+    <button type="button" id="tabCfg" class="sec">Ajustes de la página de ventas</button>
+  </div>
+
+<div id="vistaMem">
   <h2>1. La persona</h2>
   <label>Nombre completo
     <input id="nombre" placeholder="Eusebia Noe Cubene" autocomplete="off">
@@ -107,6 +120,47 @@ img.prev{max-width:110px;border-radius:10px;margin-top:6px}
       <li>Imprime el QR y pruébalo con dos celulares.</li>
     </ol>
   </div>
+</div>
+
+<div id="vistaCfg" hidden>
+  <h2>Ajustes de la página de ventas</h2>
+  <p>Lo que cambies aquí se guarda en un archivo <code>config.json</code>. Lo subes a GitHub y la página de ventas se actualiza sola. Ya no hay que editar código.</p>
+
+  <h2>WhatsApp</h2>
+  <label>Tu número con código de país, solo números
+    <input id="cWa" inputmode="numeric" placeholder="59171234567">
+    <small>Bolivia empieza con 591. Por ejemplo: 59171234567</small>
+  </label>
+
+  <h2>Fecha especial y límite de pedidos</h2>
+  <div class="par">
+    <label>Nombre de la fecha <input id="cEvNombre" placeholder="2 de noviembre"></label>
+    <label>Fecha <input id="cEvFecha" type="date"></label>
+  </div>
+  <label>Último día para recibir pedidos
+    <input id="cLimite" type="date">
+  </label>
+
+  <h2>Planes (hasta 4)</h2>
+  <div id="cPlanes"></div>
+
+  <h2>Promociones por temporada (hasta 3)</h2>
+  <p>Cuando una promoción está activada y la fecha de hoy cae entre "desde" y "hasta", la página muestra el aviso, tacha el precio normal y muestra el precio con descuento. Se apaga sola al terminar la fecha.</p>
+  <div id="cPromos"></div>
+
+  <button type="button" id="cCrear">Crear config.json</button>
+  <div id="cError" class="error" role="alert" style="color:#ffb4a8"></div>
+
+  <div class="listo" id="cListo">
+    <h2 style="margin-top:0">¡Listo!</h2>
+    <p id="cResumen"></p>
+    <button type="button" id="cBajar">Descargar config.json</button>
+    <ol>
+      <li>En tu repositorio de GitHub: <b>Add file › Upload files</b> y arrastra <code>config.json</code> (reemplaza al anterior). Luego <b>Commit changes</b>.</li>
+      <li>Espera 1 o 2 minutos y recarga la página de ventas. Si no ves el cambio, recárgala con <b>Ctrl+F5</b>.</li>
+    </ol>
+  </div>
+</div>
 </main>
 
 <script src="datos.js"></script>
@@ -302,6 +356,142 @@ $("crear").onclick = async () => {
 };
 $("bajarZip").onclick = () => paquete && descargar(paquete.zip, "memorial-" + paquete.id + ".zip");
 $("bajarQr").onclick = () => paquete && descargar(paquete.qr, "qr-" + paquete.id + ".png");
+
+/* ============ Ajustes de la página de ventas ============ */
+const DEFAULT_CFG = {
+  whatsapp: "",
+  evento: {nombre: "2 de noviembre", fecha: "2026-11-02"},
+  fechaLimite: "2026-10-25",
+  planes: [
+    {nombre: "Recuerdo", precio: 150, etiqueta: "", items: ["QR resistente para exterior", "Página con foto, fechas y frase", "Libro de visitas y velas", "Incluida 1 año en línea"]},
+    {nombre: "Memorial", precio: 280, etiqueta: "El más pedido", items: ["Todo lo del plan Recuerdo", "Galería de hasta 12 fotos", "Biografía y árbol familiar de 3 generaciones", "Incluida 3 años en línea"]},
+    {nombre: "Legado", precio: 450, etiqueta: "", items: ["Todo lo del plan Memorial", "Audios y videos de la familia", "Placa de refuerzo para el QR", "Incluida 5 años en línea"]}
+  ],
+  promociones: [
+    {activa: false, nombre: "Black Friday", mensaje: "20% de descuento en todos los planes", tipo: "porcentaje", valor: 20, desde: "2026-11-23", hasta: "2026-11-30"}
+  ]
+};
+let cfgListo = null;
+
+function vista(v){
+  $("vistaMem").hidden = v !== "mem";
+  $("vistaCfg").hidden = v !== "cfg";
+  $("tabMem").classList.toggle("sec", v !== "mem"); $("tabMem").classList.toggle("activa", v === "mem");
+  $("tabCfg").classList.toggle("sec", v !== "cfg"); $("tabCfg").classList.toggle("activa", v === "cfg");
+}
+$("tabMem").onclick = () => vista("mem");
+$("tabCfg").onclick = () => vista("cfg");
+vista(location.hash === "#ajustes" ? "cfg" : "mem");
+
+function cajaPlan(n){
+  const d = document.createElement("div"); d.className = "caja";
+  d.innerHTML = '<b>Plan ' + n + '</b> <small>(deja el nombre vacío si no lo quieres usar)</small>' +
+    '<div class="par"><input class="pNombre" placeholder="Nombre del plan"><input class="pPrecio" type="number" min="0" step="1" placeholder="Precio en Bs"></div>' +
+    '<input class="pEtiqueta" placeholder="Etiqueta opcional, ej: El más pedido" style="margin:0 0 8px">' +
+    '<textarea class="pItems" rows="4" placeholder="Qué incluye, una cosa por línea"></textarea>';
+  return d;
+}
+function cajaPromo(n){
+  const d = document.createElement("div"); d.className = "caja";
+  d.innerHTML = '<b>Promoción ' + n + '</b>' +
+    '<label style="display:flex;align-items:center;gap:10px;margin:10px 0"><input class="qActiva" type="checkbox"> Promoción activada</label>' +
+    '<div class="par"><input class="qNombre" placeholder="Nombre, ej: Black Friday"><select class="qTipo"><option value="porcentaje">Descuento en %</option><option value="monto">Descuento en Bs</option></select></div>' +
+    '<div class="par"><input class="qValor" type="number" min="0" step="1" placeholder="Valor del descuento"><input class="qMensaje" placeholder="Mensaje del aviso, ej: 20% en todos los planes"></div>' +
+    '<div class="par"><label>Desde <input class="qDesde" type="date"></label><label>Hasta (inclusive) <input class="qHasta" type="date"></label></div>';
+  return d;
+}
+for(let i = 1; i <= 4; i++) $("cPlanes").appendChild(cajaPlan(i));
+for(let i = 1; i <= 3; i++) $("cPromos").appendChild(cajaPromo(i));
+
+function llenarCfg(c){
+  $("cWa").value = c.whatsapp || "";
+  $("cEvNombre").value = (c.evento && c.evento.nombre) || "";
+  $("cEvFecha").value = (c.evento && c.evento.fecha) || "";
+  $("cLimite").value = c.fechaLimite || "";
+  const pl = document.querySelectorAll("#cPlanes .caja");
+  pl.forEach((b, i) => {
+    const p = (c.planes || [])[i] || {};
+    b.querySelector(".pNombre").value = p.nombre || "";
+    b.querySelector(".pPrecio").value = p.precio === undefined ? "" : p.precio;
+    b.querySelector(".pEtiqueta").value = p.etiqueta || "";
+    b.querySelector(".pItems").value = (p.items || []).join("\n");
+  });
+  const pr = document.querySelectorAll("#cPromos .caja");
+  const promos = (c.promociones && c.promociones.length) ? c.promociones : DEFAULT_CFG.promociones;
+  pr.forEach((b, i) => {
+    const q = promos[i] || {};
+    b.querySelector(".qActiva").checked = !!q.activa;
+    b.querySelector(".qNombre").value = q.nombre || "";
+    b.querySelector(".qTipo").value = q.tipo === "monto" ? "monto" : "porcentaje";
+    b.querySelector(".qValor").value = q.valor === undefined ? "" : q.valor;
+    b.querySelector(".qMensaje").value = q.mensaje || "";
+    b.querySelector(".qDesde").value = q.desde || "";
+    b.querySelector(".qHasta").value = q.hasta || "";
+  });
+}
+(async function(){
+  let c = DEFAULT_CFG;
+  if(/^https?:/.test(location.protocol)){
+    try{ const r = await fetch("config.json", {cache: "no-store"}); if(r.ok) c = Object.assign({}, DEFAULT_CFG, await r.json()); }catch(e){}
+  }
+  llenarCfg(c);
+})();
+
+function leerCfg(){
+  const wa = $("cWa").value.replace(/\D/g, "");
+  if(wa.length < 8 || wa.length > 15) throw new Error("El número de WhatsApp debe tener entre 8 y 15 dígitos, con el código de país (ej: 59171234567).");
+  if(wa === "59100000000") throw new Error("Ese es el número de ejemplo. Escribe tu número real de WhatsApp.");
+  const planes = [];
+  document.querySelectorAll("#cPlanes .caja").forEach(b => {
+    const nombre = b.querySelector(".pNombre").value.trim();
+    if(!nombre) return;
+    const precio = Number(b.querySelector(".pPrecio").value);
+    if(b.querySelector(".pPrecio").value === "" || !(precio >= 0)) throw new Error("Falta el precio del plan \"" + nombre + "\".");
+    planes.push({
+      nombre: nombre, precio: Math.round(precio),
+      etiqueta: b.querySelector(".pEtiqueta").value.trim(),
+      items: b.querySelector(".pItems").value.split("\n").map(s => s.trim()).filter(Boolean)
+    });
+  });
+  if(!planes.length) throw new Error("Pon al menos un plan con nombre y precio.");
+  const promociones = [];
+  document.querySelectorAll("#cPromos .caja").forEach((b, i) => {
+    const activa = b.querySelector(".qActiva").checked;
+    const nombre = b.querySelector(".qNombre").value.trim();
+    const valor = Number(b.querySelector(".qValor").value);
+    const desde = b.querySelector(".qDesde").value, hasta = b.querySelector(".qHasta").value;
+    const tipo = b.querySelector(".qTipo").value;
+    if(!nombre && !activa) return;
+    if(activa){
+      if(!nombre) throw new Error("La promoción " + (i + 1) + " está activada pero no tiene nombre.");
+      if(!(valor > 0)) throw new Error("La promoción \"" + nombre + "\" necesita un valor de descuento mayor que 0.");
+      if(tipo === "porcentaje" && valor > 90) throw new Error("El descuento de \"" + nombre + "\" no puede pasar de 90%.");
+      if(!desde || !hasta) throw new Error("La promoción \"" + nombre + "\" necesita fecha de inicio y de fin.");
+      if(hasta < desde) throw new Error("En \"" + nombre + "\", la fecha final es anterior a la inicial.");
+    }
+    promociones.push({activa: activa, nombre: nombre, mensaje: b.querySelector(".qMensaje").value.trim(), tipo: tipo, valor: valor || 0, desde: desde, hasta: hasta});
+  });
+  return {
+    whatsapp: wa,
+    evento: {nombre: $("cEvNombre").value.trim(), fecha: $("cEvFecha").value},
+    fechaLimite: $("cLimite").value,
+    planes: planes,
+    promociones: promociones
+  };
+}
+$("cCrear").onclick = () => {
+  $("cError").textContent = ""; $("cListo").style.display = "none";
+  try{
+    cfgListo = leerCfg();
+    const act = cfgListo.promociones.filter(p => p.activa).length;
+    $("cResumen").textContent = "WhatsApp " + cfgListo.whatsapp + " · " + cfgListo.planes.length + (cfgListo.planes.length === 1 ? " plan" : " planes") + " · " + (act ? act + (act === 1 ? " promoción activada" : " promociones activadas") : "sin promociones activadas") + ".";
+    $("cListo").style.display = "block";
+    $("cListo").scrollIntoView({behavior: "smooth"});
+  }catch(e){
+    $("cError").textContent = e.message;
+  }
+};
+$("cBajar").onclick = () => cfgListo && descargar(new Blob([JSON.stringify(cfgListo, null, 2)], {type: "application/json"}), "config.json");
 </script>
 </body>
 </html>

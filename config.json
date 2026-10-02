@@ -1,0 +1,36 @@
+{
+  "whatsapp": "59100000000",
+  "evento": { "nombre": "2 de noviembre", "fecha": "2026-11-02" },
+  "fechaLimite": "2026-10-25",
+  "planes": [
+    {
+      "nombre": "Recuerdo",
+      "precio": 150,
+      "etiqueta": "",
+      "items": ["QR resistente para exterior", "Página con foto, fechas y frase", "Libro de visitas y velas", "Incluida 1 año en línea"]
+    },
+    {
+      "nombre": "Memorial",
+      "precio": 280,
+      "etiqueta": "El más pedido",
+      "items": ["Todo lo del plan Recuerdo", "Galería de hasta 12 fotos", "Biografía y árbol familiar de 3 generaciones", "Incluida 3 años en línea"]
+    },
+    {
+      "nombre": "Legado",
+      "precio": 450,
+      "etiqueta": "",
+      "items": ["Todo lo del plan Memorial", "Audios y videos de la familia", "Placa de refuerzo para el QR", "Incluida 5 años en línea"]
+    }
+  ],
+  "promociones": [
+    {
+      "activa": false,
+      "nombre": "Black Friday",
+      "mensaje": "20% de descuento en todos los planes",
+      "tipo": "porcentaje",
+      "valor": 20,
+      "desde": "2026-11-23",
+      "hasta": "2026-11-30"
+    }
+  ]
+}

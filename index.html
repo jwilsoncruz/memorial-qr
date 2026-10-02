@@ -128,67 +128,25 @@ footer{padding:36px 0 110px;color:var(--apagado);font-size:.92rem;text-align:cen
 /* WhatsApp flotante */
 .wa{position:fixed;right:16px;bottom:16px;z-index:20;background:#25d366;color:#06361b;font-weight:700;border-radius:999px;padding:14px 20px;text-decoration:none;box-shadow:0 8px 24px rgba(0,0,0,.35)}
 
-/* memorial de ejemplo */
-dialog{border:0;padding:0;width:min(720px,100%);max-height:100vh;height:100%;background:var(--noche);color:#fff;margin:auto}
-@media(min-width:760px){dialog{height:auto;max-height:92vh;border-radius:18px}}
-dialog::backdrop{background:rgba(10,8,25,.8)}
-.mem{padding:26px 24px 40px;overflow:auto;max-height:inherit}
-.cerrar{position:sticky;top:0;float:right;background:var(--noche-2);color:#fff;border:2px solid #4a4478;border-radius:99px;padding:8px 16px;font:700 .9rem var(--sans);cursor:pointer}
-.retrato{width:132px;height:132px;border-radius:50%;margin:12px auto 18px;display:grid;place-items:center;font-family:var(--serif);font-size:2.6rem;background:linear-gradient(145deg,#6b5fb0,#3b3270);border:4px solid var(--vela)}
-.mem h2{text-align:center;margin-bottom:2px}
-.fechas{text-align:center;color:var(--vela);font-family:var(--serif);font-size:1.15rem;margin-bottom:6px}
-.frase{text-align:center;color:var(--piedra);font-style:italic;max-width:40ch;margin:0 auto 26px}
-.mem h3{margin-top:30px;color:var(--vela-2)}
-.galeria{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.galeria div{aspect-ratio:1;border-radius:10px;background:linear-gradient(145deg,#4a4090,#2f2a62)}
-.galeria div:nth-child(2n){background:linear-gradient(145deg,#6b5a8a,#3b3270)}
-.velas{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
-.velas span{color:var(--piedra)}
-.visita{display:flex;gap:8px;margin:12px 0}
-.visita input{flex:1}
-#lista{list-style:none;padding:0;margin:0;display:grid;gap:8px}
-#lista li{background:var(--noche-2);padding:12px 14px;border-radius:10px;border-left:3px solid var(--vela);overflow-wrap:anywhere}
+/* ejemplo real dentro de una ventana */
+dialog#demo{border:0;padding:0;width:min(720px,100%);height:100%;max-height:100vh;background:var(--noche);color:#fff;margin:auto;overflow:hidden}
+@media(min-width:760px){dialog#demo{height:92vh;border-radius:18px}}
+dialog#demo::backdrop{background:rgba(10,8,25,.8)}
+.demo-barra{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 14px;background:var(--noche-2);height:56px}
+.demo-barra a{color:var(--vela-2);font-size:.92rem}
+.cerrar{background:transparent;color:#fff;border:2px solid #4a4478;border-radius:99px;padding:8px 16px;font:700 .9rem var(--sans);cursor:pointer}
+#demoFrame{width:100%;height:calc(100% - 56px);border:0;display:block;background:var(--noche)}
 
-/* altar de velas */
-.velas input{flex:1;min-width:150px}
-.altar{position:relative;margin:14px 0 14px;padding:12px 14px 18px;border-radius:14px;background:linear-gradient(#2a2552,#1e1a3c);border:1px solid #4a4478;overflow:hidden;min-height:140px;box-shadow:inset 0 -50px 70px rgba(244,176,74,.1)}
-.altar::before{content:"";position:absolute;inset:0;background:radial-gradient(70% 90% at 50% 70%,rgba(244,176,74,.6),transparent 70%);opacity:0;pointer-events:none}
-.altar.brillo::before{animation:brillo 1.8s ease-out}
-@keyframes brillo{0%{opacity:0}25%{opacity:1}100%{opacity:0}}
-.fila-velas{position:relative;display:flex;flex-wrap:wrap;gap:12px 13px;justify-content:center;align-items:flex-end}
-.cv{position:relative;width:16px;height:46px;margin-top:34px;border-radius:3px 3px 2px 2px;background:linear-gradient(90deg,#e9dfc8,#fff6e0 50%,#d8caa8)}
-.cv.c1{background:linear-gradient(90deg,#b9aee6,#e6dfff 50%,#9d90d6)}
-.cv.c2{background:linear-gradient(90deg,#e8b36a,#ffd9a0 50%,#cf9650)}
-.cv::before{content:"";position:absolute;left:50%;top:-6px;width:2px;height:7px;background:#3b2f23;transform:translateX(-50%)}
-.cv i{position:absolute;left:50%;top:-31px;width:11px;height:24px;transform:translateX(-50%);transform-origin:50% 100%;background:radial-gradient(ellipse at 50% 70%,#fff6d6 0 25%,var(--vela-2) 45%,var(--vela) 70%,transparent 72%);border-radius:50% 50% 50% 50%/65% 65% 35% 35%;filter:drop-shadow(0 0 8px rgba(244,176,74,.85));animation:llamita 2s ease-in-out infinite;animation-delay:var(--d,0s)}
-@keyframes llamita{0%,100%{transform:translateX(-50%) scale(1,1) rotate(-2deg)}50%{transform:translateX(-50%) scale(.92,1.1) rotate(2deg)}}
-.cv.nueva{animation:cae .7s cubic-bezier(.2,.9,.3,1.2)}
-@keyframes cae{from{transform:translateY(-90px);opacity:0}to{transform:none;opacity:1}}
-.cv.nueva i{animation:enciende 1.1s .6s backwards,llamita 2s 1.7s ease-in-out infinite}
-@keyframes enciende{0%{transform:translateX(-50%) scale(0)}30%{transform:translateX(-50%) scale(1.9,2.3);filter:drop-shadow(0 0 24px #fff)}100%{transform:translateX(-50%) scale(1)}}
-#cuentaVelas{display:inline-block}
-#cuentaVelas.bump{animation:bump .5s}
-@keyframes bump{50%{transform:scale(1.25);color:var(--vela)}}
-.gracias{min-height:1.6em;color:var(--vela-2);margin:10px 0 0}
-
-/* árbol familiar */
-.arbol{width:100%;height:auto;display:block;margin-top:8px}
-.arbol rect{fill:#2f2a62;stroke:#4a4478;stroke-width:2}
-.arbol .yo{fill:#3b3270;stroke:var(--vela);stroke-width:3}
-.arbol text{fill:#fff;font-family:Figtree,system-ui,sans-serif;text-anchor:middle}
-.arbol .n{font-size:19px;font-weight:700}
-.arbol .s{font-size:15px;fill:var(--apagado)}
-.arbol path{fill:none;stroke:var(--apagado);stroke-width:2}
-.pie{font-size:.88rem;color:var(--apagado);margin-top:6px}
-.acciones{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:-8px 0 8px}
-.acciones .btn{padding:10px 20px;font-size:.92rem}
+/* promociones */
+.plan .etq.oferta{background:#e0425a;color:#fff}
+.plan .antes{opacity:.55;font-size:1.3rem;margin-right:8px;font-weight:400}
 
 @media(prefers-reduced-motion:reduce){*{animation:none!important;scroll-behavior:auto!important;transition:none!important}}
 </style>
 </head>
 <body>
 
-<div class="aviso" id="aviso">Cargando…</div>
+<div class="aviso" id="aviso" hidden></div>
 
 <header class="hero">
   <div class="wrap">
@@ -293,89 +251,122 @@ dialog::backdrop{background:rgba(10,8,25,.8)}
 
 <a class="wa" id="waFlot" href="#" target="_blank" rel="noopener">Escríbenos por WhatsApp</a>
 
-<!-- Memorial de ejemplo -->
+<!-- Memorial de ejemplo (es el memorial real "ejemplo", en modo demo) -->
 <dialog id="demo" aria-label="Memorial de ejemplo">
-  <div class="mem">
+  <div class="demo-barra">
+    <a href="memorial.html?id=ejemplo&demo=1" target="_blank" rel="noopener">Abrir en pantalla completa</a>
     <button class="cerrar" type="button" id="cerrar">Cerrar</button>
-    <div class="retrato" aria-hidden="true">JP</div>
-    <h2>Juan Pérez Gómez</h2>
-    <div class="fechas">1950 – 2026</div>
-    <p class="frase">Vivió con amor, trabajó con esfuerzo y dejó un legado imborrable.</p>
-
-    <div class="acciones">
-      <button class="btn btn-borde" type="button" id="btnCompartir">Compartir con la familia</button>
-      <a class="btn btn-borde" id="btnMapa" href="#" target="_blank" rel="noopener">Cómo llegar a la tumba</a>
-    </div>
-
-    <h3>Enciende una vela por Juan</h3>
-    <div class="altar" id="altar"><div class="fila-velas" id="filaVelas" aria-hidden="true"></div></div>
-    <div class="velas">
-      <input id="nomVela" maxlength="30" placeholder="Tu nombre (opcional)" aria-label="Tu nombre (opcional)">
-      <button class="btn btn-vela" type="button" id="btnVela">Encender una vela</button>
-    </div>
-    <p class="gracias" id="graciasVela" aria-live="polite"></p>
-    <p><span id="cuentaVelas"></span></p>
-
-    <h3>Su historia</h3>
-    <p>Aquí va la biografía: dónde nació, a qué se dedicó, a quién amó y qué lo hizo especial. Este es un ejemplo; el memorial de tu familiar tendrá su propia historia.</p>
-
-    <h3>Su familia</h3>
-    <svg class="arbol" viewBox="0 0 600 270" role="img" aria-label="Árbol familiar de ejemplo: padres, Juan con su esposa, y tres hijos">
-      <path d="M280 35H320M300 35V80H185V110M260 135H340M300 135V185M130 185H470M130 185V210M300 185V210M470 185V210"/>
-      <rect x="130" y="10" width="150" height="54" rx="10"/><text class="n" x="205" y="34">Pedro Pérez</text><text class="s" x="205" y="54">1921 – 1990</text>
-      <rect x="320" y="10" width="150" height="54" rx="10"/><text class="n" x="395" y="34">Rosa Gómez</text><text class="s" x="395" y="54">1925 – 2001</text>
-      <rect class="yo" x="110" y="108" width="150" height="54" rx="10"/><text class="n" x="185" y="132">Juan Pérez</text><text class="s" x="185" y="152">1950 – 2026</text>
-      <rect x="340" y="108" width="150" height="54" rx="10"/><text class="n" x="415" y="132">Elena Rojas</text><text class="s" x="415" y="152">Esposa</text>
-      <rect x="65" y="210" width="130" height="54" rx="10"/><text class="n" x="130" y="234">Carlos</text><text class="s" x="130" y="254">Hijo</text>
-      <rect x="235" y="210" width="130" height="54" rx="10"/><text class="n" x="300" y="234">Ana</text><text class="s" x="300" y="254">Hija</text>
-      <rect x="405" y="210" width="130" height="54" rx="10"/><text class="n" x="470" y="234">Luis</text><text class="s" x="470" y="254">Hijo</text>
-    </svg>
-    <p class="pie">Árbol familiar de ejemplo, hasta tres generaciones.</p>
-
-    <h3>Galería</h3>
-    <div class="galeria" aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div></div>
-
-    <h3>Libro de visitas</h3>
-    <div class="visita">
-      <input id="msg" maxlength="200" placeholder="Escribe un recuerdo" aria-label="Escribe un recuerdo">
-      <button class="btn btn-vela" type="button" id="btnMsg">Guardar</button>
-    </div>
-    <ul id="lista"></ul>
   </div>
+  <iframe id="demoFrame" title="Memorial de ejemplo" loading="lazy"></iframe>
 </dialog>
 
 <script>
-/* ============ AJUSTES: cambia solo esta parte ============ */
-const WHATSAPP = "59168972863";            // tu número con código de país, sin + ni espacios
-const FECHA_DIA = new Date(2026, 10, 2);   // 2 de noviembre de 2026 (mes 10 = noviembre)
-const FECHA_LIMITE_TXT = "28 de octubre";  // último día para pedir
-const UBICACION = "Cementerio General, Trinidad, Beni, Bolivia"; // en la demo; en cada memorial real va el cementerio de ese cliente
-const PLANES = [
-  {id:"Recuerdo", precio:"Bs 250", etiqueta:"",
-   items:["QR resistente para exterior","Página con foto, fechas y frase","Libro de visitas y velas","Incluida 1 año en línea"]},
-  {id:"Memorial", precio:"Bs 380", etiqueta:"El más pedido",
-   items:["Todo lo del plan Recuerdo","Galería de hasta 12 fotos","Biografía y árbol familiar de 3 generaciones","Incluida 3 años en línea"]},
-  {id:"Legado", precio:"Bs 550", etiqueta:"",
-   items:["Todo lo del plan Memorial","Audios y videos (enlace de YouTube)","Placa de refuerzo para el QR","Incluida 5 años en línea"]}
-];
-/* ========================================================= */
-
+/* Valores de respaldo. Los reales se leen de config.json (se editan desde admin.html). */
+const DEFAULT = {
+  whatsapp: "59100000000",
+  evento: {nombre: "2 de noviembre", fecha: "2026-11-02"},
+  fechaLimite: "2026-10-25",
+  planes: [
+    {nombre: "Recuerdo", precio: 150, etiqueta: "", items: ["QR resistente para exterior", "Página con foto, fechas y frase", "Libro de visitas y velas", "Incluida 1 año en línea"]},
+    {nombre: "Memorial", precio: 280, etiqueta: "El más pedido", items: ["Todo lo del plan Recuerdo", "Galería de hasta 12 fotos", "Biografía y árbol familiar de 3 generaciones", "Incluida 3 años en línea"]},
+    {nombre: "Legado", precio: 450, etiqueta: "", items: ["Todo lo del plan Memorial", "Audios y videos de la familia", "Placa de refuerzo para el QR", "Incluida 5 años en línea"]}
+  ],
+  promociones: []
+};
+let CFG = DEFAULT;
 const $ = id => document.getElementById(id);
-const waLink = txt => "https://wa.me/" + WHATSAPP + (txt ? "?text=" + encodeURIComponent(txt) : "");
 
-/* Cuenta regresiva */
-(function(){
-  const dias = Math.ceil((FECHA_DIA - new Date()) / 86400000);
-  const el = $("aviso");
-  if(dias > 0){
-    el.innerHTML = "Faltan <b>" + dias + " días</b> para el 2 de noviembre. Pedidos hasta el " + FECHA_LIMITE_TXT + ". <a href='#pedido'>Pedir ahora</a>";
+/* ---------- utilidades ---------- */
+function fechaLocal(s, finDelDia){
+  const p = String(s || "").split("-").map(Number);
+  if(!p[0] || !p[1] || !p[2]) return null;
+  return finDelDia ? new Date(p[0], p[1] - 1, p[2], 23, 59, 59) : new Date(p[0], p[1] - 1, p[2]);
+}
+function textoFecha(d){
+  try{ return d.toLocaleDateString("es-BO", {day: "numeric", month: "long"}); }
+  catch(e){ return d.toLocaleDateString("es", {day: "numeric", month: "long"}); }
+}
+const waNum = () => String(CFG.whatsapp || "").replace(/\D/g, "");
+const waLink = txt => "https://wa.me/" + waNum() + (txt ? "?text=" + encodeURIComponent(txt) : "");
+const bs = n => "Bs " + n;
+
+function promoActiva(){
+  const ahora = new Date();
+  return (CFG.promociones || []).find(p => {
+    if(!p || !p.activa) return false;
+    const d = fechaLocal(p.desde, false), h = fechaLocal(p.hasta, true);
+    return d && h && ahora >= d && ahora <= h;
+  }) || null;
+}
+function precioFinal(precio, promo){
+  const p = Number(precio) || 0;
+  if(!promo) return p;
+  const v = Number(promo.valor) || 0;
+  return promo.tipo === "monto" ? Math.max(0, p - v) : Math.max(0, Math.round(p * (1 - v / 100)));
+}
+const planesValidos = () => (CFG.planes || []).filter(p => p && p.nombre);
+
+/* ---------- aviso superior ---------- */
+function pintaAviso(){
+  const el = $("aviso"); el.textContent = "";
+  const promo = promoActiva(), ahora = new Date();
+  const negrita = t => { const b = document.createElement("b"); b.textContent = t; return b; };
+  const enlace = () => { const a = document.createElement("a"); a.href = "#pedido"; a.textContent = "Pedir ahora"; return a; };
+  if(promo){
+    const h = fechaLocal(promo.hasta, true), dias = Math.ceil((h - ahora) / 86400000);
+    el.appendChild(negrita(promo.nombre + ": "));
+    el.appendChild(document.createTextNode((promo.mensaje || "") + ". " + (dias <= 1 ? "Último día. " : "Termina en " + dias + " días. ")));
+    el.appendChild(enlace());
   } else {
-    el.innerHTML = "Pide el Memorial QR de tu familiar. <a href='#pedido'>Pedir ahora</a>";
+    const ev = fechaLocal(CFG.evento && CFG.evento.fecha, false), lim = fechaLocal(CFG.fechaLimite, true);
+    const dias = ev ? Math.ceil((ev - ahora) / 86400000) : 0;
+    if(ev && dias > 0){
+      el.appendChild(document.createTextNode("Faltan "));
+      el.appendChild(negrita(dias + (dias === 1 ? " día" : " días")));
+      el.appendChild(document.createTextNode(" para el " + (CFG.evento.nombre || "") + (lim && lim >= ahora ? ". Pedidos hasta el " + textoFecha(lim) : "") + ". "));
+    } else {
+      el.appendChild(document.createTextNode("Pide el Memorial QR de tu familiar. "));
+    }
+    el.appendChild(enlace());
   }
-  $("faqFecha").textContent = "Los pedidos para el 2 de noviembre se reciben hasta el " + FECHA_LIMITE_TXT + ". Después de esa fecha te lo entregamos lo antes posible.";
-})();
+  el.hidden = false;
+}
 
-/* QR decorativo (solo para la demo; los QR reales se generan por cliente) */
+/* ---------- planes ---------- */
+function pintaPlanes(){
+  const promo = promoActiva(), cont = $("listaPlanes"), sel = $("fPlan");
+  cont.textContent = ""; sel.textContent = "";
+  const planes = planesValidos();
+  let predeterminado = 0;
+  planes.forEach((p, i) => {
+    if(p.etiqueta && !predeterminado) predeterminado = i;
+    const final = precioFinal(p.precio, promo);
+    const art = document.createElement("article");
+    art.className = "plan" + (p.etiqueta ? " top" : "");
+    art.style.color = "var(--tinta)";
+    const badge = promo ? promo.nombre : p.etiqueta;
+    if(badge){ const e = document.createElement("span"); e.className = "etq" + (promo ? " oferta" : ""); e.textContent = badge; art.appendChild(e); }
+    const h = document.createElement("h3"); h.style.color = "var(--tinta)"; h.textContent = p.nombre; art.appendChild(h);
+    const pr = document.createElement("div"); pr.className = "precio";
+    if(promo && final < Number(p.precio)){
+      const s = document.createElement("s"); s.className = "antes"; s.textContent = bs(p.precio); pr.appendChild(s);
+    }
+    pr.appendChild(document.createTextNode(bs(final))); art.appendChild(pr);
+    const ul = document.createElement("ul");
+    (p.items || []).forEach(t => { const li = document.createElement("li"); li.textContent = t; ul.appendChild(li); });
+    art.appendChild(ul);
+    const a = document.createElement("a");
+    a.className = "btn " + (p.etiqueta ? "btn-oscuro" : "btn-borde");
+    if(!p.etiqueta) a.style.cssText = "color:var(--tinta);border-color:var(--noche)";
+    a.style.textAlign = "center"; a.href = "#pedido"; a.dataset.plan = i; a.textContent = "Elegir " + p.nombre;
+    art.appendChild(a);
+    cont.appendChild(art);
+    const o = document.createElement("option"); o.value = i; o.textContent = p.nombre + " · " + bs(final); sel.appendChild(o);
+  });
+  sel.value = predeterminado;
+}
+
+/* ---------- QR decorativo de la portada ---------- */
 function qrSvg(seed){
   const n = 21, cell = 10;
   let s = seed * 9301 + 49297;
@@ -395,109 +386,54 @@ function qrSvg(seed){
 }
 document.querySelectorAll("[data-qr]").forEach(el => el.innerHTML = qrSvg(+el.dataset.qr));
 
-/* Planes */
-(function(){
-  const cont = $("listaPlanes"), sel = $("fPlan");
-  PLANES.forEach((p, i) => {
-    const art = document.createElement("article");
-    art.className = "plan" + (p.etiqueta ? " top" : "");
-    art.style.color = "var(--tinta)";
-    art.innerHTML =
-      (p.etiqueta ? '<span class="etq">' + p.etiqueta + '</span>' : '') +
-      '<h3 style="color:var(--tinta)">' + p.id + '</h3>' +
-      '<div class="precio">' + p.precio + '</div>' +
-      '<ul>' + p.items.map(t => '<li>' + t + '</li>').join("") + '</ul>' +
-      '<a class="btn ' + (p.etiqueta ? 'btn-oscuro' : 'btn-borde') + '" style="' + (p.etiqueta ? '' : 'color:var(--tinta);border-color:var(--noche)') + ';text-align:center" href="#pedido" data-plan="' + i + '">Elegir ' + p.id + '</a>';
-    cont.appendChild(art);
-    const o = document.createElement("option");
-    o.value = i; o.textContent = p.id + " · " + p.precio;
-    sel.appendChild(o);
-  });
-  sel.value = 1;
-  cont.addEventListener("click", e => {
-    const a = e.target.closest("[data-plan]");
-    if(a) sel.value = a.dataset.plan;
-  });
-})();
+/* ---------- ventana del ejemplo ---------- */
+const dlg = $("demo");
+function abrirDemo(){
+  const f = $("demoFrame");
+  if(!f.getAttribute("src")) f.src = "memorial.html?id=ejemplo&demo=1";
+  dlg.showModal();
+}
+$("verDemo").onclick = abrirDemo;
+$("verDemo2").onclick = abrirDemo;
+$("cerrar").onclick = () => dlg.close();
+dlg.addEventListener("click", e => { if(e.target === dlg) dlg.close(); });
 
-/* Pedido por WhatsApp */
+/* ---------- pedido por WhatsApp ---------- */
+$("listaPlanes").addEventListener("click", e => {
+  const a = e.target.closest("[data-plan]");
+  if(a) $("fPlan").value = a.dataset.plan;
+});
 $("form").addEventListener("submit", e => {
   e.preventDefault();
-  const p = PLANES[$("fPlan").value];
+  const promo = promoActiva(), p = planesValidos()[$("fPlan").value];
+  if(!p) return;
   let txt = "Hola, quiero un Memorial QR.\n" +
     "Mi nombre: " + $("fNombre").value.trim() + "\n" +
     "Familiar: " + $("fDifunto").value.trim() + "\n" +
-    "Plan: " + p.id + " (" + p.precio + ")";
+    "Plan: " + p.nombre + " (" + bs(precioFinal(p.precio, promo)) + ")" + (promo ? " - promoción " + promo.nombre : "");
   const nota = $("fNota").value.trim();
   if(nota) txt += "\nDetalle: " + nota;
   window.open(waLink(txt), "_blank", "noopener");
 });
-$("waFlot").href = waLink("Hola, quiero información sobre el Memorial QR.");
 
-/* Memorial de ejemplo */
-const dlg = $("demo");
-const abrir = () => { dlg.showModal(); };
-$("verDemo").onclick = abrir;
-$("verDemo2").onclick = abrir;
-$("cerrar").onclick = () => dlg.close();
-dlg.addEventListener("click", e => { if(e.target === dlg) dlg.close(); });
-
-/* Velas y libro de visitas (se guardan en el celular de cada visitante) */
-function leer(k, def){ try{ const v = localStorage.getItem(k); return v ? JSON.parse(v) : def; }catch(e){ return def; } }
-function guardar(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
-
-const MAX_VISIBLES = 24;
-let velas = leer("mqr_velas", 12);
-const filaVelas = $("filaVelas"), altar = $("altar");
-
-function crearVela(i, nueva){
-  const v = document.createElement("div");
-  v.className = "cv c" + (i % 3) + (nueva ? " nueva" : "");
-  const f = document.createElement("i");
-  f.style.setProperty("--d", ((i * 0.37) % 2).toFixed(2) + "s");
-  v.appendChild(f);
-  return v;
+/* ---------- arranque: leer config.json ---------- */
+function iniciar(){
+  if(!Array.isArray(CFG.planes) || !planesValidos().length) CFG.planes = DEFAULT.planes;
+  pintaAviso();
+  pintaPlanes();
+  const lim = fechaLocal(CFG.fechaLimite, true), ev = (CFG.evento && CFG.evento.nombre) || "";
+  $("faqFecha").textContent = lim
+    ? "Los pedidos" + (ev ? " para el " + ev : "") + " se reciben hasta el " + textoFecha(lim) + ". Después de esa fecha te lo entregamos lo antes posible."
+    : "Escríbenos por WhatsApp y te confirmamos el tiempo de entrega.";
+  $("waFlot").href = waLink("Hola, quiero información sobre el Memorial QR.");
 }
-function pintaVelas(conRebote){
-  const c = $("cuentaVelas");
-  c.textContent = velas + (velas === 1 ? " vela encendida" : " velas encendidas");
-  if(conRebote){ c.classList.remove("bump"); void c.offsetWidth; c.classList.add("bump"); }
-}
-for(let i = 0; i < Math.min(velas, MAX_VISIBLES); i++) filaVelas.appendChild(crearVela(i, false));
-pintaVelas(false);
-
-$("btnVela").onclick = () => {
-  velas++; guardar("mqr_velas", velas);
-  filaVelas.prepend(crearVela(velas, true));
-  while(filaVelas.children.length > MAX_VISIBLES) filaVelas.lastChild.remove();
-  altar.classList.remove("brillo"); void altar.offsetWidth; altar.classList.add("brillo");
-  pintaVelas(true);
-  const n = $("nomVela").value.trim();
-  $("graciasVela").textContent = (n ? "Gracias, " + n + ". " : "") + "Tu vela ya está encendida por Juan.";
-  try{ if(navigator.vibrate) navigator.vibrate(40); }catch(e){}
-};
-
-/* Compartir y cómo llegar */
-$("btnMapa").href = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(UBICACION);
-$("btnCompartir").onclick = () => {
-  const datos = {title: "Memorial de Juan Pérez Gómez", text: "Te comparto el memorial de Juan Pérez Gómez.", url: location.href};
-  if(navigator.share){ navigator.share(datos).catch(() => {}); }
-  else { window.open("https://wa.me/?text=" + encodeURIComponent(datos.text + " " + datos.url), "_blank", "noopener"); }
-};
-
-let mensajes = leer("mqr_mensajes", ["Siempre te recordaremos con cariño. Descansa en paz."]);
-function pintaMensajes(){
-  const ul = $("lista"); ul.innerHTML = "";
-  mensajes.forEach(m => { const li = document.createElement("li"); li.textContent = m; ul.appendChild(li); });
-}
-pintaMensajes();
-function agregar(){
-  const inp = $("msg"), t = inp.value.trim();
-  if(!t) return;
-  mensajes.unshift(t); guardar("mqr_mensajes", mensajes); pintaMensajes(); inp.value = "";
-}
-$("btnMsg").onclick = agregar;
-$("msg").addEventListener("keydown", e => { if(e.key === "Enter") agregar(); });
+(async function(){
+  try{
+    const r = await fetch("config.json", {cache: "no-cache"});
+    if(r.ok) CFG = Object.assign({}, DEFAULT, await r.json());
+  }catch(e){}
+  iniciar();
+})();
 </script>
 </body>
 </html>
