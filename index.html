@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Memorial QR · Escanea la lápida, conoce su historia</title>
+<meta name="description" content="Un código QR en la lápida que abre la página de recuerdo de tu familiar: fotos, biografía, velas y mensajes. Pedidos para el 2 de noviembre.">
+<meta name="theme-color" content="#1e1a3c">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Memorial QR · Escanea la lápida, conoce su historia">
+<meta property="og:description" content="Fotos, biografía, árbol familiar, velas y mensajes en un QR para la lápida. Pedidos para el 2 de noviembre.">
+<meta property="og:locale" content="es_BO">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Figtree:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --noche:#1e1a3c;      /* violeta de luto, fondo principal */
+  --noche-2:#2a2552;
+  --vela:#f4b04a;       /* llama de vela */
+  --vela-2:#ffd58a;
+  --piedra:#d9d4e4;     /* lápida */
+  --hueso:#f3eff8;      /* secciones claras */
+  --tinta:#221d3d;
+  --apagado:#b9b3cf;
+  --serif:'Fraunces',Georgia,'Times New Roman',serif;
+  --sans:'Figtree',system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:var(--sans);background:var(--noche);color:#fff;line-height:1.6;font-size:17px;-webkit-font-smoothing:antialiased}
+img,svg{max-width:100%}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--vela);outline-offset:3px;border-radius:4px}
+.wrap{max-width:1040px;margin:0 auto;padding:0 22px}
+h1,h2,h3{font-family:var(--serif);line-height:1.12;margin:0 0 .5em;font-weight:600}
+h1{font-size:clamp(2.3rem,6.4vw,4.3rem);letter-spacing:-.01em}
+h2{font-size:clamp(1.8rem,4.2vw,2.6rem)}
+h3{font-size:1.3rem}
+p{margin:0 0 1em}
+.lead{font-size:1.15rem;color:var(--piedra);max-width:46ch}
+
+/* barra de cuenta regresiva */
+.aviso{background:var(--vela);color:#2b1c05;text-align:center;font-weight:700;padding:9px 14px;font-size:.95rem}
+.aviso a{text-decoration:underline}
+
+/* botones */
+.btn{display:inline-block;border:0;border-radius:999px;padding:15px 28px;font:700 1rem var(--sans);cursor:pointer;text-decoration:none;transition:transform .15s,background .15s}
+.btn:active{transform:scale(.97)}
+.btn-vela{background:var(--vela);color:#2b1c05}
+.btn-vela:hover{background:var(--vela-2)}
+.btn-borde{background:transparent;color:#fff;border:2px solid var(--apagado)}
+.btn-borde:hover{border-color:#fff}
+.btn-oscuro{background:var(--noche);color:#fff}
+.btn-oscuro:hover{background:var(--noche-2)}
+.fila{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}
+
+/* hero */
+.hero{padding:56px 0 72px;overflow:hidden;background:radial-gradient(60% 50% at 78% 42%,rgba(244,176,74,.22),transparent 70%)}
+.hero .wrap{display:grid;gap:44px;align-items:center}
+@media(min-width:860px){.hero .wrap{grid-template-columns:1.15fr .85fr}}
+.marca{font-family:var(--serif);font-size:1.05rem;color:var(--vela);margin-bottom:22px}
+
+/* lápida + vela */
+.escena{position:relative;display:flex;justify-content:center;align-items:flex-end;gap:18px;min-height:360px}
+.lapida{width:230px;background:linear-gradient(160deg,#e6e2ee,var(--piedra));color:var(--tinta);border-radius:115px 115px 8px 8px;padding:46px 20px 26px;text-align:center;box-shadow:0 30px 60px rgba(0,0,0,.4)}
+.lapida h3{font-size:1.15rem;margin-bottom:2px}
+.lapida small{display:block;color:#5d567c;margin-bottom:14px}
+.qr{width:112px;height:112px;margin:0 auto 10px;background:#fff;padding:6px;border-radius:6px;position:relative;overflow:hidden}
+.qr svg{display:block;width:100%;height:100%}
+.qr::after{content:"";position:absolute;left:0;right:0;height:3px;background:#27c26c;box-shadow:0 0 12px #27c26c;animation:barrido 2.8s ease-in-out infinite}
+@keyframes barrido{0%,100%{top:4px}50%{top:calc(100% - 7px)}}
+.lapida p{font-size:.78rem;margin:0;color:#4a4468}
+.vela{position:relative;width:34px;height:120px;background:linear-gradient(90deg,#efe6d2,#fff8e8 50%,#e0d4b9);border-radius:5px 5px 3px 3px}
+.vela::before{content:"";position:absolute;left:50%;top:-8px;width:2px;height:10px;background:#3b2f23;transform:translateX(-50%)}
+.llama{position:absolute;left:50%;top:-44px;width:20px;height:38px;transform:translateX(-50%);background:radial-gradient(ellipse at 50% 70%,#fff6d6 0 25%,var(--vela-2) 45%,var(--vela) 70%,transparent 72%);border-radius:50% 50% 50% 50%/65% 65% 35% 35%;filter:drop-shadow(0 0 16px rgba(244,176,74,.9));animation:llama 2.2s ease-in-out infinite;transform-origin:50% 100%}
+@keyframes llama{0%,100%{transform:translateX(-50%) scale(1,1) rotate(-1.5deg)}50%{transform:translateX(-50%) scale(.94,1.08) rotate(2deg)}}
+
+/* secciones */
+section{padding:76px 0}
+.claro{background:var(--hueso);color:var(--tinta)}
+.claro .lead{color:#5d567c}
+.claro h2,.claro h3{color:var(--tinta)}
+
+/* pasos */
+.pasos{display:grid;gap:26px;margin-top:34px;padding:0;list-style:none;counter-reset:p}
+@media(min-width:760px){.pasos{grid-template-columns:repeat(3,1fr)}}
+.pasos li{counter-increment:p;border-top:2px solid var(--vela);padding-top:16px}
+.pasos li::before{content:counter(p);font-family:var(--serif);font-size:2.4rem;color:var(--vela);display:block;line-height:1}
+.pasos p{color:var(--piedra);margin:0}
+
+/* incluye */
+.incluye{display:grid;gap:0 44px;margin:30px 0 0;padding:0;list-style:none}
+@media(min-width:760px){.incluye{grid-template-columns:1fr 1fr}}
+.incluye li{padding:15px 0;border-bottom:1px solid #d6cfe6}
+.incluye b{display:block;font-family:var(--serif);font-size:1.12rem}
+.incluye span{color:#5d567c}
+
+/* planes */
+.planes{display:grid;gap:18px;margin-top:34px}
+@media(min-width:860px){.planes{grid-template-columns:repeat(3,1fr);align-items:stretch}}
+.plan{background:#fff;border:2px solid #d6cfe6;border-radius:18px;padding:28px 24px;display:flex;flex-direction:column}
+.plan.top{border-color:var(--noche);box-shadow:0 18px 40px rgba(30,26,60,.18)}
+.plan .etq{align-self:flex-start;background:var(--vela);color:#2b1c05;font-weight:700;font-size:.82rem;padding:3px 12px;border-radius:99px;margin-bottom:10px}
+.precio{font-family:var(--serif);font-size:2.4rem;font-weight:700;margin:6px 0 2px}
+.plan ul{padding:0;margin:14px 0 22px;list-style:none;flex:1}
+.plan li{padding:6px 0 6px 26px;position:relative}
+.plan li::before{content:"";position:absolute;left:0;top:14px;width:12px;height:6px;border-left:2px solid var(--noche);border-bottom:2px solid var(--noche);transform:rotate(-45deg)}
+.nota{font-size:.92rem;color:#5d567c;margin-top:20px}
+
+/* pedido */
+form{display:grid;gap:14px;max-width:560px;margin-top:26px}
+label{display:grid;gap:6px;font-weight:700;font-size:.95rem}
+input,select,textarea{font:inherit;padding:14px;border-radius:10px;border:2px solid #4a4478;background:var(--noche-2);color:#fff;width:100%}
+input::placeholder,textarea::placeholder{color:#8f89ac}
+input:focus,select:focus,textarea:focus{border-color:var(--vela);outline:none}
+
+/* faq */
+details{border-bottom:1px solid #d6cfe6;padding:16px 0}
+summary{cursor:pointer;font-family:var(--serif);font-size:1.15rem;font-weight:600;list-style:none;display:flex;justify-content:space-between;gap:12px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";color:#7a6fb0;font-size:1.4rem;line-height:1}
+details[open] summary::after{content:"−"}
+details p{margin:10px 0 0;color:#4a4468}
+
+footer{padding:36px 0 110px;color:var(--apagado);font-size:.92rem;text-align:center}
+
+/* WhatsApp flotante */
+.wa{position:fixed;right:16px;bottom:16px;z-index:20;background:#25d366;color:#06361b;font-weight:700;border-radius:999px;padding:14px 20px;text-decoration:none;box-shadow:0 8px 24px rgba(0,0,0,.35)}
+
+/* memorial de ejemplo */
+dialog{border:0;padding:0;width:min(720px,100%);max-height:100vh;height:100%;background:var(--noche);color:#fff;margin:auto}
+@media(min-width:760px){dialog{height:auto;max-height:92vh;border-radius:18px}}
+dialog::backdrop{background:rgba(10,8,25,.8)}
+.mem{padding:26px 24px 40px;overflow:auto;max-height:inherit}
+.cerrar{position:sticky;top:0;float:right;background:var(--noche-2);color:#fff;border:2px solid #4a4478;border-radius:99px;padding:8px 16px;font:700 .9rem var(--sans);cursor:pointer}
+.retrato{width:132px;height:132px;border-radius:50%;margin:12px auto 18px;display:grid;place-items:center;font-family:var(--serif);font-size:2.6rem;background:linear-gradient(145deg,#6b5fb0,#3b3270);border:4px solid var(--vela)}
+.mem h2{text-align:center;margin-bottom:2px}
+.fechas{text-align:center;color:var(--vela);font-family:var(--serif);font-size:1.15rem;margin-bottom:6px}
+.frase{text-align:center;color:var(--piedra);font-style:italic;max-width:40ch;margin:0 auto 26px}
+.mem h3{margin-top:30px;color:var(--vela-2)}
+.galeria{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.galeria div{aspect-ratio:1;border-radius:10px;background:linear-gradient(145deg,#4a4090,#2f2a62)}
+.galeria div:nth-child(2n){background:linear-gradient(145deg,#6b5a8a,#3b3270)}
+.velas{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.velas span{color:var(--piedra)}
+.visita{display:flex;gap:8px;margin:12px 0}
+.visita input{flex:1}
+#lista{list-style:none;padding:0;margin:0;display:grid;gap:8px}
+#lista li{background:var(--noche-2);padding:12px 14px;border-radius:10px;border-left:3px solid var(--vela);overflow-wrap:anywhere}
+
+/* altar de velas */
+.velas input{flex:1;min-width:150px}
+.altar{position:relative;margin:14px 0 14px;padding:12px 14px 18px;border-radius:14px;background:linear-gradient(#2a2552,#1e1a3c);border:1px solid #4a4478;overflow:hidden;min-height:140px;box-shadow:inset 0 -50px 70px rgba(244,176,74,.1)}
+.altar::before{content:"";position:absolute;inset:0;background:radial-gradient(70% 90% at 50% 70%,rgba(244,176,74,.6),transparent 70%);opacity:0;pointer-events:none}
+.altar.brillo::before{animation:brillo 1.8s ease-out}
+@keyframes brillo{0%{opacity:0}25%{opacity:1}100%{opacity:0}}
+.fila-velas{position:relative;display:flex;flex-wrap:wrap;gap:12px 13px;justify-content:center;align-items:flex-end}
+.cv{position:relative;width:16px;height:46px;margin-top:34px;border-radius:3px 3px 2px 2px;background:linear-gradient(90deg,#e9dfc8,#fff6e0 50%,#d8caa8)}
+.cv.c1{background:linear-gradient(90deg,#b9aee6,#e6dfff 50%,#9d90d6)}
+.cv.c2{background:linear-gradient(90deg,#e8b36a,#ffd9a0 50%,#cf9650)}
+.cv::before{content:"";position:absolute;left:50%;top:-6px;width:2px;height:7px;background:#3b2f23;transform:translateX(-50%)}
+.cv i{position:absolute;left:50%;top:-31px;width:11px;height:24px;transform:translateX(-50%);transform-origin:50% 100%;background:radial-gradient(ellipse at 50% 70%,#fff6d6 0 25%,var(--vela-2) 45%,var(--vela) 70%,transparent 72%);border-radius:50% 50% 50% 50%/65% 65% 35% 35%;filter:drop-shadow(0 0 8px rgba(244,176,74,.85));animation:llamita 2s ease-in-out infinite;animation-delay:var(--d,0s)}
+@keyframes llamita{0%,100%{transform:translateX(-50%) scale(1,1) rotate(-2deg)}50%{transform:translateX(-50%) scale(.92,1.1) rotate(2deg)}}
+.cv.nueva{animation:cae .7s cubic-bezier(.2,.9,.3,1.2)}
+@keyframes cae{from{transform:translateY(-90px);opacity:0}to{transform:none;opacity:1}}
+.cv.nueva i{animation:enciende 1.1s .6s backwards,llamita 2s 1.7s ease-in-out infinite}
+@keyframes enciende{0%{transform:translateX(-50%) scale(0)}30%{transform:translateX(-50%) scale(1.9,2.3);filter:drop-shadow(0 0 24px #fff)}100%{transform:translateX(-50%) scale(1)}}
+#cuentaVelas{display:inline-block}
+#cuentaVelas.bump{animation:bump .5s}
+@keyframes bump{50%{transform:scale(1.25);color:var(--vela)}}
+.gracias{min-height:1.6em;color:var(--vela-2);margin:10px 0 0}
+
+/* árbol familiar */
+.arbol{width:100%;height:auto;display:block;margin-top:8px}
+.arbol rect{fill:#2f2a62;stroke:#4a4478;stroke-width:2}
+.arbol .yo{fill:#3b3270;stroke:var(--vela);stroke-width:3}
+.arbol text{fill:#fff;font-family:Figtree,system-ui,sans-serif;text-anchor:middle}
+.arbol .n{font-size:19px;font-weight:700}
+.arbol .s{font-size:15px;fill:var(--apagado)}
+.arbol path{fill:none;stroke:var(--apagado);stroke-width:2}
+.pie{font-size:.88rem;color:var(--apagado);margin-top:6px}
+.acciones{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:-8px 0 8px}
+.acciones .btn{padding:10px 20px;font-size:.92rem}
+
+@media(prefers-reduced-motion:reduce){*{animation:none!important;scroll-behavior:auto!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="aviso" id="aviso">Cargando…</div>
+
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <div class="marca">Memorial QR</div>
+      <h1>Que su historia esté en la lápida, a un escaneo de distancia.</h1>
+      <p class="lead">Un código QR resistente para la tumba o el nicho de tu familiar. Quien lo escanea con el celular ve sus fotos, su biografía y puede encender una vela y dejar un mensaje.</p>
+      <div class="fila">
+        <a class="btn btn-vela" href="#pedido">Quiero el QR de mi familiar</a>
+        <button class="btn btn-borde" type="button" id="verDemo">Ver un memorial de ejemplo</button>
+      </div>
+    </div>
+    <div class="escena" aria-hidden="true">
+      <div class="lapida">
+        <h3>Juan Pérez Gómez</h3>
+        <small>1950 – 2026</small>
+        <div class="qr" data-qr="7"></div>
+        <p>Escanea para conocer su historia</p>
+      </div>
+      <div class="vela"><div class="llama"></div></div>
+    </div>
+  </div>
+</header>
+
+<section id="como">
+  <div class="wrap">
+    <h2>Cómo funciona</h2>
+    <p class="lead">Tú nos cuentas su historia. Nosotros hacemos todo lo demás.</p>
+    <ol class="pasos">
+      <li><h3>Nos envías sus datos</h3><p>Nombre, fechas, fotos y unas líneas sobre su vida. Por WhatsApp, sin trámites.</p></li>
+      <li><h3>Creamos su memorial</h3><p>Armamos su página de recuerdo y te la mostramos antes de publicarla.</p></li>
+      <li><h3>Recibes el QR</h3><p>Lo pones en la lápida o el nicho. Cualquiera que lo escanee abre su página.</p></li>
+    </ol>
+  </div>
+</section>
+
+<section class="claro" id="incluye">
+  <div class="wrap">
+    <h2>Lo que verá la familia al escanear</h2>
+    <p class="lead">Una página pensada para el celular, simple de abrir y cuidada en cada detalle.</p>
+    <ul class="incluye">
+      <li><b>Fotos y galería</b><span>Los momentos que quieran recordar, en un solo lugar.</span></li>
+      <li><b>Biografía</b><span>Su vida, su trabajo, su familia y lo que lo hacía único.</span></li>
+      <li><b>Velas encendidas</b><span>Cada visitante puede encender una vela virtual en su memoria.</span></li>
+      <li><b>Libro de visitas</b><span>Amigos y familiares dejan un recuerdo para que otros lo lean.</span></li>
+      <li><b>Audios y videos</b><span>Su voz, un saludo grabado o un video de la familia.</span></li>
+      <li><b>Árbol familiar</b><span>Sus padres, su pareja y sus hijos, hasta tres generaciones.</span></li>
+      <li><b>Cómo llegar a la tumba</b><span>Un botón que abre el mapa, útil para familiares que vienen de lejos.</span></li>
+      <li><b>Compartir con la familia</b><span>Un toque para enviar el memorial por WhatsApp.</span></li>
+      <li><b>QR resistente</b><span>Impreso para exterior: sol, lluvia y polvo.</span></li>
+    </ul>
+    <div class="fila"><button class="btn btn-oscuro" type="button" id="verDemo2">Ver un memorial de ejemplo</button></div>
+  </div>
+</section>
+
+<section id="planes">
+  <div class="wrap">
+    <h2>Elige cómo recordarlo</h2>
+    <p class="lead">Pago único. Te entregamos el QR listo para colocar.</p>
+    <div class="planes claro-planes" id="listaPlanes"></div>
+  </div>
+</section>
+
+<section class="claro" id="pedido-sec">
+  <div class="wrap">
+    <h2 id="pedido">Haz tu pedido ahora</h2>
+    <p class="lead">Llena estos datos y se abre WhatsApp con tu pedido ya escrito. Te respondemos para coordinar fotos y pago.</p>
+    <form id="form">
+      <label>Tu nombre
+        <input id="fNombre" required autocomplete="name" placeholder="Ej: María Gómez">
+      </label>
+      <label>Nombre de tu familiar fallecido
+        <input id="fDifunto" required placeholder="Ej: Juan Pérez Gómez">
+      </label>
+      <label>Plan
+        <select id="fPlan"></select>
+      </label>
+      <label>¿Algo que quieras contarnos? (opcional)
+        <textarea id="fNota" rows="3" placeholder="Ej: era carpintero y le encantaba el fútbol"></textarea>
+      </label>
+      <button class="btn btn-vela" type="submit" style="color:#2b1c05">Enviar pedido por WhatsApp</button>
+    </form>
+    <style>.claro input,.claro select,.claro textarea{background:#fff;color:var(--tinta);border-color:#b9b3cf}.claro input::placeholder,.claro textarea::placeholder{color:#8c86a6}</style>
+  </div>
+</section>
+
+<section class="claro" style="padding-top:0">
+  <div class="wrap">
+    <h2>Preguntas frecuentes</h2>
+    <details><summary>¿Hasta cuándo puedo pedir para el 2 de noviembre?</summary><p id="faqFecha"></p></details>
+    <details><summary>¿Necesito instalar algo para escanear?</summary><p>No. Basta con abrir la cámara del celular y apuntar al QR. Funciona en Android y iPhone.</p></details>
+    <details><summary>¿Qué pasa si el QR se daña?</summary><p>Guardamos tu memorial. Si el QR se desgasta, puedes pedir una reimpresión.</p></details>
+    <details><summary>¿Cuánto tiempo estará en línea la página?</summary><p>Depende del plan que elijas. Cada plan indica por cuánto tiempo está incluido.</p></details>
+    <details><summary>¿Quién puede ver el memorial?</summary><p>Cualquier persona que escanee el QR o tenga el enlace. Si prefieres que sea privado, avísanos al hacer el pedido.</p></details>
+    <details><summary>¿Cómo pago?</summary><p>Lo coordinamos por WhatsApp cuando confirmes el pedido.</p></details>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">Memorial QR · Trinidad, Beni, Bolivia<br>La tecnología también puede ser un acto de amor.</div>
+</footer>
+
+<a class="wa" id="waFlot" href="#" target="_blank" rel="noopener">Escríbenos por WhatsApp</a>
+
+<!-- Memorial de ejemplo -->
+<dialog id="demo" aria-label="Memorial de ejemplo">
+  <div class="mem">
+    <button class="cerrar" type="button" id="cerrar">Cerrar</button>
+    <div class="retrato" aria-hidden="true">JP</div>
+    <h2>Juan Pérez Gómez</h2>
+    <div class="fechas">1950 – 2026</div>
+    <p class="frase">Vivió con amor, trabajó con esfuerzo y dejó un legado imborrable.</p>
+
+    <div class="acciones">
+      <button class="btn btn-borde" type="button" id="btnCompartir">Compartir con la familia</button>
+      <a class="btn btn-borde" id="btnMapa" href="#" target="_blank" rel="noopener">Cómo llegar a la tumba</a>
+    </div>
+
+    <h3>Enciende una vela por Juan</h3>
+    <div class="altar" id="altar"><div class="fila-velas" id="filaVelas" aria-hidden="true"></div></div>
+    <div class="velas">
+      <input id="nomVela" maxlength="30" placeholder="Tu nombre (opcional)" aria-label="Tu nombre (opcional)">
+      <button class="btn btn-vela" type="button" id="btnVela">Encender una vela</button>
+    </div>
+    <p class="gracias" id="graciasVela" aria-live="polite"></p>
+    <p><span id="cuentaVelas"></span></p>
+
+    <h3>Su historia</h3>
+    <p>Aquí va la biografía: dónde nació, a qué se dedicó, a quién amó y qué lo hizo especial. Este es un ejemplo; el memorial de tu familiar tendrá su propia historia.</p>
+
+    <h3>Su familia</h3>
+    <svg class="arbol" viewBox="0 0 600 270" role="img" aria-label="Árbol familiar de ejemplo: padres, Juan con su esposa, y tres hijos">
+      <path d="M280 35H320M300 35V80H185V110M260 135H340M300 135V185M130 185H470M130 185V210M300 185V210M470 185V210"/>
+      <rect x="130" y="10" width="150" height="54" rx="10"/><text class="n" x="205" y="34">Pedro Pérez</text><text class="s" x="205" y="54">1921 – 1990</text>
+      <rect x="320" y="10" width="150" height="54" rx="10"/><text class="n" x="395" y="34">Rosa Gómez</text><text class="s" x="395" y="54">1925 – 2001</text>
+      <rect class="yo" x="110" y="108" width="150" height="54" rx="10"/><text class="n" x="185" y="132">Juan Pérez</text><text class="s" x="185" y="152">1950 – 2026</text>
+      <rect x="340" y="108" width="150" height="54" rx="10"/><text class="n" x="415" y="132">Elena Rojas</text><text class="s" x="415" y="152">Esposa</text>
+      <rect x="65" y="210" width="130" height="54" rx="10"/><text class="n" x="130" y="234">Carlos</text><text class="s" x="130" y="254">Hijo</text>
+      <rect x="235" y="210" width="130" height="54" rx="10"/><text class="n" x="300" y="234">Ana</text><text class="s" x="300" y="254">Hija</text>
+      <rect x="405" y="210" width="130" height="54" rx="10"/><text class="n" x="470" y="234">Luis</text><text class="s" x="470" y="254">Hijo</text>
+    </svg>
+    <p class="pie">Árbol familiar de ejemplo, hasta tres generaciones.</p>
+
+    <h3>Galería</h3>
+    <div class="galeria" aria-hidden="true"><div></div><div></div><div></div><div></div><div></div><div></div></div>
+
+    <h3>Libro de visitas</h3>
+    <div class="visita">
+      <input id="msg" maxlength="200" placeholder="Escribe un recuerdo" aria-label="Escribe un recuerdo">
+      <button class="btn btn-vela" type="button" id="btnMsg">Guardar</button>
+    </div>
+    <ul id="lista"></ul>
+  </div>
+</dialog>
+
+<script>
+/* ============ AJUSTES: cambia solo esta parte ============ */
+const WHATSAPP = "59100000000";            // tu número con código de país, sin + ni espacios
+const FECHA_DIA = new Date(2026, 10, 2);   // 2 de noviembre de 2026 (mes 10 = noviembre)
+const FECHA_LIMITE_TXT = "28 de octubre";  // último día para pedir
+const UBICACION = "Cementerio General, Trinidad, Beni, Bolivia"; // en la demo; en cada memorial real va el cementerio de ese cliente
+const PLANES = [
+  {id:"Recuerdo", precio:"Bs 150", etiqueta:"",
+   items:["QR resistente para exterior","Página con foto, fechas y frase","Libro de visitas y velas","Incluida 1 año en línea"]},
+  {id:"Memorial", precio:"Bs 280", etiqueta:"El más pedido",
+   items:["Todo lo del plan Recuerdo","Galería de hasta 12 fotos","Biografía y árbol familiar de 3 generaciones","Incluida 3 años en línea"]},
+  {id:"Legado", precio:"Bs 450", etiqueta:"",
+   items:["Todo lo del plan Memorial","Audios y videos de la familia","Placa de refuerzo para el QR","Incluida 5 años en línea"]}
+];
+/* ========================================================= */
+
+const $ = id => document.getElementById(id);
+const waLink = txt => "https://wa.me/" + WHATSAPP + (txt ? "?text=" + encodeURIComponent(txt) : "");
+
+/* Cuenta regresiva */
+(function(){
+  const dias = Math.ceil((FECHA_DIA - new Date()) / 86400000);
+  const el = $("aviso");
+  if(dias > 0){
+    el.innerHTML = "Faltan <b>" + dias + " días</b> para el 2 de noviembre. Pedidos hasta el " + FECHA_LIMITE_TXT + ". <a href='#pedido'>Pedir ahora</a>";
+  } else {
+    el.innerHTML = "Pide el Memorial QR de tu familiar. <a href='#pedido'>Pedir ahora</a>";
+  }
+  $("faqFecha").textContent = "Los pedidos para el 2 de noviembre se reciben hasta el " + FECHA_LIMITE_TXT + ". Después de esa fecha te lo entregamos lo antes posible.";
+})();
+
+/* QR decorativo (solo para la demo; los QR reales se generan por cliente) */
+function qrSvg(seed){
+  const n = 21, cell = 10;
+  let s = seed * 9301 + 49297;
+  const rnd = () => (s = (s * 9301 + 49297) % 233280) / 233280;
+  const finder = (x, y) => (x < 8 && y < 8) || (x > n - 9 && y < 8) || (x < 8 && y > n - 9);
+  let out = '<svg viewBox="0 0 ' + n*cell + ' ' + n*cell + '" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges"><rect width="100%" height="100%" fill="#fff"/>';
+  for(let y = 0; y < n; y++) for(let x = 0; x < n; x++){
+    if(finder(x, y)) continue;
+    if(rnd() > .52) out += '<rect x="' + x*cell + '" y="' + y*cell + '" width="' + cell + '" height="' + cell + '" fill="#1e1a3c"/>';
+  }
+  [[0,0],[n-7,0],[0,n-7]].forEach(([fx, fy]) => {
+    out += '<rect x="'+fx*cell+'" y="'+fy*cell+'" width="'+7*cell+'" height="'+7*cell+'" fill="#1e1a3c"/>' +
+           '<rect x="'+(fx+1)*cell+'" y="'+(fy+1)*cell+'" width="'+5*cell+'" height="'+5*cell+'" fill="#fff"/>' +
+           '<rect x="'+(fx+2)*cell+'" y="'+(fy+2)*cell+'" width="'+3*cell+'" height="'+3*cell+'" fill="#1e1a3c"/>';
+  });
+  return out + '</svg>';
+}
+document.querySelectorAll("[data-qr]").forEach(el => el.innerHTML = qrSvg(+el.dataset.qr));
+
+/* Planes */
+(function(){
+  const cont = $("listaPlanes"), sel = $("fPlan");
+  PLANES.forEach((p, i) => {
+    const art = document.createElement("article");
+    art.className = "plan" + (p.etiqueta ? " top" : "");
+    art.style.color = "var(--tinta)";
+    art.innerHTML =
+      (p.etiqueta ? '<span class="etq">' + p.etiqueta + '</span>' : '') +
+      '<h3 style="color:var(--tinta)">' + p.id + '</h3>' +
+      '<div class="precio">' + p.precio + '</div>' +
+      '<ul>' + p.items.map(t => '<li>' + t + '</li>').join("") + '</ul>' +
+      '<a class="btn ' + (p.etiqueta ? 'btn-oscuro' : 'btn-borde') + '" style="' + (p.etiqueta ? '' : 'color:var(--tinta);border-color:var(--noche)') + ';text-align:center" href="#pedido" data-plan="' + i + '">Elegir ' + p.id + '</a>';
+    cont.appendChild(art);
+    const o = document.createElement("option");
+    o.value = i; o.textContent = p.id + " · " + p.precio;
+    sel.appendChild(o);
+  });
+  sel.value = 1;
+  cont.addEventListener("click", e => {
+    const a = e.target.closest("[data-plan]");
+    if(a) sel.value = a.dataset.plan;
+  });
+})();
+
+/* Pedido por WhatsApp */
+$("form").addEventListener("submit", e => {
+  e.preventDefault();
+  const p = PLANES[$("fPlan").value];
+  let txt = "Hola, quiero un Memorial QR.\n" +
+    "Mi nombre: " + $("fNombre").value.trim() + "\n" +
+    "Familiar: " + $("fDifunto").value.trim() + "\n" +
+    "Plan: " + p.id + " (" + p.precio + ")";
+  const nota = $("fNota").value.trim();
+  if(nota) txt += "\nDetalle: " + nota;
+  window.open(waLink(txt), "_blank", "noopener");
+});
+$("waFlot").href = waLink("Hola, quiero información sobre el Memorial QR.");
+
+/* Memorial de ejemplo */
+const dlg = $("demo");
+const abrir = () => { dlg.showModal(); };
+$("verDemo").onclick = abrir;
+$("verDemo2").onclick = abrir;
+$("cerrar").onclick = () => dlg.close();
+dlg.addEventListener("click", e => { if(e.target === dlg) dlg.close(); });
+
+/* Velas y libro de visitas (se guardan en el celular de cada visitante) */
+function leer(k, def){ try{ const v = localStorage.getItem(k); return v ? JSON.parse(v) : def; }catch(e){ return def; } }
+function guardar(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
+
+const MAX_VISIBLES = 24;
+let velas = leer("mqr_velas", 12);
+const filaVelas = $("filaVelas"), altar = $("altar");
+
+function crearVela(i, nueva){
+  const v = document.createElement("div");
+  v.className = "cv c" + (i % 3) + (nueva ? " nueva" : "");
+  const f = document.createElement("i");
+  f.style.setProperty("--d", ((i * 0.37) % 2).toFixed(2) + "s");
+  v.appendChild(f);
+  return v;
+}
+function pintaVelas(conRebote){
+  const c = $("cuentaVelas");
+  c.textContent = velas + (velas === 1 ? " vela encendida" : " velas encendidas");
+  if(conRebote){ c.classList.remove("bump"); void c.offsetWidth; c.classList.add("bump"); }
+}
+for(let i = 0; i < Math.min(velas, MAX_VISIBLES); i++) filaVelas.appendChild(crearVela(i, false));
+pintaVelas(false);
+
+$("btnVela").onclick = () => {
+  velas++; guardar("mqr_velas", velas);
+  filaVelas.prepend(crearVela(velas, true));
+  while(filaVelas.children.length > MAX_VISIBLES) filaVelas.lastChild.remove();
+  altar.classList.remove("brillo"); void altar.offsetWidth; altar.classList.add("brillo");
+  pintaVelas(true);
+  const n = $("nomVela").value.trim();
+  $("graciasVela").textContent = (n ? "Gracias, " + n + ". " : "") + "Tu vela ya está encendida por Juan.";
+  try{ if(navigator.vibrate) navigator.vibrate(40); }catch(e){}
+};
+
+/* Compartir y cómo llegar */
+$("btnMapa").href = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(UBICACION);
+$("btnCompartir").onclick = () => {
+  const datos = {title: "Memorial de Juan Pérez Gómez", text: "Te comparto el memorial de Juan Pérez Gómez.", url: location.href};
+  if(navigator.share){ navigator.share(datos).catch(() => {}); }
+  else { window.open("https://wa.me/?text=" + encodeURIComponent(datos.text + " " + datos.url), "_blank", "noopener"); }
+};
+
+let mensajes = leer("mqr_mensajes", ["Siempre te recordaremos con cariño. Descansa en paz."]);
+function pintaMensajes(){
+  const ul = $("lista"); ul.innerHTML = "";
+  mensajes.forEach(m => { const li = document.createElement("li"); li.textContent = m; ul.appendChild(li); });
+}
+pintaMensajes();
+function agregar(){
+  const inp = $("msg"), t = inp.value.trim();
+  if(!t) return;
+  mensajes.unshift(t); guardar("mqr_mensajes", mensajes); pintaMensajes(); inp.value = "";
+}
+$("btnMsg").onclick = agregar;
+$("msg").addEventListener("keydown", e => { if(e.key === "Enter") agregar(); });
+</script>
+</body>
+</html>

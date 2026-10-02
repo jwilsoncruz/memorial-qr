@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Generador de QR · Memorial QR</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;background:#1e1a3c;color:#fff;line-height:1.5}
+main{max-width:640px;margin:0 auto;padding:30px 20px 60px}
+h1{font-size:1.7rem;margin:0 0 6px}
+p{color:#d9d4e4}
+label{display:grid;gap:6px;font-weight:700;margin:16px 0}
+input{font:inherit;padding:14px;border-radius:10px;border:2px solid #4a4478;background:#2a2552;color:#fff;width:100%}
+input:focus{border-color:#f4b04a;outline:none}
+small{font-weight:400;color:#b9b3cf}
+button{font:700 1rem inherit;font-family:inherit;border:0;border-radius:999px;padding:14px 26px;background:#f4b04a;color:#2b1c05;cursor:pointer;margin:6px 8px 6px 0}
+button.sec{background:transparent;color:#fff;border:2px solid #b9b3cf}
+.salida{margin-top:26px;text-align:center}
+canvas{max-width:100%;height:auto;background:#fff;border-radius:12px}
+#enlace{word-break:break-all;color:#ffd58a}
+.error{color:#ffb4a8}
+</style>
+</head>
+<body>
+<main>
+  <h1>Generador de QR</h1>
+  <p>Escribe el código del memorial, descarga el QR en PNG e imprímelo.</p>
+
+  <label>Dirección de tu página
+    <input id="base" placeholder="https://tuusuario.github.io/memorial/">
+    <small>La dirección de la carpeta donde subiste memorial.html, terminada en /</small>
+  </label>
+  <label>Código del memorial
+    <input id="codigo" placeholder="juan-perez">
+    <small>El mismo id que pusiste en datos.js, sin espacios ni tildes</small>
+  </label>
+  <label>Nombre para escribir debajo del QR (opcional)
+    <input id="rotulo" placeholder="Juan Pérez Gómez">
+  </label>
+
+  <button id="crear" type="button">Crear QR</button>
+
+  <div class="salida" id="salida" hidden>
+    <canvas id="lienzo" width="800" height="900"></canvas>
+    <p>Enlace del QR:<br><span id="enlace"></span></p>
+    <button id="bajar" type="button">Descargar PNG</button>
+    <button id="probar" class="sec" type="button">Probar el enlace</button>
+  </div>
+  <p class="error" id="error" role="alert"></p>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+
+/* Recuerda la dirección base para la próxima vez */
+try{ $("base").value = localStorage.getItem("mqr_base") || ""; }catch(e){}
+
+function limpiaId(t){
+  return t.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9-]+/g, "-").replace(/^-+|-+$/g, "");
+}
+
+$("crear").onclick = () => {
+  const err = $("error"); err.textContent = "";
+  let base = $("base").value.trim();
+  const codigo = limpiaId($("codigo").value);
+  if(!base || !codigo){ err.textContent = "Escribe la dirección de tu página y el código del memorial."; return; }
+  if(!/^https?:\/\//i.test(base)){ err.textContent = "La dirección debe empezar con https://"; return; }
+  if(!base.endsWith("/")) base += "/";
+  if(typeof QRCode === "undefined"){ err.textContent = "No se pudo cargar la librería del QR. Revisa tu conexión a internet y recarga la página."; return; }
+  try{ localStorage.setItem("mqr_base", base); }catch(e){}
+
+  const url = base + "memorial.html?id=" + codigo;
+  $("codigo").value = codigo;
+
+  /* QR en un contenedor oculto, nivel de corrección alto (resiste desgaste) */
+  const tmp = document.createElement("div");
+  new QRCode(tmp, {text: url, width: 640, height: 640, colorDark: "#000000", colorLight: "#ffffff", correctLevel: QRCode.CorrectLevel.H});
+  const origen = tmp.querySelector("canvas");
+
+  const c = $("lienzo"), x = c.getContext("2d");
+  x.fillStyle = "#fff"; x.fillRect(0, 0, c.width, c.height);
+  x.imageSmoothingEnabled = false;
+  x.drawImage(origen, 80, 60, 640, 640);          /* margen blanco alrededor */
+  const rotulo = $("rotulo").value.trim();
+  x.fillStyle = "#1e1a3c"; x.textAlign = "center";
+  if(rotulo){ x.font = "bold 44px Georgia, serif"; x.fillText(rotulo, 400, 775, 720); }
+  x.font = "30px Arial, sans-serif"; x.fillStyle = "#555";
+  x.fillText("Escanea para conocer su historia", 400, rotulo ? 830 : 790, 720);
+
+  $("enlace").textContent = url;
+  $("salida").hidden = false;
+  $("bajar").onclick = () => {
+    const a = document.createElement("a");
+    a.download = "qr-" + codigo + ".png";
+    a.href = c.toDataURL("image/png");
+    a.click();
+  };
+  $("probar").onclick = () => window.open(url, "_blank", "noopener");
+};
+</script>
+</body>
+</html>
