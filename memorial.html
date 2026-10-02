@@ -155,7 +155,7 @@ dialog img{display:block;max-width:96vw;max-height:90vh;border-radius:10px}
 <script>
 const $ = id => document.getElementById(id);
 const id = (new URLSearchParams(location.search).get("id") || "").trim().toLowerCase();
-const M = (typeof MEMORIALES !== "undefined" && Object.prototype.hasOwnProperty.call(MEMORIALES, id)) ? MEMORIALES[id] : null;
+let M = (typeof MEMORIALES !== "undefined" && Object.prototype.hasOwnProperty.call(MEMORIALES, id)) ? MEMORIALES[id] : null;
 
 function leer(k, def){ try{ const v = localStorage.getItem(k); return v ? JSON.parse(v) : def; }catch(e){ return def; } }
 function guardar(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
@@ -267,6 +267,13 @@ function pintaMensajes(lista){
 
 /* ---------- Arranque ---------- */
 async function iniciar(){
+  /* Si no está en datos.js, se busca su propio archivo: datos/ID.json */
+  if(!M && /^[a-z0-9-]+$/.test(id)){
+    try{
+      const r = await fetch("datos/" + id + ".json", {cache: "no-cache"});
+      if(r.ok) M = await r.json();
+    }catch(e){ M = null; }
+  }
   if(!M){ $("nada").classList.remove("oculto"); return; }
   $("memorial").classList.remove("oculto");
   document.title = M.nombre + " · Memorial";
