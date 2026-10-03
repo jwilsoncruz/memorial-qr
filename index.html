@@ -21,123 +21,181 @@
 <meta name="twitter:image" content="https://jwilsoncruz.github.io/memorial-qr/preview.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Figtree:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Figtree:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --noche:#1e1a3c;      /* violeta de luto, fondo principal */
-  --noche-2:#2a2552;
-  --vela:#f4b04a;       /* llama de vela */
-  --vela-2:#ffd58a;
-  --piedra:#d9d4e4;     /* lápida */
-  --hueso:#f3eff8;      /* secciones claras */
-  --tinta:#221d3d;
-  --apagado:#b9b3cf;
+  --noche:#1e1a3c;--noche-2:#2a2552;--noche-3:#17143a;
+  --vela:#f4b04a;--vela-2:#ffd58a;--piedra:#d9d4e4;--hueso:#f3eff8;--tinta:#221d3d;--apagado:#b9b3cf;
   --serif:'Fraunces',Georgia,'Times New Roman',serif;
   --sans:'Figtree',system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;font-family:var(--sans);background:var(--noche);color:#fff;line-height:1.6;font-size:17px;-webkit-font-smoothing:antialiased}
+body{margin:0;font-family:var(--sans);color:#fff;line-height:1.65;font-size:17px;-webkit-font-smoothing:antialiased;
+  background:linear-gradient(var(--noche),var(--noche-3)) fixed}
+.grano{position:fixed;inset:0;pointer-events:none;opacity:.045;z-index:60;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
 img,svg{max-width:100%}
 a{color:inherit}
-:focus-visible{outline:3px solid var(--vela);outline-offset:3px;border-radius:4px}
-.wrap{max-width:1040px;margin:0 auto;padding:0 22px}
+:focus-visible{outline:3px solid var(--vela);outline-offset:3px;border-radius:6px}
+.wrap{max-width:1060px;margin:0 auto;padding:0 22px}
 h1,h2,h3{font-family:var(--serif);line-height:1.12;margin:0 0 .5em;font-weight:600}
-h1{font-size:clamp(2.3rem,6.4vw,4.3rem);letter-spacing:-.01em}
+h1{font-size:clamp(2.3rem,6.4vw,4.2rem);letter-spacing:-.015em}
 h2{font-size:clamp(1.8rem,4.2vw,2.6rem)}
-h3{font-size:1.3rem}
+h3{font-size:1.25rem}
 p{margin:0 0 1em}
-.lead{font-size:1.15rem;color:var(--piedra);max-width:46ch}
+.lead{font-size:1.15rem;color:var(--piedra);max-width:48ch}
+.eyebrow{letter-spacing:.24em;text-transform:uppercase;font-size:.74rem;color:var(--vela);margin:0 0 10px;font-weight:700}
+.oculto,[hidden]{display:none!important}
 
-/* barra de cuenta regresiva */
+/* aviso superior */
 .aviso{background:var(--vela);color:#2b1c05;text-align:center;font-weight:700;padding:9px 14px;font-size:.95rem}
 .aviso a{text-decoration:underline}
 
 /* botones */
-.btn{display:inline-block;border:0;border-radius:999px;padding:15px 28px;font:700 1rem var(--sans);cursor:pointer;text-decoration:none;transition:transform .15s,background .15s}
+.btn{display:inline-block;border:0;border-radius:999px;padding:15px 28px;font:700 1rem var(--sans);cursor:pointer;text-decoration:none;transition:transform .15s,background .15s,border-color .15s,box-shadow .2s;text-align:center}
 .btn:active{transform:scale(.97)}
-.btn-vela{background:var(--vela);color:#2b1c05}
-.btn-vela:hover{background:var(--vela-2)}
+.btn-vela{background:var(--vela);color:#2b1c05;box-shadow:0 8px 24px rgba(244,176,74,.28)}
+.btn-vela:hover{background:var(--vela-2);box-shadow:0 10px 30px rgba(244,176,74,.4)}
 .btn-borde{background:transparent;color:#fff;border:2px solid var(--apagado)}
 .btn-borde:hover{border-color:#fff}
 .btn-oscuro{background:var(--noche);color:#fff}
 .btn-oscuro:hover{background:var(--noche-2)}
-.fila{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}
+.fila{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px}
 
-/* hero */
-.hero{padding:56px 0 72px;overflow:hidden;background:radial-gradient(60% 50% at 78% 42%,rgba(244,176,74,.22),transparent 70%)}
-.hero .wrap{display:grid;gap:44px;align-items:center}
-@media(min-width:860px){.hero .wrap{grid-template-columns:1.15fr .85fr}}
-.marca{font-family:var(--serif);font-size:1.05rem;color:var(--vela);margin-bottom:22px}
+/* portada */
+.hero{position:relative;padding:54px 0 84px;overflow:hidden;
+  background:radial-gradient(60% 55% at 76% 44%,rgba(244,176,74,.24),transparent 70%),radial-gradient(50% 40% at 8% 0%,rgba(110,90,200,.22),transparent 70%)}
+.hero-grid{position:relative;z-index:2;display:grid;gap:46px;align-items:center}
+@media(min-width:900px){.hero-grid{grid-template-columns:1.1fr .9fr}}
+.marca{display:flex;align-items:center;gap:10px;font-family:var(--serif);font-size:1.1rem;color:var(--vela-2);margin-bottom:22px}
+.marca img{width:30px;height:30px;border-radius:8px}
+.probar{display:block;margin-top:26px;font-size:.93rem;color:var(--piedra);font-weight:500}
+#heroNombre{margin-top:8px;max-width:440px}
+input,select,textarea{font:inherit;padding:14px 16px;border-radius:12px;border:1.5px solid rgba(255,255,255,.2);background:rgba(255,255,255,.07);color:#fff;width:100%}
+input::placeholder,textarea::placeholder{color:#8f89ac}
+input:focus,select:focus,textarea:focus{border-color:var(--vela);outline:none}
+select option{color:#221d3d}
+.luciernagas{position:absolute;inset:0;z-index:1;pointer-events:none}
+.lu{position:absolute;width:5px;height:5px;border-radius:50%;background:var(--vela-2);box-shadow:0 0 12px 3px rgba(255,213,138,.7);opacity:0;animation:flota var(--t,16s) ease-in-out infinite;animation-delay:var(--d,0s)}
+@keyframes flota{0%{transform:translate(0,0);opacity:0}15%{opacity:.9}50%{transform:translate(var(--dx,20px),-90px);opacity:.5}85%{opacity:.9}100%{transform:translate(calc(var(--dx,20px)*-1),-190px);opacity:0}}
 
-/* lápida + vela */
-.escena{position:relative;display:flex;justify-content:center;align-items:flex-end;gap:18px;min-height:360px}
-.lapida{width:230px;background:linear-gradient(160deg,#e6e2ee,var(--piedra));color:var(--tinta);border-radius:115px 115px 8px 8px;padding:46px 20px 26px;text-align:center;box-shadow:0 30px 60px rgba(0,0,0,.4)}
-.lapida h3{font-size:1.15rem;margin-bottom:2px}
-.lapida small{display:block;color:#5d567c;margin-bottom:14px}
+/* altar de la portada */
+.escena{position:relative;display:flex;flex-direction:column;align-items:center}
+.altar-hero{position:relative;width:min(100%,350px);padding-bottom:92px}
+.lapida{width:240px;background:linear-gradient(160deg,#efebf5,#cbc5db 60%,#b6afcb);color:var(--tinta);border-radius:120px 120px 8px 8px;padding:50px 20px 28px;text-align:center;box-shadow:0 30px 60px rgba(0,0,0,.4);margin:0 auto;position:relative;z-index:2}
+.lapida h3{font-size:1.15rem;margin-bottom:2px;overflow-wrap:anywhere}
+.lapida small{display:block;color:#5d567c;margin-bottom:14px;min-height:1.2em}
+.lapida p{font-size:.78rem;margin:0;color:#4a4468}
 .qr{width:112px;height:112px;margin:0 auto 10px;background:#fff;padding:6px;border-radius:6px;position:relative;overflow:hidden}
 .qr svg{display:block;width:100%;height:100%}
 .qr::after{content:"";position:absolute;left:0;right:0;height:3px;background:#27c26c;box-shadow:0 0 12px #27c26c;animation:barrido 2.8s ease-in-out infinite}
 @keyframes barrido{0%,100%{top:4px}50%{top:calc(100% - 7px)}}
-.lapida p{font-size:.78rem;margin:0;color:#4a4468}
-.vela{position:relative;width:34px;height:120px;background:linear-gradient(90deg,#efe6d2,#fff8e8 50%,#e0d4b9);border-radius:5px 5px 3px 3px}
-.vela::before{content:"";position:absolute;left:50%;top:-8px;width:2px;height:10px;background:#3b2f23;transform:translateX(-50%)}
-.llama{position:absolute;left:50%;top:-44px;width:20px;height:38px;transform:translateX(-50%);background:radial-gradient(ellipse at 50% 70%,#fff6d6 0 25%,var(--vela-2) 45%,var(--vela) 70%,transparent 72%);border-radius:50% 50% 50% 50%/65% 65% 35% 35%;filter:drop-shadow(0 0 16px rgba(244,176,74,.9));animation:llama 2.2s ease-in-out infinite;transform-origin:50% 100%}
+.losa-h{position:absolute;left:-7%;right:-7%;bottom:0;height:96px;z-index:1;border-radius:12px;background:linear-gradient(#52498a,#332e63 24%,#25214d);border-top:1px solid rgba(255,255,255,.25);box-shadow:0 30px 60px rgba(0,0,0,.45)}
+#heroVelas{position:absolute;inset:0;z-index:3;pointer-events:none}
+.mcw{position:absolute;transform:translateX(-50%) scale(var(--s,1));transform-origin:50% 100%}
+.mc{position:relative;width:13px;height:36px;border-radius:3px 3px 2px 2px;background:linear-gradient(90deg,#e9dfc8,#fff6e0 50%,#d8caa8)}
+.mc.v{background:linear-gradient(90deg,#b9aee6,#e6dfff 50%,#9d90d6)}
+.mc.a{background:linear-gradient(90deg,#e8b36a,#ffd9a0 50%,#cf9650)}
+.mc::before{content:"";position:absolute;left:50%;top:-5px;width:2px;height:6px;background:#3b2f23;transform:translateX(-50%)}
+.mc i{position:absolute;left:50%;top:-25px;width:10px;height:21px;transform:translateX(-50%);transform-origin:50% 100%;background:radial-gradient(ellipse at 50% 70%,#fff6d6 0 25%,var(--vela-2) 45%,var(--vela) 70%,transparent 72%);border-radius:50% 50% 50% 50%/65% 65% 35% 35%;filter:drop-shadow(0 0 9px rgba(244,176,74,.95));animation:llama 2.2s ease-in-out infinite;animation-delay:var(--d,0s)}
 @keyframes llama{0%,100%{transform:translateX(-50%) scale(1,1) rotate(-1.5deg)}50%{transform:translateX(-50%) scale(.94,1.08) rotate(2deg)}}
+.mcw.nueva .mc{animation:cae .8s cubic-bezier(.2,.9,.3,1.15)}
+@keyframes cae{from{transform:translateY(-190px);opacity:0}to{transform:none;opacity:1}}
+.mcw.nueva .mc i{animation:enciende 1.2s .7s backwards,llama 2.2s 1.9s ease-in-out infinite}
+@keyframes enciende{0%{transform:translateX(-50%) scale(0)}30%{transform:translateX(-50%) scale(1.9,2.3);filter:drop-shadow(0 0 26px #fff)}100%{transform:translateX(-50%) scale(1)}}
+.velahero{margin-top:6px;text-align:center}
+.velahero .btn{padding:12px 24px;font-size:.95rem}
+#textoVelaHero{margin:10px auto 0;min-height:2.8em;font-size:.92rem;color:var(--piedra);max-width:30ch}
 
 /* secciones */
-section{padding:76px 0}
+section{padding:84px 0}
+.titulo{margin-bottom:36px}
+.titulo h2{margin-bottom:.3em}
 .claro{background:var(--hueso);color:var(--tinta)}
 .claro .lead{color:#5d567c}
 .claro h2,.claro h3{color:var(--tinta)}
+.claro .eyebrow{color:#9a5b00}
+.rev{opacity:0;transform:translateY(18px);transition:opacity .8s ease,transform .8s ease}
+.rev.visto{opacity:1;transform:none}
 
-/* pasos */
-.pasos{display:grid;gap:26px;margin-top:34px;padding:0;list-style:none;counter-reset:p}
-@media(min-width:760px){.pasos{grid-template-columns:repeat(3,1fr)}}
-.pasos li{counter-increment:p;border-top:2px solid var(--vela);padding-top:16px}
-.pasos li::before{content:counter(p);font-family:var(--serif);font-size:2.4rem;color:var(--vela);display:block;line-height:1}
+/* por qué */
+.trio{display:grid;gap:18px}
+@media(min-width:800px){.trio{grid-template-columns:repeat(3,1fr)}}
+.valor-item{background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.09);border-radius:20px;padding:26px 24px}
+.valor-item svg{width:34px;height:34px;fill:none;stroke:var(--vela);stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;margin-bottom:14px}
+.valor-item p{color:var(--piedra);margin:0}
+
+/* cómo funciona */
+.pasos{display:grid;gap:30px;margin:0;padding:0;list-style:none;counter-reset:p}
+@media(min-width:800px){.pasos{grid-template-columns:repeat(3,1fr);gap:40px}}
+.pasos li{counter-increment:p;position:relative;padding-top:20px;border-top:1px solid rgba(255,255,255,.18)}
+.pasos li::before{content:counter(p);font-family:var(--serif);font-size:3rem;color:var(--vela);display:block;line-height:1}
+.pasos li::after{content:"";position:absolute;top:-4px;left:0;width:56px;height:3px;background:var(--vela);border-radius:3px}
 .pasos p{color:var(--piedra);margin:0}
 
-/* incluye */
-.incluye{display:grid;gap:0 44px;margin:30px 0 0;padding:0;list-style:none}
-@media(min-width:760px){.incluye{grid-template-columns:1fr 1fr}}
-.incluye li{padding:15px 0;border-bottom:1px solid #d6cfe6}
-.incluye b{display:block;font-family:var(--serif);font-size:1.12rem}
-.incluye span{color:#5d567c}
+/* ejemplo con teléfono */
+.ej-grid{display:grid;gap:40px;align-items:center}
+@media(min-width:900px){.ej-grid{grid-template-columns:1.1fr .9fr}}
+.incluye{display:grid;gap:0 36px;margin:26px 0 0;padding:0;list-style:none}
+@media(min-width:600px){.incluye{grid-template-columns:1fr 1fr}}
+.incluye li{padding:14px 0;border-bottom:1px solid rgba(255,255,255,.12)}
+.incluye b{display:block;font-family:var(--serif);font-size:1.08rem;color:#fff}
+.incluye span{color:var(--piedra);font-size:.95rem}
+.telefono{display:none}
+@media(min-width:900px){
+  .telefono{display:block;position:relative;width:300px;height:610px;margin:0 auto;border-radius:46px;border:10px solid #0b0920;background:var(--noche);box-shadow:0 0 0 2px #3a3470,0 40px 80px rgba(0,0,0,.55),0 0 90px rgba(244,176,74,.18);overflow:hidden}
+  .telefono::before{content:"";position:absolute;top:8px;left:50%;width:84px;height:20px;background:#0b0920;border-radius:12px;transform:translateX(-50%);z-index:3}
+  .telefono iframe{width:100%;height:100%;border:0;display:block;background:var(--noche)}
+  .solo-movil{display:none!important}
+}
 
 /* planes */
-.planes{display:grid;gap:18px;margin-top:34px}
+.cierre{display:flex;flex-wrap:wrap;align-items:center;gap:14px 26px;background:var(--noche);color:#fff;border-radius:18px;padding:16px 22px;margin:0 0 26px}
+.cierre p{margin:0;font-weight:500;color:var(--piedra)}
+.reloj{display:flex;gap:10px}
+.rl{min-width:62px;text-align:center;background:rgba(255,255,255,.08);border-radius:12px;padding:6px 8px}
+.rl b{display:block;font-family:var(--serif);font-size:1.6rem;line-height:1.1;color:var(--vela-2)}
+.rl span{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--apagado)}
+.cupos{margin-left:auto;background:var(--vela);color:#2b1c05;font-weight:700;border-radius:99px;padding:6px 16px;font-size:.92rem}
+.planes{display:grid;gap:18px}
 @media(min-width:860px){.planes{grid-template-columns:repeat(3,1fr);align-items:stretch}}
-.plan{background:#fff;border:2px solid #d6cfe6;border-radius:18px;padding:28px 24px;display:flex;flex-direction:column}
-.plan.top{border-color:var(--noche);box-shadow:0 18px 40px rgba(30,26,60,.18)}
+.plan{background:#fff;border:2px solid #d6cfe6;border-radius:22px;padding:30px 26px;display:flex;flex-direction:column;transition:transform .25s,box-shadow .25s}
+.plan:hover{transform:translateY(-4px);box-shadow:0 22px 44px rgba(30,26,60,.14)}
+.plan.top{border-color:var(--noche);box-shadow:0 20px 44px rgba(30,26,60,.2)}
 .plan .etq{align-self:flex-start;background:var(--vela);color:#2b1c05;font-weight:700;font-size:.82rem;padding:3px 12px;border-radius:99px;margin-bottom:10px}
-.precio{font-family:var(--serif);font-size:2.4rem;font-weight:700;margin:6px 0 2px}
-.plan ul{padding:0;margin:14px 0 22px;list-style:none;flex:1}
-.plan li{padding:6px 0 6px 26px;position:relative}
-.plan li::before{content:"";position:absolute;left:0;top:14px;width:12px;height:6px;border-left:2px solid var(--noche);border-bottom:2px solid var(--noche);transform:rotate(-45deg)}
+.plan .etq.oferta{background:#e0425a;color:#fff}
+.precio{font-family:var(--serif);font-size:2.6rem;font-weight:700;margin:6px 0 2px;color:var(--tinta)}
+.plan .antes{opacity:.5;font-size:1.3rem;margin-right:8px;font-weight:400}
+.plan ul{padding:0;margin:14px 0 24px;list-style:none;flex:1}
+.plan li{padding:6px 0 6px 28px;position:relative;color:#3d3760}
+.plan li::before{content:"";position:absolute;left:2px;top:13px;width:12px;height:6px;border-left:2px solid #9a5b00;border-bottom:2px solid #9a5b00;transform:rotate(-45deg)}
 .nota{font-size:.92rem;color:#5d567c;margin-top:20px}
+.garantia{display:flex;gap:16px;align-items:flex-start;margin-top:26px;padding:20px 22px;border:2px dashed #b9a3e0;border-radius:18px;background:#fff}
+.garantia svg{flex:none;width:34px;height:34px;fill:none;stroke:#9a5b00;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.garantia p{margin:0;color:#3d3760}
 
 /* pedido */
-form{display:grid;gap:14px;max-width:560px;margin-top:26px}
+.pedido-grid{display:grid;gap:40px}
+@media(min-width:900px){.pedido-grid{grid-template-columns:.9fr 1.1fr;align-items:start}}
+form{display:grid;gap:14px;max-width:560px}
 label{display:grid;gap:6px;font-weight:700;font-size:.95rem}
-input,select,textarea{font:inherit;padding:14px;border-radius:10px;border:2px solid #4a4478;background:var(--noche-2);color:#fff;width:100%}
-input::placeholder,textarea::placeholder{color:#8f89ac}
-input:focus,select:focus,textarea:focus{border-color:var(--vela);outline:none}
+.garantias-mini{list-style:none;padding:0;margin:22px 0 0;display:grid;gap:10px}
+.garantias-mini li{padding-left:28px;position:relative;color:var(--piedra)}
+.garantias-mini li::before{content:"";position:absolute;left:2px;top:9px;width:12px;height:6px;border-left:2px solid var(--vela);border-bottom:2px solid var(--vela);transform:rotate(-45deg)}
 
-/* faq */
-details{border-bottom:1px solid #d6cfe6;padding:16px 0}
+/* preguntas */
+details{border-bottom:1px solid #d6cfe6;padding:18px 0}
 summary{cursor:pointer;font-family:var(--serif);font-size:1.15rem;font-weight:600;list-style:none;display:flex;justify-content:space-between;gap:12px}
 summary::-webkit-details-marker{display:none}
-summary::after{content:"+";color:#7a6fb0;font-size:1.4rem;line-height:1}
+summary::after{content:"+";color:#7a6fb0;font-size:1.5rem;line-height:1}
 details[open] summary::after{content:"−"}
 details p{margin:10px 0 0;color:#4a4468}
 
-footer{padding:36px 0 110px;color:var(--apagado);font-size:.92rem;text-align:center}
-
-/* WhatsApp flotante */
+footer{padding:40px 0 120px;color:var(--apagado);font-size:.92rem;text-align:center}
 .wa{position:fixed;right:16px;bottom:16px;z-index:20;background:#25d366;color:#06361b;font-weight:700;border-radius:999px;padding:14px 20px;text-decoration:none;box-shadow:0 8px 24px rgba(0,0,0,.35)}
 
-/* ejemplo real dentro de una ventana */
+/* ejemplo en ventana (celulares) */
 dialog#demo{border:0;padding:0;width:min(720px,100%);height:100%;max-height:100vh;background:var(--noche);color:#fff;margin:auto;overflow:hidden}
 @media(min-width:760px){dialog#demo{height:92vh;border-radius:18px}}
 dialog#demo::backdrop{background:rgba(10,8,25,.8)}
@@ -146,69 +204,78 @@ dialog#demo::backdrop{background:rgba(10,8,25,.8)}
 .cerrar{background:transparent;color:#fff;border:2px solid #4a4478;border-radius:99px;padding:8px 16px;font:700 .9rem var(--sans);cursor:pointer}
 #demoFrame{width:100%;height:calc(100% - 56px);border:0;display:block;background:var(--noche)}
 
-/* altar de la portada: lápida con velas sobre la losa */
-.escena{min-height:0}
-.altar-hero{position:relative;width:min(100%,340px);margin:0 auto;padding-bottom:84px}
-.altar-hero .lapida{margin:0 auto;position:relative;z-index:2}
-.losa-h{position:absolute;left:-7%;right:-7%;bottom:0;height:92px;z-index:1;border-radius:12px;background:linear-gradient(#52498a,#332e63 24%,#25214d);border-top:1px solid rgba(255,255,255,.25);box-shadow:0 30px 60px rgba(0,0,0,.45)}
-.mc{position:absolute;z-index:3;width:13px;height:36px;border-radius:3px 3px 2px 2px;background:linear-gradient(90deg,#e9dfc8,#fff6e0 50%,#d8caa8)}
-.mc.v{background:linear-gradient(90deg,#b9aee6,#e6dfff 50%,#9d90d6)}
-.mc.a{background:linear-gradient(90deg,#e8b36a,#ffd9a0 50%,#cf9650)}
-.mc::before{content:"";position:absolute;left:50%;top:-5px;width:2px;height:6px;background:#3b2f23;transform:translateX(-50%)}
-.mc i{position:absolute;left:50%;top:-25px;width:10px;height:21px;transform:translateX(-50%);transform-origin:50% 100%;background:radial-gradient(ellipse at 50% 70%,#fff6d6 0 25%,var(--vela-2) 45%,var(--vela) 70%,transparent 72%);border-radius:50% 50% 50% 50%/65% 65% 35% 35%;filter:drop-shadow(0 0 9px rgba(244,176,74,.95));animation:llama 2.2s ease-in-out infinite}
-.mc:nth-child(odd) i{animation-delay:-.9s}
-.grano{position:fixed;inset:0;pointer-events:none;opacity:.045;z-index:60;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
-
-/* promociones */
-.plan .etq.oferta{background:#e0425a;color:#fff}
-.plan .antes{opacity:.55;font-size:1.3rem;margin-right:8px;font-weight:400}
-
-@media(prefers-reduced-motion:reduce){*{animation:none!important;scroll-behavior:auto!important;transition:none!important}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}.rev{opacity:1;transform:none}.lu{display:none}}
 </style>
 </head>
 <body>
 <div class="grano" aria-hidden="true"></div>
-
 <div class="aviso" id="aviso" hidden></div>
 
-<header class="hero">
-  <div class="wrap">
+<header class="hero" id="inicio">
+  <div class="luciernagas" id="luciernagas" aria-hidden="true"></div>
+  <div class="wrap hero-grid">
     <div>
-      <div class="marca">Memorial QR</div>
+      <div class="marca"><img src="favicon.svg" alt="" width="30" height="30">Memorial QR</div>
       <h1>Que su historia esté en la lápida, a un escaneo de distancia.</h1>
       <p class="lead">Un código QR resistente para la tumba o el nicho de tu familiar. Quien lo escanea con el celular ve sus fotos y su historia, enciende una vela sobre su lápida y deja un mensaje.</p>
+      <label class="probar" for="heroNombre">Mira cómo quedaría. Escribe el nombre de tu familiar:</label>
+      <input id="heroNombre" maxlength="40" placeholder="Ej: Eusebia Noe Cubene" autocomplete="off">
       <div class="fila">
-        <a class="btn btn-vela" href="#pedido">Quiero el QR de mi familiar</a>
+        <a class="btn btn-vela" href="#pedido" id="ctaHero">Quiero el QR de mi familiar</a>
         <button class="btn btn-borde" type="button" id="verDemo">Ver un memorial de ejemplo</button>
       </div>
     </div>
-    <div class="escena" aria-hidden="true">
+    <div class="escena">
       <div class="altar-hero">
-        <div class="lapida">
-          <h3>Juan Pérez Gómez</h3>
-          <small>1950 – 2026</small>
+        <div class="lapida" aria-hidden="true">
+          <h3 id="heroH3">Juan Pérez Gómez</h3>
+          <small id="heroAnios">1950 – 2026</small>
           <div class="qr" data-qr="7"></div>
           <p>Escanea para conocer su historia</p>
         </div>
-        <div class="losa-h"></div>
-        <div class="mc" style="left:4%;bottom:34px"><i></i></div>
-        <div class="mc v" style="left:15%;bottom:16px"><i></i></div>
-        <div class="mc a" style="left:27%;bottom:40px"><i></i></div>
-        <div class="mc" style="left:38%;bottom:14px"><i></i></div>
-        <div class="mc v" style="left:50%;bottom:36px"><i></i></div>
-        <div class="mc a" style="left:61%;bottom:12px"><i></i></div>
-        <div class="mc" style="left:72%;bottom:38px"><i></i></div>
-        <div class="mc v" style="left:83%;bottom:18px"><i></i></div>
-        <div class="mc a" style="left:93%;bottom:36px"><i></i></div>
+        <div class="losa-h" aria-hidden="true"></div>
+        <div id="heroVelas" aria-hidden="true"></div>
+      </div>
+      <div class="velahero">
+        <button class="btn btn-borde" type="button" id="btnVelaHero">Enciende una vela</button>
+        <p id="textoVelaHero" aria-live="polite">Pruébalo: toca el botón y enciende una vela sobre su lápida.</p>
       </div>
     </div>
   </div>
 </header>
 
-<section id="como">
+<section id="porque">
   <div class="wrap">
-    <h2>Cómo funciona</h2>
-    <p class="lead">Tú nos cuentas su historia. Nosotros hacemos todo lo demás.</p>
+    <div class="titulo">
+      <p class="eyebrow">Por qué un QR en la lápida</p>
+      <h2>Un lugar donde el recuerdo sigue vivo</h2>
+    </div>
+    <div class="trio">
+      <div class="valor-item">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.500A2.500 2.500 0 0 1 6.500 3H20v16H6.500A2.500 2.500 0 0 0 4 21.500z"/><path d="M4 21.500V5.500"/><path d="M9 8h7M9 12h5"/></svg>
+        <h3>Su historia, siempre a mano</h3>
+        <p>Fotos, palabras y recuerdos reunidos en un solo lugar, que no se pierden con el tiempo.</p>
+      </div>
+      <div class="valor-item">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-4.600-9.200-9.300C1.400 8.500 3.300 5 6.700 5c2 0 3.300 1.100 4.300 2.600l1 1.400 1-1.400C14 6.100 15.300 5 17.300 5c3.400 0 5.300 3.500 3.900 6.700C19 16.400 12 21 12 21z"/></svg>
+        <h3>Cerca, aunque estén lejos</h3>
+        <p>Los familiares que viven en otro lugar pueden encender una vela y dejar un mensaje desde su celular.</p>
+      </div>
+      <div class="valor-item">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="7" r="3"/><path d="M5 21v-1a7 7 0 0 1 14 0v1"/><path d="M12 3V1.500M17.500 5l1-1M6.500 5l-1-1"/></svg>
+        <h3>Para los que vendrán</h3>
+        <p>Los nietos y bisnietos podrán conocer a quienes no alcanzaron a conocer: cómo fueron y de dónde vienen.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="como" style="padding-top:0">
+  <div class="wrap">
+    <div class="titulo">
+      <p class="eyebrow">Cómo funciona</p>
+      <h2>Tú nos cuentas su historia. Nosotros hacemos el resto.</h2>
+    </div>
     <ol class="pasos">
       <li><h3>Nos envías sus datos</h3><p>Nombre, fechas, fotos y unas líneas sobre su vida. Por WhatsApp, sin trámites.</p></li>
       <li><h3>Creamos su memorial</h3><p>Armamos su página de recuerdo y te la mostramos antes de publicarla.</p></li>
@@ -217,37 +284,73 @@ dialog#demo::backdrop{background:rgba(10,8,25,.8)}
   </div>
 </section>
 
-<section class="claro" id="incluye">
-  <div class="wrap">
-    <h2>Lo que verá la familia al escanear</h2>
-    <p class="lead">Una página pensada para el celular, simple de abrir y cuidada en cada detalle.</p>
-    <ul class="incluye">
-      <li><b>Fotos y galería</b><span>Los momentos que quieran recordar, en un solo lugar.</span></li>
-      <li><b>Biografía</b><span>Su vida, su trabajo, su familia y lo que lo hacía único.</span></li>
-      <li><b>Velas sobre su lápida</b><span>Cada visitante enciende una vela y se suma a las demás, una a una, sobre su tumba.</span></li>
-      <li><b>Libro de visitas</b><span>Amigos y familiares dejan un recuerdo para que otros lo lean.</span></li>
-      <li><b>Audios y videos</b><span>Su voz, un saludo grabado o un video de la familia.</span></li>
-      <li><b>Árbol familiar</b><span>Sus padres, su pareja y sus hijos, hasta tres generaciones.</span></li>
-      <li><b>Ubicación exacta de la tumba</b><span>Un botón que abre el mapa hasta el lugar de la sepultura dentro del cementerio, con sector y número de nicho.</span></li>
-      <li><b>Compartir con la familia</b><span>Un toque para enviar el memorial por WhatsApp.</span></li>
-      <li><b>QR resistente</b><span>Impreso para exterior: sol, lluvia y polvo.</span></li>
-    </ul>
-    <div class="fila"><button class="btn btn-oscuro" type="button" id="verDemo2">Ver un memorial de ejemplo</button></div>
+<section id="ejemplo" style="background:rgba(255,255,255,.03)">
+  <div class="wrap ej-grid">
+    <div>
+      <p class="eyebrow">Lo que verá la familia al escanear</p>
+      <h2>Una página pensada para recordar</h2>
+      <p class="lead">Se abre al instante en cualquier celular, sin instalar nada.</p>
+      <ul class="incluye">
+        <li><b>Fotos y galería</b><span>Los momentos que quieran recordar, en un solo lugar.</span></li>
+        <li><b>Biografía</b><span>Su vida, su trabajo, su familia y lo que lo hacía único.</span></li>
+        <li><b>Velas sobre su lápida</b><span>Cada visitante enciende una vela y se suma a las demás, una a una.</span></li>
+        <li><b>Libro de visitas</b><span>Amigos y familiares dejan un recuerdo para que otros lo lean.</span></li>
+        <li><b>Árbol familiar</b><span>Sus padres, su pareja y sus hijos, hasta tres generaciones.</span></li>
+        <li><b>Ubicación exacta de la tumba</b><span>Un botón abre el mapa hasta el lugar de la sepultura, con sector y número de nicho.</span></li>
+        <li><b>Audios y videos</b><span>Su voz, un saludo grabado o un video de la familia.</span></li>
+        <li><b>Compartir con la familia</b><span>Un toque para enviar el memorial por WhatsApp.</span></li>
+      </ul>
+      <div class="fila">
+        <button class="btn btn-vela solo-movil" type="button" id="verDemo2">Ver un memorial de ejemplo</button>
+        <a class="btn btn-borde" href="memorial.html?id=ejemplo&amp;demo=1" target="_blank" rel="noopener">Abrir el ejemplo completo</a>
+      </div>
+    </div>
+    <div class="telefono" id="telefono" aria-label="Vista previa del memorial de ejemplo">
+      <iframe id="telFrame" title="Memorial de ejemplo"></iframe>
+    </div>
   </div>
 </section>
 
-<section id="planes">
+<section class="claro" id="planes">
   <div class="wrap">
-    <h2>Elige cómo recordarlo</h2>
-    <p class="lead">Pago único. Te entregamos el QR listo para colocar.</p>
-    <div class="planes claro-planes" id="listaPlanes"></div>
+    <div class="titulo">
+      <p class="eyebrow">Planes</p>
+      <h2>Elige cómo recordarlo</h2>
+      <p class="lead">Pago único. Te entregamos el QR listo para colocar.</p>
+    </div>
+    <div class="cierre" id="cierre" hidden>
+      <p id="cierreTxt"></p>
+      <div class="reloj" id="reloj" aria-hidden="true">
+        <div class="rl"><b id="rD">0</b><span>días</span></div>
+        <div class="rl"><b id="rH">0</b><span>horas</span></div>
+        <div class="rl"><b id="rM">0</b><span>min</span></div>
+        <div class="rl"><b id="rS">0</b><span>seg</span></div>
+      </div>
+      <span class="cupos" id="cuposBadge" hidden></span>
+    </div>
+    <div class="planes" id="listaPlanes"></div>
+    <div class="garantia" id="garantia" hidden>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 4.500-3.300 8-8 9-4.700-1-8-4.500-8-9V6z"/><path d="M8.500 12l2.500 2.500 4.500-5"/></svg>
+      <p id="garantiaTxt"></p>
+    </div>
   </div>
 </section>
 
-<section class="claro" id="pedido-sec">
-  <div class="wrap">
-    <h2 id="pedido">Haz tu pedido ahora</h2>
-    <p class="lead">Llena estos datos y se abre WhatsApp con tu pedido ya escrito. Te respondemos para coordinar fotos y pago.</p>
+<section id="pedido-sec">
+  <div class="wrap pedido-grid">
+    <div>
+      <p class="eyebrow">Haz tu pedido</p>
+      <h2 id="pedido">Cuéntanos de quién quieres que sea</h2>
+      <p class="lead">Llena estos datos y se abre WhatsApp con tu pedido ya escrito. Te respondemos para coordinar las fotos y el pago.</p>
+      <ul class="garantias-mini">
+        <li>Te mostramos el memorial antes de publicarlo.</li>
+        <li>Respondemos por WhatsApp, sin trámites.</li>
+        <li>El QR llega listo para colocar en la lápida.</li>
+      </ul>
+      <div class="fila" id="filaGrupo" hidden>
+        <a class="btn btn-borde" id="btnGrupo" href="#" target="_blank" rel="noopener">Unirme a la lista de avisos</a>
+      </div>
+    </div>
     <form id="form">
       <label>Tu nombre
         <input id="fNombre" required autocomplete="name" placeholder="Ej: María Gómez">
@@ -261,15 +364,17 @@ dialog#demo::backdrop{background:rgba(10,8,25,.8)}
       <label>¿Algo que quieras contarnos? (opcional)
         <textarea id="fNota" rows="3" placeholder="Ej: era carpintero y le encantaba el fútbol"></textarea>
       </label>
-      <button class="btn btn-vela" type="submit" style="color:#2b1c05">Enviar pedido por WhatsApp</button>
+      <button class="btn btn-vela" type="submit">Enviar pedido por WhatsApp</button>
     </form>
-    <style>.claro input,.claro select,.claro textarea{background:#fff;color:var(--tinta);border-color:#b9b3cf}.claro input::placeholder,.claro textarea::placeholder{color:#8c86a6}</style>
   </div>
 </section>
 
-<section class="claro" style="padding-top:0">
+<section class="claro" id="preguntas">
   <div class="wrap">
-    <h2>Preguntas frecuentes</h2>
+    <div class="titulo">
+      <p class="eyebrow">Preguntas frecuentes</p>
+      <h2>Lo que más nos preguntan</h2>
+    </div>
     <details><summary>¿Hasta cuándo puedo pedir para el 2 de noviembre?</summary><p id="faqFecha"></p></details>
     <details><summary>¿Cómo se encuentra la tumba dentro del cementerio?</summary><p>Guardamos la ubicación exacta con GPS y una referencia (sector, calle y número de nicho). En el memorial, un botón abre Google Maps con la ruta hasta ese punto. Solo necesitamos que alguien de la familia nos envíe la ubicación estando junto a la tumba; se hace desde WhatsApp en un minuto.</p></details>
     <details><summary>¿Necesito instalar algo para escanear?</summary><p>No. Basta con abrir la cámara del celular y apuntar al QR. Funciona en Android y iPhone.</p></details>
@@ -286,7 +391,7 @@ dialog#demo::backdrop{background:rgba(10,8,25,.8)}
 
 <a class="wa" id="waFlot" href="#" target="_blank" rel="noopener">Escríbenos por WhatsApp</a>
 
-<!-- Memorial de ejemplo (es el memorial real "ejemplo", en modo demo) -->
+<!-- Memorial de ejemplo en ventana (para celulares) -->
 <dialog id="demo" aria-label="Memorial de ejemplo">
   <div class="demo-barra">
     <a href="memorial.html?id=ejemplo&demo=1" target="_blank" rel="noopener">Abrir en pantalla completa</a>
@@ -306,7 +411,10 @@ const DEFAULT = {
     {nombre: "Memorial", precio: 280, etiqueta: "El más pedido", items: ["Todo lo del plan Recuerdo", "Galería de hasta 12 fotos", "Biografía y árbol familiar de 3 generaciones", "Incluida 3 años en línea"]},
     {nombre: "Legado", precio: 450, etiqueta: "", items: ["Todo lo del plan Memorial", "Audios y videos de la familia", "Placa de refuerzo para el QR", "Incluida 5 años en línea"]}
   ],
-  promociones: []
+  promociones: [],
+  cupos: {mostrar: false, disponibles: 0},
+  garantia: "",
+  grupoWhatsApp: ""
 };
 let CFG = DEFAULT;
 const $ = id => document.getElementById(id);
@@ -346,7 +454,7 @@ function pintaAviso(){
   const el = $("aviso"); el.textContent = "";
   const promo = promoActiva(), ahora = new Date();
   const negrita = t => { const b = document.createElement("b"); b.textContent = t; return b; };
-  const enlace = () => { const a = document.createElement("a"); a.href = "#pedido"; a.textContent = "Pedir ahora"; return a; };
+  const enlace = () => { const a = document.createElement("a"); a.href = "#pedido-sec"; a.textContent = "Pedir ahora"; return a; };
   if(promo){
     const h = fechaLocal(promo.hasta, true), dias = Math.ceil((h - ahora) / 86400000);
     el.appendChild(negrita(promo.nombre + ": "));
@@ -367,21 +475,53 @@ function pintaAviso(){
   el.hidden = false;
 }
 
+/* ---------- cuenta regresiva y cupos (solo con fechas reales de la configuración) ---------- */
+function objetivoReloj(){
+  const promo = promoActiva();
+  if(promo) return {fecha: fechaLocal(promo.hasta, true), texto: promo.nombre + " termina en"};
+  const lim = fechaLocal(CFG.fechaLimite, true);
+  if(lim && lim > new Date()){
+    const ev = (CFG.evento && CFG.evento.nombre) || "";
+    return {fecha: lim, texto: "Los pedidos" + (ev ? " para el " + ev : "") + " cierran en"};
+  }
+  return null;
+}
+function pintaCupos(){
+  const c = CFG.cupos, b = $("cuposBadge");
+  if(c && c.mostrar){
+    const n = Number(c.disponibles) || 0;
+    b.textContent = n > 1 ? "Quedan " + n + " cupos" : n === 1 ? "Queda 1 cupo" : "Cupos agotados: escríbenos para la lista de espera";
+    b.hidden = false;
+  } else b.hidden = true;
+}
+function tick(){
+  const o = objetivoReloj(), caja = $("cierre");
+  const hayCupos = !$("cuposBadge").hidden;
+  if(!o){ $("reloj").hidden = true; $("cierreTxt").textContent = hayCupos ? "Cupos disponibles para este mes" : ""; caja.hidden = !hayCupos; return; }
+  const ms = Math.max(0, o.fecha - new Date()), s = Math.floor(ms / 1000);
+  $("rD").textContent = Math.floor(s / 86400);
+  $("rH").textContent = String(Math.floor(s % 86400 / 3600)).padStart(2, "0");
+  $("rM").textContent = String(Math.floor(s % 3600 / 60)).padStart(2, "0");
+  $("rS").textContent = String(s % 60).padStart(2, "0");
+  $("reloj").hidden = false;
+  $("cierreTxt").textContent = o.texto;
+  caja.hidden = false;
+}
+
 /* ---------- planes ---------- */
 function pintaPlanes(){
   const promo = promoActiva(), cont = $("listaPlanes"), sel = $("fPlan");
   cont.textContent = ""; sel.textContent = "";
   const planes = planesValidos();
-  let predeterminado = 0;
+  let predeterminado = 0, marcado = false;
   planes.forEach((p, i) => {
-    if(p.etiqueta && !predeterminado) predeterminado = i;
+    if(p.etiqueta && !marcado){ predeterminado = i; marcado = true; }
     const final = precioFinal(p.precio, promo);
     const art = document.createElement("article");
     art.className = "plan" + (p.etiqueta ? " top" : "");
-    art.style.color = "var(--tinta)";
     const badge = promo ? promo.nombre : p.etiqueta;
     if(badge){ const e = document.createElement("span"); e.className = "etq" + (promo ? " oferta" : ""); e.textContent = badge; art.appendChild(e); }
-    const h = document.createElement("h3"); h.style.color = "var(--tinta)"; h.textContent = p.nombre; art.appendChild(h);
+    const h = document.createElement("h3"); h.textContent = p.nombre; art.appendChild(h);
     const pr = document.createElement("div"); pr.className = "precio";
     if(promo && final < Number(p.precio)){
       const s = document.createElement("s"); s.className = "antes"; s.textContent = bs(p.precio); pr.appendChild(s);
@@ -393,7 +533,7 @@ function pintaPlanes(){
     const a = document.createElement("a");
     a.className = "btn " + (p.etiqueta ? "btn-oscuro" : "btn-borde");
     if(!p.etiqueta) a.style.cssText = "color:var(--tinta);border-color:var(--noche)";
-    a.style.textAlign = "center"; a.href = "#pedido"; a.dataset.plan = i; a.textContent = "Elegir " + p.nombre;
+    a.href = "#pedido-sec"; a.dataset.plan = i; a.textContent = "Elegir " + p.nombre;
     art.appendChild(a);
     cont.appendChild(art);
     const o = document.createElement("option"); o.value = i; o.textContent = p.nombre + " · " + bs(final); sel.appendChild(o);
@@ -421,7 +561,64 @@ function qrSvg(seed){
 }
 document.querySelectorAll("[data-qr]").forEach(el => el.innerHTML = qrSvg(+el.dataset.qr));
 
-/* ---------- ventana del ejemplo ---------- */
+/* ---------- portada: nombre en vivo y velas que se encienden ---------- */
+const NOMBRE_EJEMPLO = "Juan Pérez Gómez";
+$("heroNombre").addEventListener("input", e => {
+  const v = e.target.value.trim().replace(/\s+/g, " ");
+  const h3 = $("heroH3");
+  h3.textContent = v || NOMBRE_EJEMPLO;
+  h3.style.fontSize = (v.length > 28 ? 0.92 : v.length > 18 ? 1.02 : 1.15) + "rem";
+  $("heroAnios").textContent = v ? "" : "1950 – 2026";
+});
+$("ctaHero").addEventListener("click", () => {
+  const v = $("heroNombre").value.trim();
+  if(v) $("fDifunto").value = v;
+});
+
+const MAX_HERO = 24;
+let nHero = 0;
+function lugarHero(k){
+  const g = (k * 0.6180339887) % 1, fila = k % 3;
+  return {x: 6 + g * 88, b: [14, 30, 46][fila] + ((k * 37) % 5) * 2, s: [1, 0.88, 0.76][fila]};
+}
+function velaHero(k, nueva){
+  const p = lugarHero(k);
+  const w = document.createElement("div");
+  w.className = "mcw" + (nueva ? " nueva" : "");
+  w.style.left = p.x + "%"; w.style.bottom = p.b + "px";
+  w.style.setProperty("--s", p.s); w.style.zIndex = String(100 - p.b);
+  const c = document.createElement("div"); c.className = "mc " + ["", "v", "a"][k % 3];
+  const f = document.createElement("i"); f.style.setProperty("--d", ((k * 0.37) % 2).toFixed(2) + "s");
+  c.appendChild(f); w.appendChild(c);
+  return w;
+}
+for(let k = 1; k <= 9; k++){ $("heroVelas").appendChild(velaHero(k, false)); nHero = k; }
+$("btnVelaHero").addEventListener("click", () => {
+  nHero++;
+  const capa = $("heroVelas");
+  capa.appendChild(velaHero(nHero, true));
+  while(capa.children.length > MAX_HERO) capa.removeChild(capa.firstChild);
+  const extra = nHero - 9;
+  $("textoVelaHero").textContent = extra < 3
+    ? "Una vela más. Cada visitante suma la suya."
+    : "Así se verá la lápida cuando la familia se reúna a recordarlo.";
+});
+
+/* ---------- luciérnagas suaves en la portada ---------- */
+(function(){
+  if(matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const cont = $("luciernagas");
+  for(let i = 0; i < 16; i++){
+    const s = document.createElement("span"); s.className = "lu";
+    s.style.left = (Math.random() * 100) + "%"; s.style.top = (35 + Math.random() * 65) + "%";
+    s.style.setProperty("--t", (13 + Math.random() * 12).toFixed(1) + "s");
+    s.style.setProperty("--d", (-Math.random() * 20).toFixed(1) + "s");
+    s.style.setProperty("--dx", (Math.random() * 60 - 30).toFixed(0) + "px");
+    cont.appendChild(s);
+  }
+})();
+
+/* ---------- ejemplo: ventana en celulares, teléfono en computadoras ---------- */
 const dlg = $("demo");
 function abrirDemo(){
   const f = $("demoFrame");
@@ -432,6 +629,17 @@ $("verDemo").onclick = abrirDemo;
 $("verDemo2").onclick = abrirDemo;
 $("cerrar").onclick = () => dlg.close();
 dlg.addEventListener("click", e => { if(e.target === dlg) dlg.close(); });
+if("IntersectionObserver" in window){
+  const t = $("telefono");
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if(e.isIntersecting){
+      const f = $("telFrame");
+      if(matchMedia("(min-width: 900px)").matches && !f.getAttribute("src")) f.src = "memorial.html?id=ejemplo&demo=1";
+      io.unobserve(t);
+    }
+  }), {rootMargin: "300px"});
+  io.observe(t);
+}
 
 /* ---------- pedido por WhatsApp ---------- */
 $("listaPlanes").addEventListener("click", e => {
@@ -451,16 +659,30 @@ $("form").addEventListener("submit", e => {
   window.open(waLink(txt), "_blank", "noopener");
 });
 
+/* ---------- aparición suave al bajar ---------- */
+function revelar(){
+  if(!("IntersectionObserver" in window) || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const io = new IntersectionObserver(es => es.forEach(e => { if(e.isIntersecting){ e.target.classList.add("visto"); io.unobserve(e.target); } }), {threshold: .08});
+  document.querySelectorAll("section").forEach(s => { s.classList.add("rev"); io.observe(s); });
+}
+
 /* ---------- arranque: leer config.json ---------- */
 function iniciar(){
   if(!Array.isArray(CFG.planes) || !planesValidos().length) CFG.planes = DEFAULT.planes;
   pintaAviso();
   pintaPlanes();
+  pintaCupos();
+  tick(); setInterval(tick, 1000);
   const lim = fechaLocal(CFG.fechaLimite, true), ev = (CFG.evento && CFG.evento.nombre) || "";
   $("faqFecha").textContent = lim
     ? "Los pedidos" + (ev ? " para el " + ev : "") + " se reciben hasta el " + textoFecha(lim) + ". Después de esa fecha te lo entregamos lo antes posible."
     : "Escríbenos por WhatsApp y te confirmamos el tiempo de entrega.";
+  const g = String(CFG.garantia || "").trim();
+  if(g){ $("garantiaTxt").textContent = g; $("garantia").hidden = false; }
+  const grupo = String(CFG.grupoWhatsApp || "").trim();
+  if(/^https:\/\//i.test(grupo)){ $("btnGrupo").href = grupo; $("filaGrupo").hidden = false; }
   $("waFlot").href = waLink("Hola, quiero información sobre el Memorial QR.");
+  revelar();
 }
 (async function(){
   try{

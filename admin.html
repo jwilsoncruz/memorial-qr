@@ -162,6 +162,21 @@ input[type=date],input[type=number]{color-scheme:dark}
   <p>Cuando una promoción está activada y la fecha de hoy cae entre "desde" y "hasta", la página muestra el aviso, tacha el precio normal y muestra el precio con descuento. Se apaga sola al terminar la fecha.</p>
   <div id="cPromos"></div>
 
+  <h2>Para el lanzamiento (opcional)</h2>
+  <p>Estos tres elementos solo se muestran si los llenas. Usa solo información verdadera: si pones cupos, que sean los que de verdad puedes entregar.</p>
+  <div class="caja">
+    <label style="display:flex;align-items:center;gap:10px;margin:0 0 10px"><input id="cCuposOn" type="checkbox"> Mostrar "Quedan N cupos" en los planes</label>
+    <label>Cupos disponibles <input id="cCupos" type="number" min="0" step="1" placeholder="Ej: 20"></label>
+    <small>Cuando se acaben, baja el número a 0 y la página mostrará "cupos agotados".</small>
+  </div>
+  <label>Garantía (una frase)
+    <textarea id="cGarantia" rows="2" placeholder="Ej: Verás tu memorial terminado antes de pagar el saldo."></textarea>
+    <small>Escribe solo lo que de verdad vas a cumplir. Déjalo vacío para no mostrarlo.</small>
+  </label>
+  <label>Enlace del grupo o comunidad de WhatsApp (para avisos)
+    <input id="cGrupo" placeholder="https://chat.whatsapp.com/...">
+  </label>
+
   <button type="button" id="cCrear">Crear config.json</button>
   <div id="cError" class="error" role="alert" style="color:#ffb4a8"></div>
 
@@ -421,7 +436,10 @@ const DEFAULT_CFG = {
   ],
   promociones: [
     {activa: false, nombre: "Black Friday", mensaje: "20% de descuento en todos los planes", tipo: "porcentaje", valor: 20, desde: "2026-11-23", hasta: "2026-11-30"}
-  ]
+  ],
+  cupos: {mostrar: false, disponibles: 0},
+  garantia: "",
+  grupoWhatsApp: ""
 };
 let cfgListo = null;
 
@@ -460,6 +478,10 @@ function llenarCfg(c){
   $("cEvNombre").value = (c.evento && c.evento.nombre) || "";
   $("cEvFecha").value = (c.evento && c.evento.fecha) || "";
   $("cLimite").value = c.fechaLimite || "";
+  $("cCuposOn").checked = !!(c.cupos && c.cupos.mostrar);
+  $("cCupos").value = (c.cupos && c.cupos.disponibles !== undefined) ? c.cupos.disponibles : "";
+  $("cGarantia").value = c.garantia || "";
+  $("cGrupo").value = c.grupoWhatsApp || "";
   const pl = document.querySelectorAll("#cPlanes .caja");
   pl.forEach((b, i) => {
     const p = (c.planes || [])[i] || {};
@@ -523,12 +545,19 @@ function leerCfg(){
     }
     promociones.push({activa: activa, nombre: nombre, mensaje: b.querySelector(".qMensaje").value.trim(), tipo: tipo, valor: valor || 0, desde: desde, hasta: hasta});
   });
+  const cuposOn = $("cCuposOn").checked, cupos = Math.max(0, Math.round(Number($("cCupos").value) || 0));
+  if(cuposOn && $("cCupos").value === "") throw new Error("Pusiste mostrar cupos, pero falta el número de cupos disponibles.");
+  const grupo = $("cGrupo").value.trim();
+  if(grupo && !/^https:\/\//i.test(grupo)) throw new Error("El enlace del grupo de WhatsApp debe empezar con https://");
   return {
     whatsapp: wa,
     evento: {nombre: $("cEvNombre").value.trim(), fecha: $("cEvFecha").value},
     fechaLimite: $("cLimite").value,
     planes: planes,
-    promociones: promociones
+    promociones: promociones,
+    cupos: {mostrar: cuposOn, disponibles: cupos},
+    garantia: $("cGarantia").value.trim(),
+    grupoWhatsApp: grupo
   };
 }
 $("cCrear").onclick = () => {
