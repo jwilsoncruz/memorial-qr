@@ -162,6 +162,13 @@ input[type=date],input[type=number]{color-scheme:dark}
   <p>Cuando una promoción está activada y la fecha de hoy cae entre "desde" y "hasta", la página muestra el aviso, tacha el precio normal y muestra el precio con descuento. Se apaga sola al terminar la fecha.</p>
   <div id="cPromos"></div>
 
+  <h2>La placa QR (opcional)</h2>
+  <p>Aparece en la página de ventas solo si lo llenas. Escribe únicamente lo que ya está decidido.</p>
+  <div class="par">
+    <label>Material <input id="cMaterial" placeholder="Ej: vinil laminado para exterior"></label>
+    <label>Medidas <input id="cMedidas" placeholder="Ej: 8 x 8 cm"></label>
+  </div>
+
   <h2>Para el lanzamiento (opcional)</h2>
   <p>Estos tres elementos solo se muestran si los llenas. Usa solo información verdadera: si pones cupos, que sean los que de verdad puedes entregar.</p>
   <div class="caja">
@@ -439,7 +446,8 @@ const DEFAULT_CFG = {
   ],
   cupos: {mostrar: false, disponibles: 0},
   garantia: "",
-  grupoWhatsApp: ""
+  grupoWhatsApp: "",
+  placa: {material: "", medidas: ""}
 };
 let cfgListo = null;
 
@@ -482,6 +490,8 @@ function llenarCfg(c){
   $("cCupos").value = (c.cupos && c.cupos.disponibles !== undefined) ? c.cupos.disponibles : "";
   $("cGarantia").value = c.garantia || "";
   $("cGrupo").value = c.grupoWhatsApp || "";
+  $("cMaterial").value = (c.placa && c.placa.material) || "";
+  $("cMedidas").value = (c.placa && c.placa.medidas) || "";
   const pl = document.querySelectorAll("#cPlanes .caja");
   pl.forEach((b, i) => {
     const p = (c.planes || [])[i] || {};
@@ -557,7 +567,8 @@ function leerCfg(){
     promociones: promociones,
     cupos: {mostrar: cuposOn, disponibles: cupos},
     garantia: $("cGarantia").value.trim(),
-    grupoWhatsApp: grupo
+    grupoWhatsApp: grupo,
+    placa: {material: $("cMaterial").value.trim(), medidas: $("cMedidas").value.trim()}
   };
 }
 $("cCrear").onclick = () => {

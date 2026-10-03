@@ -166,6 +166,26 @@ section{padding:84px 0}
   .solo-movil{display:none!important}
 }
 
+/* la placa */
+.placa-grid{display:grid;gap:44px;align-items:center}
+@media(min-width:900px){.placa-grid{grid-template-columns:.85fr 1.15fr}}
+.piedra-demo{position:relative;border-radius:24px;padding:58px 24px 54px;display:grid;place-items:center;background:radial-gradient(circle at 20% 15%,rgba(255,255,255,.1),transparent 40%),linear-gradient(160deg,#6d6790,#4b4572 55%,#3a3560);box-shadow:inset 0 0 0 1px rgba(255,255,255,.12),0 30px 60px rgba(0,0,0,.4)}
+.placa-demo{position:relative;width:210px;padding:26px 20px 18px;border-radius:14px;background:linear-gradient(145deg,#f7f7fa,#dcdce4 55%,#bdbdc9);box-shadow:0 16px 34px rgba(0,0,0,.5),inset 0 0 0 2px rgba(255,255,255,.5);text-align:center;color:#2b2650}
+.placa-demo .qr{width:136px;height:136px;margin:0 auto 12px;border-radius:8px}
+.placa-demo .qr::after{display:none}
+.placa-demo span{font-size:.8rem;font-weight:700}
+.tornillo{position:absolute;width:9px;height:9px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,#8c8c9c)}
+.tornillo.t1{top:8px;left:8px}.tornillo.t2{top:8px;right:8px}.tornillo.t3{bottom:8px;left:8px}.tornillo.t4{bottom:8px;right:8px}
+.ilus{position:absolute;bottom:14px;right:18px;font-size:.72rem;color:var(--piedra);opacity:.8}
+.placa-datos{list-style:none;padding:0;margin:20px 0 0;display:grid;gap:8px}
+.placa-datos li{padding-left:28px;position:relative;color:var(--piedra)}
+.placa-datos li::before{content:"";position:absolute;left:2px;top:9px;width:12px;height:6px;border-left:2px solid var(--vela);border-bottom:2px solid var(--vela);transform:rotate(-45deg)}
+.colocar{display:grid;gap:14px;margin-top:26px}
+@media(min-width:600px){.colocar{grid-template-columns:1fr 1fr}}
+.colocar-item{background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.09);border-radius:18px;padding:22px}
+.colocar-item h3{font-size:1.1rem;margin-bottom:.3em}
+.colocar-item p{margin:0;color:var(--piedra);font-size:.96rem}
+
 /* planes */
 .cierre{display:flex;flex-wrap:wrap;align-items:center;gap:14px 26px;background:var(--noche);color:#fff;border-radius:18px;padding:16px 22px;margin:0 0 26px}
 .cierre p{margin:0;font-weight:500;color:var(--piedra)}
@@ -300,6 +320,29 @@ dialog#demo::backdrop{background:rgba(10,8,25,.8)}
   </div>
 </section>
 
+<section id="placa" style="padding-top:0">
+  <div class="wrap placa-grid">
+    <div class="piedra-demo" role="img" aria-label="Ilustración de una placa con código QR sobre una lápida">
+      <div class="placa-demo">
+        <i class="tornillo t1"></i><i class="tornillo t2"></i><i class="tornillo t3"></i><i class="tornillo t4"></i>
+        <div class="qr" data-qr="11"></div>
+        <span>Escanea para conocer su historia</span>
+      </div>
+      <small class="ilus">Imagen ilustrativa</small>
+    </div>
+    <div>
+      <p class="eyebrow">La placa QR</p>
+      <h2>La puerta física hacia su historia</h2>
+      <p class="lead">Su página vive en línea; la placa es lo que la acerca a la lápida o al nicho. Se entrega lista para colocar.</p>
+      <ul class="placa-datos" id="placaDatos" hidden></ul>
+      <div class="colocar">
+        <div class="colocar-item"><h3>La colocamos nosotros</h3><p>Coordinamos contigo el día y el lugar, y la dejamos puesta en el cementerio.</p></div>
+        <div class="colocar-item"><h3>La colocas tú</h3><p>Te la entregamos con una guía sencilla, paso a paso, para que la familia la ponga con calma.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section id="ejemplo" style="background:rgba(255,255,255,.03)">
   <div class="wrap ej-grid">
     <div>
@@ -395,6 +438,7 @@ dialog#demo::backdrop{background:rgba(10,8,25,.8)}
     </div>
     <details><summary>¿Hasta cuándo puedo pedir para el 2 de noviembre?</summary><p id="faqFecha">Escríbenos por WhatsApp y te confirmamos la fecha límite de pedidos y el tiempo de entrega.</p></details>
     <details><summary>¿Cómo se encuentra la tumba dentro del cementerio?</summary><p>Guardamos la ubicación exacta con GPS y una referencia (sector, calle y número de nicho). En el memorial, un botón abre Google Maps con la ruta hasta ese punto. Solo necesitamos que alguien de la familia nos envíe la ubicación estando junto a la tumba; se hace desde WhatsApp en un minuto.</p></details>
+    <details><summary>¿Cómo se coloca la placa en la lápida?</summary><p>Tienes dos opciones: la colocamos nosotros en el cementerio (coordinamos el día y el lugar por WhatsApp), o te la entregamos con una guía sencilla para que la familia la coloque.</p></details>
     <details><summary>¿Necesito instalar algo para escanear?</summary><p>No. Basta con abrir la cámara del celular y apuntar al QR. Funciona en Android y iPhone.</p></details>
     <details><summary>¿Qué pasa si el QR se daña?</summary><p>Guardamos tu memorial. Si el QR se desgasta, puedes pedir una reimpresión.</p></details>
     <details><summary>¿Cuánto tiempo estará en línea la página?</summary><p>Depende del plan que elijas. Cada plan indica por cuánto tiempo está incluido.</p></details>
@@ -432,7 +476,8 @@ const DEFAULT = {
   promociones: [],
   cupos: {mostrar: false, disponibles: 0},
   garantia: "",
-  grupoWhatsApp: ""
+  grupoWhatsApp: "",
+  placa: {material: "", medidas: ""}
 };
 let CFG = DEFAULT;
 const $ = id => document.getElementById(id);
@@ -695,6 +740,14 @@ function iniciar(){
   $("faqFecha").textContent = lim
     ? "Los pedidos" + (ev ? " para el " + ev : "") + " se reciben hasta el " + textoFecha(lim) + ". Después de esa fecha te lo entregamos lo antes posible."
     : "Escríbenos por WhatsApp y te confirmamos el tiempo de entrega.";
+  const pl = CFG.placa || {}, datosPlaca = [];
+  if(pl.material) datosPlaca.push("Material: " + pl.material);
+  if(pl.medidas) datosPlaca.push("Medidas: " + pl.medidas);
+  if(datosPlaca.length){
+    const ul = $("placaDatos"); ul.textContent = "";
+    datosPlaca.forEach(x => { const li = document.createElement("li"); li.textContent = x; ul.appendChild(li); });
+    ul.hidden = false;
+  }
   const g = String(CFG.garantia || "").trim();
   if(g){ $("garantiaTxt").textContent = g; $("garantia").hidden = false; }
   const grupo = String(CFG.grupoWhatsApp || "").trim();
