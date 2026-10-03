@@ -1,12 +1,14 @@
 {
   "nombre": "Juan Pérez Gómez",
-  "nacimiento": "1950",
-  "fallecimiento": "2026",
-  "frase": "Vivió con amor, trabajó con esfuerzo y dejó un legado imborrable.",
-  "foto": "",
+  "nacimiento": "12 mar 1950",
+  "fallecimiento": "3 ene 2026",
+  "frase": "Un hombre de trabajo, de guitarra y de familia. Su casa siempre tuvo un lugar más en la mesa.",
+  "foto": "fotos/ejemplo/perfil.jpg",
   "historia": [
-    "Aquí va la historia de su vida: dónde nació, a qué se dedicó, a quién amó y qué lo hizo especial.",
-    "Este es un memorial de ejemplo. El de tu familiar tendrá su propia historia, sus fotos, su familia y, si quieres, audios y videos con sus recuerdos."
+    "Juan nació en Trinidad, Beni, a orillas del Mamoré, en una familia humilde y trabajadora. Desde niño acompañó a su padre en el taller de carpintería, donde aprendió que un buen trabajo se hace con paciencia y con las manos limpias.",
+    "Con los años levantó su propio taller. Hizo puertas, mesas y sillas para media ciudad, y casi nunca cobró de más a quien lo necesitaba. Los domingos, después del partido de fútbol con sus amigos, la familia se reunía en su casa para el almuerzo largo, con guitarra y sobremesa.",
+    "Se casó con Elena, con quien compartió más de cuarenta años, y criaron juntos a sus tres hijos. Fue un abuelo que contaba historias del río y enseñaba a sus nietos a lijar la madera. Hoy todos los que lo conocieron lo recuerdan por su generosidad, su humor y su guitarra.",
+    "Este es un memorial de ejemplo, con una historia inventada. El de tu familiar tendrá su propia historia, sus fotos, su familia, y audios y videos con sus recuerdos."
   ],
   "galeria": [
     "fotos/ejemplo/1.jpg",
@@ -22,7 +24,13 @@
       "archivo": "audios/ejemplo/1.mp3"
     }
   ],
-  "videos": [],
+  "videos": [
+    {
+      "titulo": "Un recuerdo de familia (video de ejemplo)",
+      "archivo": "videos/ejemplo/1.mp4",
+      "portada": "fotos/ejemplo/video.jpg"
+    }
+  ],
   "familia": {
     "padres": [
       {

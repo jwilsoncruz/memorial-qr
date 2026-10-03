@@ -169,6 +169,13 @@ audio{width:100%;display:block;border-radius:30px}
 #lista li::before{content:"";position:absolute;left:0;top:14px;bottom:14px;width:3px;background:var(--vela);border-radius:3px}
 #lista b{display:block;font-family:var(--sans);color:var(--vela-2);font-size:.86rem;letter-spacing:.04em;margin-bottom:4px}
 
+.video video{position:absolute;inset:0;width:100%;height:100%;background:#000;object-fit:contain}
+.banner-demo{background:var(--vela);color:#2b1c05;font-weight:700;text-align:center;font-size:.85rem;padding:8px 14px;border-radius:12px;margin:0 0 24px}
+.cta-card{text-align:center;background:linear-gradient(160deg,rgba(244,176,74,.16),rgba(255,255,255,.04));border:1px solid rgba(244,176,74,.3);border-radius:26px;padding:38px 24px}
+.cta-card h2{font-size:clamp(1.55rem,5vw,2.1rem);margin:0 0 10px}
+.cta-card p{color:var(--piedra);max-width:44ch;margin:0 auto 24px}
+.btn-wa{background:#25d366;color:#06361b;box-shadow:0 8px 24px rgba(37,211,102,.25)}
+.btn-wa:hover{background:#3be37c}
 .pie{margin-top:64px;text-align:center;color:var(--apagado);font-size:.9rem}
 .pie a{color:var(--vela-2)}
 .nada{text-align:center;padding:100px 0}
@@ -186,6 +193,8 @@ audio{width:100%;display:block;border-radius:30px}
 </div>
 
 <article id="memorial" class="oculto">
+
+  <div class="banner-demo oculto" id="bannerDemo">Memorial de ejemplo · La persona y su historia son inventadas</div>
 
   <header class="hero">
     <p class="kicker">En memoria de</p>
@@ -256,6 +265,15 @@ audio{width:100%;display:block;border-radius:30px}
     </div>
     <p class="gracias" id="avisoMsg" aria-live="polite"></p>
     <ul id="lista"></ul>
+  </section>
+
+  <section class="bloque" id="secCta">
+    <div class="cta-card">
+      <p class="eyebrow">¿Quieres recordar así a tu familiar?</p>
+      <h2>Una página igual, para quien tú recuerdas</h2>
+      <p>Sus fotos, su historia, velas encendidas y un QR para su lápida.</p>
+      <a class="btn btn-wa" id="btnIgual" href="index.html" target="_top">Quiero una página igual</a>
+    </div>
   </section>
 
   <p class="pie">Memorial creado con <a href="index.html" target="_top">Memorial QR</a></p>
@@ -464,6 +482,20 @@ async function iniciar(){
     else window.open("https://wa.me/?text=" + encodeURIComponent(d.text + " " + d.url), "_blank", "noopener");
   };
 
+  /* Banner de ejemplo y llamado final */
+  if(DEMO) $("bannerDemo").classList.remove("oculto");
+  const btnIgual = $("btnIgual");
+  if(DEMO){ btnIgual.href = "index.html#pedido-sec"; btnIgual.target = "_top"; }
+  else {
+    fetch("config.json", {cache: "no-cache"}).then(r => r.ok ? r.json() : null).then(c => {
+      const n = String((c && c.whatsapp) || "").replace(/\D/g, "");
+      if(n.length >= 8){
+        btnIgual.href = "https://wa.me/" + n + "?text=" + encodeURIComponent("Hola, vi un memorial hecho con Memorial QR y quiero una página igual para mi familiar.");
+        btnIgual.target = "_blank"; btnIgual.rel = "noopener";
+      }
+    }).catch(() => {});
+  }
+
   /* Historia */
   if(M.historia && M.historia.length){
     $("secHistoria").classList.remove("oculto");
@@ -505,11 +537,17 @@ async function iniciar(){
       d.appendChild(au); $("media").appendChild(d);
     });
     videos.forEach(v => {
-      if(!v || !/^https?:\/\//i.test(v.url || "")) return;
+      if(!v || (!v.archivo && !/^https?:\/\//i.test(v.url || ""))) return;
       const d = document.createElement("div"); d.className = "media-item";
       d.appendChild(titulo(v.titulo || "Video"));
-      const yt = idYoutube(v.url);
-      if(yt){
+      const yt = v.archivo ? null : idYoutube(v.url);
+      if(v.archivo && /^[A-Za-z0-9_\-\/.]+$/.test(v.archivo)){
+        const w = document.createElement("div"); w.className = "video";
+        const vi = document.createElement("video");
+        vi.controls = true; vi.preload = "metadata"; vi.playsInline = true; vi.src = v.archivo;
+        if(v.portada && /^[A-Za-z0-9_\-\/.]+$/.test(v.portada)) vi.poster = v.portada;
+        w.appendChild(vi); d.appendChild(w);
+      } else if(yt){
         const w = document.createElement("div"); w.className = "video";
         const f = document.createElement("iframe");
         f.src = "https://www.youtube-nocookie.com/embed/" + yt;
