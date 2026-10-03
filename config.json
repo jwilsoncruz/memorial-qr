@@ -68,5 +68,11 @@
       "desde": "2026-12-15",
       "hasta": "2026-12-31"
     }
-  ]
+  ],
+  "cupos": {
+    "mostrar": true,
+    "disponibles": 49
+  },
+  "garantia": "Veras tu memorail listo antes de cancelar todo el paquete.",
+  "grupoWhatsApp": "https://chat.whatsapp.com/HDrgt2lDPlF0YYMjTGPPpl"
 }
