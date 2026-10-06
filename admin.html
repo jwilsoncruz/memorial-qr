@@ -68,6 +68,10 @@ input[type=date],input[type=number]{color-scheme:dark}
   <label>Su historia
     <textarea id="historia" rows="7" placeholder="Escribe varios párrafos. Deja una línea en blanco entre uno y otro."></textarea>
   </label>
+  <label>Línea de vida (opcional)
+    <textarea id="hitos" rows="5" placeholder="1950 | Nace en Trinidad, Beni&#10;1974 | Abre su propio taller&#10;1978 | Se casa con Elena"></textarea>
+    <small>Un momento por línea: el año, una barra | y lo que pasó. Hasta 14 momentos.</small>
+  </label>
   <label>Nombre del cementerio
     <input id="ubic" placeholder="Cementerio General, Trinidad, Beni, Bolivia">
   </label>
@@ -84,6 +88,10 @@ input[type=date],input[type=number]{color-scheme:dark}
   <label>Foto de perfil (una)
     <input id="fPerfil" type="file" accept="image/*">
     <img id="prevPerfil" class="prev" alt="" hidden>
+  </label>
+  <label>Foto de portada (opcional)
+    <input id="fPortada" type="file" accept="image/*">
+    <small>La imagen ancha de arriba del memorial. Mejor una foto horizontal. Si no la subes, se usa la foto de perfil difuminada.</small>
   </label>
   <label>Foto de la tumba o lápida (opcional)
     <input id="fTumba" type="file" accept="image/*">
@@ -168,6 +176,10 @@ input[type=date],input[type=number]{color-scheme:dark}
     <label>Material <input id="cMaterial" placeholder="Ej: vinil laminado para exterior"></label>
     <label>Medidas <input id="cMedidas" placeholder="Ej: 8 x 8 cm"></label>
   </div>
+
+  <h2>Testimonios (opcional)</h2>
+  <p>Solo con permiso de cada familia y con palabras que de verdad dijeron. Un testimonio por línea: el texto, una barra | y el nombre, por ejemplo: <i>Gracias a esto mis nietos conocieron a su abuelo | María G., Trinidad</i>. Hasta 6.</p>
+  <label><textarea id="cTestimonios" rows="4" placeholder="Texto del testimonio | Nombre, lugar"></textarea></label>
 
   <h2>Para el lanzamiento (opcional)</h2>
   <p>Estos tres elementos solo se muestran si los llenas. Usa solo información verdadera: si pones cupos, que sean los que de verdad puedes entregar.</p>
@@ -351,6 +363,8 @@ $("crear").onclick = async () => {
       familia: {padres: [], pareja: null, hijos: []},
       ubicacion: $("ubic").value.trim(),
       referencia: $("ref").value.trim(),
+      portada: "",
+      hitos: [],
       coordenadas: "",
       mapa: "",
       fotoTumba: ""
@@ -372,6 +386,21 @@ $("crear").onclick = async () => {
       datos.galeria.push(ruta);
     }
 
+    /* Foto de portada */
+    const portada = $("fPortada").files[0];
+    if(portada){
+      est.textContent = "Reduciendo foto de portada…";
+      const b = await reducir(portada, 1600, false);
+      zip.file("fotos/" + id + "/portada.jpg", b); bytes += b.size; nFotos++;
+      datos.portada = "fotos/" + id + "/portada.jpg";
+    }
+    /* Línea de vida */
+    $("hitos").value.split("\n").map(s => s.trim()).filter(Boolean).slice(0, 14).forEach(linea => {
+      const k = linea.indexOf("|");
+      if(k < 0) throw new Error("En la línea de vida, cada línea debe tener el año, una barra | y el texto (revisa: " + linea + ")");
+      const anio = linea.slice(0, k).trim(), texto = linea.slice(k + 1).trim();
+      if(texto) datos.hitos.push({anio: anio, texto: texto});
+    });
     /* Foto de la tumba */
     const tumba = $("fTumba").files[0];
     if(tumba){
@@ -447,7 +476,8 @@ const DEFAULT_CFG = {
   cupos: {mostrar: false, disponibles: 0},
   garantia: "",
   grupoWhatsApp: "",
-  placa: {material: "", medidas: ""}
+  placa: {material: "", medidas: ""},
+  testimonios: []
 };
 let cfgListo = null;
 
@@ -491,6 +521,7 @@ function llenarCfg(c){
   $("cGarantia").value = c.garantia || "";
   $("cGrupo").value = c.grupoWhatsApp || "";
   $("cMaterial").value = (c.placa && c.placa.material) || "";
+  $("cTestimonios").value = (c.testimonios || []).map(x => x.texto + " | " + (x.nombre || "")).join("\n");
   $("cMedidas").value = (c.placa && c.placa.medidas) || "";
   const pl = document.querySelectorAll("#cPlanes .caja");
   pl.forEach((b, i) => {
@@ -555,6 +586,10 @@ function leerCfg(){
     }
     promociones.push({activa: activa, nombre: nombre, mensaje: b.querySelector(".qMensaje").value.trim(), tipo: tipo, valor: valor || 0, desde: desde, hasta: hasta});
   });
+  const testimonios = $("cTestimonios").value.split("\n").map(s => s.trim()).filter(Boolean).slice(0, 6).map(l => {
+    const k = l.lastIndexOf("|");
+    return k < 0 ? {texto: l, nombre: ""} : {texto: l.slice(0, k).trim(), nombre: l.slice(k + 1).trim()};
+  }).filter(x => x.texto);
   const cuposOn = $("cCuposOn").checked, cupos = Math.max(0, Math.round(Number($("cCupos").value) || 0));
   if(cuposOn && $("cCupos").value === "") throw new Error("Pusiste mostrar cupos, pero falta el número de cupos disponibles.");
   const grupo = $("cGrupo").value.trim();
@@ -568,7 +603,8 @@ function leerCfg(){
     cupos: {mostrar: cuposOn, disponibles: cupos},
     garantia: $("cGarantia").value.trim(),
     grupoWhatsApp: grupo,
-    placa: {material: $("cMaterial").value.trim(), medidas: $("cMedidas").value.trim()}
+    placa: {material: $("cMaterial").value.trim(), medidas: $("cMedidas").value.trim()},
+    testimonios: testimonios
   };
 }
 $("cCrear").onclick = () => {

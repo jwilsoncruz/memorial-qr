@@ -29,7 +29,7 @@ body{margin:0;font-family:var(--sans);color:#fff;line-height:1.65;font-size:17px
   background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
 img,svg{max-width:100%}
 :focus-visible{outline:3px solid var(--vela);outline-offset:3px;border-radius:6px}
-main{max-width:760px;margin:0 auto;padding:44px 20px 70px}
+main{max-width:760px;margin:0 auto;padding:30px 20px 70px;position:relative;z-index:1}
 h1,h2{font-family:var(--serif);font-weight:600;margin:0}
 p{margin:0 0 1em}
 .oculto{display:none!important}
@@ -44,8 +44,13 @@ p{margin:0 0 1em}
 .acciones{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
 
 /* encabezado */
-.hero{text-align:center}
-.kicker{letter-spacing:.32em;text-transform:uppercase;font-size:.74rem;color:var(--vela-2);margin:0 0 20px}
+.portada{position:absolute;top:0;left:0;right:0;height:clamp(360px,58vw,450px);overflow:hidden;z-index:0;
+  -webkit-mask-image:linear-gradient(#000 52%,transparent);mask-image:linear-gradient(#000 52%,transparent)}
+.portada-img{position:absolute;inset:-34px;background:radial-gradient(70% 90% at 50% 20%,rgba(244,176,74,.35),transparent 70%),linear-gradient(160deg,#3a3270,#1e1a3c);background-size:cover;background-position:center}
+.portada.desenfoque .portada-img{filter:blur(26px) saturate(1.15);transform:scale(1.15);opacity:.65}
+.portada::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(18,15,44,.5),rgba(18,15,44,.1) 60%,transparent)}
+.hero{position:relative;text-align:center;padding-top:clamp(128px,32vw,196px)}
+.kicker{position:absolute;top:22px;left:0;right:0;letter-spacing:.32em;text-transform:uppercase;font-size:.74rem;color:#fff;text-shadow:0 2px 12px rgba(0,0,0,.6);margin:0}
 .arco{width:min(54vw,208px);aspect-ratio:3/4;margin:0 auto 26px;padding:6px;border-radius:999px 999px 20px 20px;background:linear-gradient(160deg,var(--vela-2),var(--vela) 55%,#b97b1f);box-shadow:0 0 70px rgba(244,176,74,.28),0 24px 50px rgba(0,0,0,.45)}
 .retrato{width:100%;height:100%;border-radius:999px 999px 15px 15px;overflow:hidden;display:grid;place-items:center;font-family:var(--serif);font-size:3.6rem;background:linear-gradient(150deg,#6b5fb0,#2f2a62)}
 .retrato img{width:100%;height:100%;object-fit:cover;display:block}
@@ -176,6 +181,22 @@ audio{width:100%;display:block;border-radius:30px}
 .cta-card p{color:var(--piedra);max-width:44ch;margin:0 auto 24px}
 .btn-wa{background:#25d366;color:#06361b;box-shadow:0 8px 24px rgba(37,211,102,.25)}
 .btn-wa:hover{background:#3be37c}
+/* línea de vida */
+.linea{list-style:none;margin:0;padding:0 0 0 30px;border-left:2px solid rgba(244,176,74,.35);display:grid;gap:26px}
+.linea li{position:relative}
+.linea li::before{content:"";position:absolute;left:-38px;top:7px;width:14px;height:14px;border-radius:50%;background:var(--vela);box-shadow:0 0 0 5px rgba(244,176,74,.18)}
+.linea b{display:block;font-family:var(--serif);font-size:1.3rem;color:var(--vela-2);line-height:1.2}
+.linea span{color:#ece8f5}
+
+/* código QR del memorial */
+.pie-qr{margin-top:48px;text-align:center}
+dialog.dlg-qr{border:0;border-radius:24px;background:var(--noche-2);color:#fff;padding:0;max-width:92vw;box-shadow:0 40px 90px rgba(0,0,0,.6)}
+dialog.dlg-qr::backdrop{background:rgba(10,8,25,.85)}
+.dqr-in{padding:30px 26px;text-align:center}
+.dqr-in h2{font-size:1.5rem;margin-bottom:6px}
+.dqr-in p{color:var(--piedra);font-size:.95rem}
+.dqr-in img{width:min(270px,70vw);border-radius:14px;background:#fff;display:block;margin:0 auto 20px}
+
 .pie{margin-top:64px;text-align:center;color:var(--apagado);font-size:.9rem}
 .pie a{color:var(--vela-2)}
 .nada{text-align:center;padding:100px 0}
@@ -185,6 +206,8 @@ audio{width:100%;display:block;border-radius:30px}
 </head>
 <body>
 <div class="grano" aria-hidden="true"></div>
+<div class="portada" id="portada" aria-hidden="true"><div class="portada-img" id="portadaImg"></div></div>
+
 <main>
 
 <div id="nada" class="nada oculto">
@@ -232,6 +255,7 @@ audio{width:100%;display:block;border-radius:30px}
   </section>
 
   <section id="secHistoria" class="bloque oculto"><p class="eyebrow">Su vida</p><h2>Su historia</h2><div class="tarjeta historia" id="historia"></div></section>
+  <section id="secHitos" class="bloque oculto"><p class="eyebrow">Línea de vida</p><h2>Momentos que lo marcaron</h2><div class="tarjeta"><ol class="linea" id="linea"></ol></div></section>
   <section id="secFamilia" class="bloque oculto"><p class="eyebrow">Sus raíces y su gente</p><h2>Su familia</h2><div class="tarjeta arbolcard" id="familia"></div></section>
   <section id="secGaleria" class="bloque oculto"><p class="eyebrow">Momentos</p><h2>Galería</h2><div class="galeria" id="galeria"></div></section>
   <section id="secMedia" class="bloque oculto"><p class="eyebrow">Para escuchar y ver</p><h2>Audios y videos</h2><div class="tarjeta" id="media"></div></section>
@@ -276,10 +300,24 @@ audio{width:100%;display:block;border-radius:30px}
     </div>
   </section>
 
+  <p class="pie-qr"><button class="btn btn-borde" type="button" id="btnQr">Ver el código QR de este memorial</button></p>
+
   <p class="pie">Memorial creado con <a href="index.html" target="_top">Memorial QR</a></p>
 </article>
 
 </main>
+
+<dialog class="dlg-qr" id="dqr" aria-label="Código QR del memorial">
+  <div class="dqr-in">
+    <h2>Código QR</h2>
+    <p>Compártelo o guárdalo. Quien lo escanee verá este memorial.</p>
+    <img id="qrImg" alt="Código QR del memorial">
+    <div class="acciones">
+      <a class="btn btn-vela" id="qrBajar" href="#" download="qr.png">Descargar QR</a>
+      <button class="btn btn-borde" type="button" id="qrCerrar">Cerrar</button>
+    </div>
+  </div>
+</dialog>
 
 <dialog id="lb"><img id="lbImg" alt=""></dialog>
 
@@ -480,6 +518,46 @@ async function iniciar(){
     const d = {title: "Memorial de " + M.nombre, text: "Te comparto el memorial de " + M.nombre + ".", url: u.href};
     if(navigator.share){ navigator.share(d).catch(() => {}); }
     else window.open("https://wa.me/?text=" + encodeURIComponent(d.text + " " + d.url), "_blank", "noopener");
+  };
+
+  /* Portada: foto de portada, o la foto de perfil desenfocada, o solo el degradado */
+  const rutaOk = s => typeof s === "string" && /^[A-Za-z0-9_\-\/.]+$/.test(s);
+  if(rutaOk(M.portada)){ $("portadaImg").style.backgroundImage = 'url("' + M.portada + '")'; }
+  else if(rutaOk(M.foto)){ $("portadaImg").style.backgroundImage = 'url("' + M.foto + '")'; $("portada").classList.add("desenfoque"); }
+
+  /* Línea de vida */
+  const hitos = Array.isArray(M.hitos) ? M.hitos.filter(h => h && h.texto) : [];
+  if(hitos.length){
+    $("secHitos").classList.remove("oculto");
+    hitos.forEach(h => {
+      const li = document.createElement("li");
+      const b = document.createElement("b"); b.textContent = h.anio || "";
+      const s = document.createElement("span"); s.textContent = h.texto;
+      if(h.anio) li.appendChild(b); li.appendChild(s);
+      $("linea").appendChild(li);
+    });
+  }
+
+  /* Código QR de este memorial (se genera al pedirlo) */
+  $("qrCerrar").onclick = () => $("dqr").close();
+  $("dqr").addEventListener("click", e => { if(e.target === $("dqr")) $("dqr").close(); });
+  $("btnQr").onclick = async () => {
+    try{
+      if(typeof QRCode === "undefined") await cargaScript("https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js");
+      const enlace = location.origin + location.pathname + "?id=" + id;
+      const tmp = document.createElement("div");
+      new QRCode(tmp, {text: enlace, width: 640, height: 640, colorDark: "#000000", colorLight: "#ffffff", correctLevel: QRCode.CorrectLevel.H});
+      const o = tmp.querySelector("canvas");
+      const c = document.createElement("canvas"); c.width = 800; c.height = 900;
+      const x = c.getContext("2d");
+      x.fillStyle = "#fff"; x.fillRect(0, 0, 800, 900); x.imageSmoothingEnabled = false;
+      x.drawImage(o, 80, 60, 640, 640);
+      x.fillStyle = "#1e1a3c"; x.textAlign = "center"; x.font = "bold 44px Georgia, serif"; x.fillText(M.nombre, 400, 775, 720);
+      x.font = "30px Arial, sans-serif"; x.fillStyle = "#555"; x.fillText("Escanea para conocer su historia", 400, 830, 720);
+      const png = c.toDataURL("image/png");
+      $("qrImg").src = png; $("qrBajar").href = png; $("qrBajar").download = "qr-" + id + ".png";
+      $("dqr").showModal();
+    }catch(e){ alert("No se pudo crear el código QR. Revisa tu conexión e intenta de nuevo."); }
   };
 
   /* Banner de ejemplo y llamado final */

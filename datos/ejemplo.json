@@ -62,5 +62,36 @@
     ]
   },
   "ubicacion": "Cementerio General, Trinidad, Beni, Bolivia",
-  "referencia": "Sector San José, calle 3, nicho 45"
+  "referencia": "Sector San José, calle 3, nicho 45",
+  "portada": "fotos/ejemplo/portada.jpg",
+  "hitos": [
+    {
+      "anio": "1950",
+      "texto": "Nace en Trinidad, Beni, a orillas del Mamoré."
+    },
+    {
+      "anio": "1962",
+      "texto": "Empieza a aprender carpintería en el taller de su padre."
+    },
+    {
+      "anio": "1974",
+      "texto": "Abre su propio taller y comienza a hacer puertas, mesas y sillas para toda la ciudad."
+    },
+    {
+      "anio": "1978",
+      "texto": "Se casa con Elena Rojas."
+    },
+    {
+      "anio": "1980",
+      "texto": "Nace su primer hijo, Carlos. Después llegarían Ana y Luis."
+    },
+    {
+      "anio": "2004",
+      "texto": "Recibe a su primer nieto y se convierte en el abuelo que cuenta historias del río."
+    },
+    {
+      "anio": "2026",
+      "texto": "Descansa rodeado del cariño de su familia."
+    }
+  ]
 }

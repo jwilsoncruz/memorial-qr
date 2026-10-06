@@ -144,7 +144,7 @@ section{padding:84px 0}
 
 /* cómo funciona */
 .pasos{display:grid;gap:30px;margin:0;padding:0;list-style:none;counter-reset:p}
-@media(min-width:800px){.pasos{grid-template-columns:repeat(3,1fr);gap:40px}}
+@media(min-width:800px){.pasos{grid-template-columns:repeat(4,1fr);gap:30px}}
 .pasos li{counter-increment:p;position:relative;padding-top:20px;border-top:1px solid rgba(255,255,255,.18)}
 .pasos li::before{content:counter(p);font-family:var(--serif);font-size:3rem;color:var(--vela);display:block;line-height:1}
 .pasos li::after{content:"";position:absolute;top:-4px;left:0;width:56px;height:3px;background:var(--vela);border-radius:3px}
@@ -165,6 +165,18 @@ section{padding:84px 0}
   .telefono iframe{width:100%;height:100%;border:0;display:block;background:var(--noche)}
   .solo-movil{display:none!important}
 }
+
+/* confianza, testimonios y aliados */
+.confianza{list-style:none;display:flex;flex-wrap:wrap;gap:6px 20px;padding:0;margin:24px 0 0;color:var(--apagado);font-size:.88rem}
+.confianza li::before{content:"✓ ";color:var(--vela);font-weight:700}
+.testi{display:grid;gap:16px}
+@media(min-width:800px){.testi{grid-template-columns:repeat(3,1fr)}}
+.testi blockquote{margin:0;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.09);border-radius:20px;padding:26px 24px;font-family:var(--serif);font-size:1.06rem;line-height:1.65}
+.testi cite{display:block;margin-top:14px;font:600 .9rem var(--sans);color:var(--vela-2);font-style:normal}
+.aliados{display:grid;gap:20px;align-items:center;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:26px;padding:34px 28px}
+@media(min-width:800px){.aliados{grid-template-columns:1fr auto;padding:38px 42px}}
+.aliados h2{font-size:1.7rem;margin-bottom:.3em}
+.aliados .lead{margin:0;font-size:1.02rem}
 
 /* la placa */
 .placa-grid{display:grid;gap:44px;align-items:center}
@@ -260,6 +272,11 @@ dialog#demo::backdrop{background:rgba(10,8,25,.8)}
         <a class="btn btn-vela" href="#pedido" id="ctaHero">Quiero el QR de mi familiar</a>
         <button class="btn btn-borde" type="button" id="verDemo">Ver un memorial de ejemplo</button>
       </div>
+      <ul class="confianza">
+        <li>Se abre con cualquier celular</li>
+        <li>Sin instalar nada</li>
+        <li>Hecho en Trinidad, Beni</li>
+      </ul>
     </div>
     <div class="escena">
       <div class="altar-hero">
@@ -314,8 +331,9 @@ dialog#demo::backdrop{background:rgba(10,8,25,.8)}
     </div>
     <ol class="pasos">
       <li><h3>Nos envías sus datos</h3><p>Nombre, fechas, fotos y unas líneas sobre su vida. Por WhatsApp, sin trámites.</p></li>
-      <li><h3>Creamos su memorial</h3><p>Armamos su página de recuerdo y te la mostramos antes de publicarla.</p></li>
-      <li><h3>Recibes el QR</h3><p>Lo pones en la lápida o el nicho. Cualquiera que lo escanee abre su página.</p></li>
+      <li><h3>Armamos su memorial</h3><p>Creamos su página de recuerdo y te la mostramos antes de publicarla.</p></li>
+      <li><h3>Preparamos la placa</h3><p>Imprimimos el QR de su memorial, listo para colocar.</p></li>
+      <li><h3>Se coloca en la lápida</h3><p>La colocamos nosotros o te la entregamos con una guía sencilla.</p></li>
     </ol>
   </div>
 </section>
@@ -334,6 +352,12 @@ dialog#demo::backdrop{background:rgba(10,8,25,.8)}
       <p class="eyebrow">La placa QR</p>
       <h2>La puerta física hacia su historia</h2>
       <p class="lead">Su página vive en línea; la placa es lo que la acerca a la lápida o al nicho. Se entrega lista para colocar.</p>
+      <ul class="placa-datos">
+        <li>Acceso inmediato con cualquier celular</li>
+        <li>Pensada para el exterior</li>
+        <li>Vinculada a su memorial en línea</li>
+        <li>Para lápidas, nichos y urnas</li>
+      </ul>
       <ul class="placa-datos" id="placaDatos" hidden></ul>
       <div class="colocar">
         <div class="colocar-item"><h3>La colocamos nosotros</h3><p>Coordinamos contigo el día y el lugar, y la dejamos puesta en el cementerio.</p></div>
@@ -356,7 +380,7 @@ dialog#demo::backdrop{background:rgba(10,8,25,.8)}
         <li><b>Libro de visitas</b><span>Amigos y familiares dejan un recuerdo para que otros lo lean.</span></li>
         <li><b>Árbol familiar</b><span>Sus padres, su pareja y sus hijos, hasta tres generaciones.</span></li>
         <li><b>Ubicación exacta de la tumba</b><span>Un botón abre el mapa hasta el lugar de la sepultura, con sector y número de nicho.</span></li>
-        <li><b>Audios y videos</b><span>Su voz, un saludo grabado o un video de la familia.</span></li>
+        <li><b>Audios y videos</b><span>Su voz, su canción favorita, un saludo grabado o un video de la familia.</span></li>
         <li><b>Compartir con la familia</b><span>Un toque para enviar el memorial por WhatsApp.</span></li>
       </ul>
       <div class="fila">
@@ -367,6 +391,16 @@ dialog#demo::backdrop{background:rgba(10,8,25,.8)}
     <div class="telefono" id="telefono" aria-label="Vista previa del memorial de ejemplo">
       <iframe id="telFrame" title="Memorial de ejemplo"></iframe>
     </div>
+  </div>
+</section>
+
+<section id="familias" hidden>
+  <div class="wrap">
+    <div class="titulo">
+      <p class="eyebrow">Familias que ya lo vivieron</p>
+      <h2>Lo que dicen quienes recuerdan con un QR</h2>
+    </div>
+    <div class="testi" id="testi"></div>
   </div>
 </section>
 
@@ -447,6 +481,17 @@ dialog#demo::backdrop{background:rgba(10,8,25,.8)}
   </div>
 </section>
 
+<section id="aliados" style="padding:56px 0">
+  <div class="wrap aliados">
+    <div>
+      <p class="eyebrow">Para funerarias, florerías y marmolerías</p>
+      <h2>Trabajemos juntos</h2>
+      <p class="lead">Ofrece Memorial QR a las familias que atiendes. Nosotros nos encargamos del memorial y de la placa; tú les das un recuerdo más.</p>
+    </div>
+    <a class="btn btn-borde" id="btnAliado" href="#" target="_blank" rel="noopener">Quiero ser aliado</a>
+  </div>
+</section>
+
 <footer>
   <div class="wrap">Memorial QR · Trinidad, Beni, Bolivia<br>La tecnología también puede ser un acto de amor.</div>
 </footer>
@@ -477,7 +522,8 @@ const DEFAULT = {
   cupos: {mostrar: false, disponibles: 0},
   garantia: "",
   grupoWhatsApp: "",
-  placa: {material: "", medidas: ""}
+  placa: {material: "", medidas: ""},
+  testimonios: []
 };
 let CFG = DEFAULT;
 const $ = id => document.getElementById(id);
@@ -752,6 +798,17 @@ function iniciar(){
   if(g){ $("garantiaTxt").textContent = g; $("garantia").hidden = false; }
   const grupo = String(CFG.grupoWhatsApp || "").trim();
   if(/^https:\/\//i.test(grupo)){ $("btnGrupo").href = grupo; $("filaGrupo").hidden = false; }
+  const tes = (CFG.testimonios || []).filter(x => x && x.texto);
+  if(tes.length){
+    const cont = $("testi"); cont.textContent = "";
+    tes.slice(0, 6).forEach(x => {
+      const q = document.createElement("blockquote"); q.appendChild(document.createTextNode("“" + x.texto + "”"));
+      if(x.nombre){ const c = document.createElement("cite"); c.textContent = x.nombre; q.appendChild(c); }
+      cont.appendChild(q);
+    });
+    $("familias").hidden = false;
+  }
+  $("btnAliado").href = waLink("Hola, tengo una funeraria, florería o marmolería y quiero ser aliado de Memorial QR.");
   $("waFlot").href = waLink("Hola, quiero información sobre el Memorial QR.");
   revelar();
 }
